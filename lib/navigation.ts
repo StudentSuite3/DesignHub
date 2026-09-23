@@ -2,6 +2,7 @@ import {
   Accessibility,
   BadgeCheck,
   Hexagon,
+  Presentation,
   Braces,
   Palette,
   PenTool,
@@ -15,6 +16,7 @@ import {
 export const studioIds = [
   "brand",
   "logo",
+  "mockups",
   "typography",
   "colors",
   "icons",
@@ -59,6 +61,15 @@ export const studios: readonly StudioNavItem[] = [
     description: "Edit your SVG logo, check construction and clear space, generate variants and export a logo pack.",
     icon: Hexagon,
     shortcut: "l",
+    group: "Brand",
+  },
+  {
+    id: "mockups",
+    title: "Mockup Studio",
+    href: "/mockups",
+    description: "Business cards, stationery, posters, websites, dashboards and apps, drawn live from your brand.",
+    icon: Presentation,
+    shortcut: "m",
     group: "Brand",
   },
   {
