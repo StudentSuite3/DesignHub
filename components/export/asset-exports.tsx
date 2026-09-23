@@ -13,7 +13,9 @@ import { downloadText } from "@/lib/download";
 import { effectsBundle } from "@/lib/effects/bundle";
 import { svgToDataUrl } from "@/lib/icons/svg";
 import { useBackgroundStore } from "@/store/background-store";
+import { useA11yReport } from "@/hooks/use-a11y-report";
 import { useOptimizedSvg } from "@/hooks/use-optimized-svg";
+import { stampReport } from "@/lib/a11y/report";
 import { formatBytes } from "@/lib/svg-size";
 import { useEffectsStore } from "@/store/effects-store";
 import { useSvgStore } from "@/store/svg-store";
@@ -28,6 +30,9 @@ export function AssetExports() {
   const effectsCss = useMemo(() => effectsBundle(effects), [effects]);
   const svgName = useSvgStore((state) => state.name);
   const optimized = useOptimizedSvg();
+  const a11y = useA11yReport();
+  const contrastChecks = (a11y.sections.contrast as { pass: boolean }[] | undefined) ?? [];
+  const passing = contrastChecks.filter((check) => check.pass).length;
 
   return (
     <section aria-labelledby="assets-title" className="flex flex-col gap-4">
@@ -107,6 +112,24 @@ export function AssetExports() {
             }
           />
         ) : null}
+        <AssetCard
+          title="Accessibility report"
+          description={`Contrast ${passing}/${contrastChecks.length} passing, plus vision, readability and touch targets.`}
+          actions={
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => downloadText(stampReport(a11y), "accessibility-report.json")}
+              >
+                <Download /> report.json
+              </Button>
+              <Button variant="ghost" size="sm" asChild>
+                <Link href="/accessibility">Edit</Link>
+              </Button>
+            </>
+          }
+        />
       </ul>
     </section>
   );

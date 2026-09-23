@@ -21,6 +21,9 @@ type A11yState = {
   vision: VisionMode;
   targets: TouchTarget[];
   targetGap: number;
+  /** Ephemeral: letter-scrambling reading simulation. */
+  dyslexiaSimulation: boolean;
+  setDyslexiaSimulation: (value: boolean) => void;
   setTab: (tab: A11yTab) => void;
   setColors: (patch: Partial<A11yColors>) => void;
   setTypography: (patch: Partial<A11yTypography>) => void;
@@ -48,6 +51,8 @@ export const useA11yStore = create<A11yState>()(
       vision: "none",
       targets: defaultTargets,
       targetGap: 8,
+      dyslexiaSimulation: false,
+      setDyslexiaSimulation: (dyslexiaSimulation) => set({ dyslexiaSimulation }),
       setTab: (tab) => set({ tab }),
       setColors: (patch) => set((state) => ({ colors: { ...state.colors, ...patch } })),
       setTypography: (patch) => set((state) => ({ typography: { ...state.typography, ...patch } })),

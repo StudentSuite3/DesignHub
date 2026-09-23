@@ -1,0 +1,38 @@
+"use client";
+
+import { useMemo } from "react";
+
+import { useReadability } from "@/hooks/use-readability";
+import { contrastSection } from "@/lib/a11y/contrast";
+import { buildReport, type A11yReport } from "@/lib/a11y/report";
+import { targetsSection } from "@/lib/a11y/targets";
+import { visionSection } from "@/lib/a11y/vision";
+import { useA11yStore } from "@/store/a11y-store";
+
+/** The full accessibility audit for the current Accessibility Lab settings. */
+export function useA11yReport(): A11yReport {
+  const colors = useA11yStore((state) => state.colors);
+  const typography = useA11yStore((state) => state.typography);
+  const targets = useA11yStore((state) => state.targets);
+  const targetGap = useA11yStore((state) => state.targetGap);
+  const readability = useReadability();
+
+  return useMemo(
+    () =>
+      buildReport(
+        { colors, typography, targets, targetGap },
+        {
+          contrast: contrastSection(colors),
+          vision: visionSection(colors),
+          readability: {
+            charactersPerLine: Math.round(readability.charsPerLine),
+            readingEase: readability.score.ease,
+            gradeLevel: readability.score.grade,
+            checks: readability.checks.map(({ label, value, verdict }) => ({ check: label, value, verdict })),
+          },
+          touchTargets: targetsSection(targets, targetGap),
+        },
+      ),
+    [colors, typography, targets, targetGap, readability],
+  );
+}

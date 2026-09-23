@@ -67,7 +67,10 @@ export function VisionPanel({
                 {row.pairs.map((pair) => (
                   <td
                     key={pair.check}
-                    className={cn("py-1.5 pr-2 font-mono tabular-nums", pair.passAA ? "text-success" : "text-destructive")}
+                    className={cn(
+                      "py-1.5 pr-2 font-mono tabular-nums",
+                      pair.passAA ? "text-success" : "text-destructive",
+                    )}
                   >
                     {pair.ratio.toFixed(2)}
                   </td>

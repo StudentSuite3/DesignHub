@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 
+import { ScrambledText } from "@/components/accessibility/scrambled-text";
 import { fontStack } from "@/lib/typography/css";
 import { useA11yStore } from "@/store/a11y-store";
 
@@ -10,6 +11,7 @@ export function A11yPreview({ style, compact = false }: { style?: CSSProperties;
   const colors = useA11yStore((state) => state.colors);
   const typography = useA11yStore((state) => state.typography);
   const sample = useA11yStore((state) => state.sample);
+  const scramble = useA11yStore((state) => state.dyslexiaSimulation);
 
   const text: CSSProperties = {
     fontFamily: fontStack(typography.family),
@@ -35,7 +37,7 @@ export function A11yPreview({ style, compact = false }: { style?: CSSProperties;
       <h3 style={{ ...text, fontSize: typography.size * 2, lineHeight: 1.15, fontWeight: 700 }}>
         Designed for everyone
       </h3>
-      {compact ? null : <p style={text}>{sample}</p>}
+      {compact ? null : <p style={text}>{scramble ? <ScrambledText text={sample} /> : sample}</p>}
       <p style={text}>
         Read the{" "}
         <a
