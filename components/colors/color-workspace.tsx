@@ -7,6 +7,9 @@ import { HarmonyPanel } from "@/components/colors/harmony-panel";
 import { OklchEditor } from "@/components/colors/oklch-editor";
 import { ShadesStudio } from "@/components/colors/shades-studio";
 import { GradientStudio } from "@/components/colors/gradient-studio";
+import { ContrastChecker } from "@/components/colors/contrast-checker";
+import { ContrastMatrix } from "@/components/colors/contrast-matrix";
+import { VisionPreview } from "@/components/colors/vision-preview";
 import { FormatSwitcher } from "@/components/colors/format-switcher";
 import { PaletteStrip } from "@/components/colors/palette-strip";
 import { PaletteToolbar } from "@/components/colors/palette-toolbar";
@@ -60,8 +63,10 @@ export function ColorWorkspace() {
       <TabsContent value="gradient">
         <GradientStudio />
       </TabsContent>
-      <TabsContent value="contrast">
-        <p className="text-sm text-muted-foreground">Contrast</p>
+      <TabsContent value="contrast" className="flex flex-col gap-10">
+        <ContrastChecker />
+        <ContrastMatrix />
+        <VisionPreview />
       </TabsContent>
       <TabsContent value="export">
         <p className="text-sm text-muted-foreground">Export</p>

@@ -11,10 +11,13 @@ type ColorInputProps = {
   format: ColorFormat;
   color: Oklch;
   onChange: (color: Oklch) => void;
+  /** Keeps ids unique when several inputs share a page. */
+  idPrefix?: string;
+  label?: string;
 };
 
 /** Text field for one color notation. Accepts any CSS color on commit (Enter / blur). */
-export function ColorInput({ format, color, onChange }: ColorInputProps) {
+export function ColorInput({ format, color, onChange, idPrefix = "color-input", label }: ColorInputProps) {
   const formatted = formatColor(color, format);
   const [draft, setDraft] = useState(formatted);
   const [invalid, setInvalid] = useState(false);
@@ -31,12 +34,12 @@ export function ColorInput({ format, color, onChange }: ColorInputProps) {
     else setInvalid(true);
   }
 
-  const id = `color-input-${format}`;
+  const id = `${idPrefix}-${format}`;
 
   return (
     <div className="flex items-center gap-2">
       <label htmlFor={id} className="w-12 shrink-0 font-mono text-[11px] font-medium text-subtle-foreground uppercase">
-        {format}
+        {label ?? format}
       </label>
       <Input
         id={id}

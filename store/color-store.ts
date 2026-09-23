@@ -29,6 +29,8 @@ type ColorState = {
   setHarmony: (harmony: HarmonyMode) => void;
   shadeOptions: ShadeOptions;
   setShadeOptions: (patch: Partial<ShadeOptions>) => void;
+  contrast: { fg: Oklch; bg: Oklch };
+  setContrast: (patch: Partial<{ fg: Oklch; bg: Oklch }>) => void;
   gradient: Gradient;
   setGradient: (gradient: Gradient) => void;
   updateGradient: (patch: Partial<Gradient>) => void;
@@ -62,6 +64,8 @@ export const useColorStore = create<ColorState>()(
       setHarmony: (harmony) => set({ harmony }),
       shadeOptions: defaultShadeOptions,
       setShadeOptions: (patch) => set((state) => ({ shadeOptions: { ...state.shadeOptions, ...patch } })),
+      contrast: { fg: fromHex("#0f172a"), bg: fromHex("#fbbf24") },
+      setContrast: (patch) => set((state) => ({ contrast: { ...state.contrast, ...patch } })),
       gradient: defaultGradient,
       setGradient: (gradient) => set({ gradient }),
       updateGradient: (patch) => set((state) => ({ gradient: { ...state.gradient, ...patch } })),
@@ -132,7 +136,8 @@ export const useColorStore = create<ColorState>()(
       name: "designhub:colors",
       version: 1,
       storage: createJSONStorage(() => indexedDbStorage),
-      partialize: ({ swatches, selectedId, format, harmony, shadeOptions, gradient }) => ({
+      partialize: ({ swatches, selectedId, format, harmony, shadeOptions, gradient, contrast }) => ({
+        contrast,
         swatches,
         selectedId,
         format,
