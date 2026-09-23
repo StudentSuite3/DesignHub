@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { FontBrowser } from "@/components/typography/font-browser";
 import { PairingStudio } from "@/components/typography/pairing-studio";
 import { SpecimenControls } from "@/components/typography/specimen-controls";
+import { TypeScaleStudio } from "@/components/typography/type-scale-studio";
 import { SpecimenPreview } from "@/components/typography/specimen-preview";
 import { VariablePlayground } from "@/components/typography/variable-playground";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -56,7 +57,7 @@ export function TypographyWorkspace() {
         <PairingStudio fonts={fonts} />
       </TabsContent>
       <TabsContent value="scale">
-        <p className="text-sm text-muted-foreground">Type scale</p>
+        <TypeScaleStudio fonts={fonts} />
       </TabsContent>
       <TabsContent value="export">
         <p className="text-sm text-muted-foreground">Export</p>
