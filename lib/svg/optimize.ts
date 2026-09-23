@@ -179,7 +179,8 @@ function collapse(node: SvgNode): void {
 
 export type OptimizeResult = { svg: string; before: number; after: number; saved: number };
 
-export function optimizeSvg(root: SvgNode, source: string, options: SvgOptimizeOptions): OptimizeResult {
+/** The optimized (and always sanitized) tree, for converters that need structure rather than text. */
+export function optimizeTree(root: SvgNode, options: SvgOptimizeOptions): SvgNode {
   const tree = cloneNode(root);
   sanitize(tree);
   const used = referencedIds(tree);
@@ -195,7 +196,11 @@ export function optimizeSvg(root: SvgNode, source: string, options: SvgOptimizeO
     delete tree.attributes.width;
     delete tree.attributes.height;
   }
+  return tree;
+}
 
+export function optimizeSvg(root: SvgNode, source: string, options: SvgOptimizeOptions): OptimizeResult {
+  const tree = optimizeTree(root, options);
   const svg = options.pretty ? `${prettyPrint(tree)}\n` : minify(tree);
   const before = byteLength(source);
   const after = byteLength(svg);

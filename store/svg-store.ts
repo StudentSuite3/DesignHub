@@ -14,6 +14,8 @@ type SvgState = {
   loadSample: () => void;
   selected: NodePath | null;
   select: (path: NodePath | null) => void;
+  currentColor: boolean;
+  setCurrentColor: (value: boolean) => void;
   options: SvgOptimizeOptions;
   setOptions: (patch: Partial<SvgOptimizeOptions>) => void;
 };
@@ -28,6 +30,8 @@ export const useSvgStore = create<SvgState>()(
       select: (selected) => set({ selected }),
       setSource: (source) => set({ source }),
       loadSample: () => set({ name: "badge.svg", source: sampleSvg, selected: null }),
+      currentColor: false,
+      setCurrentColor: (currentColor) => set({ currentColor }),
       options: defaultOptimizeOptions,
       setOptions: (patch) => set((state) => ({ options: { ...state.options, ...patch } })),
     }),
@@ -35,7 +39,7 @@ export const useSvgStore = create<SvgState>()(
       name: "designhub:svg",
       version: 1,
       storage: createJSONStorage(() => indexedDbStorage),
-      partialize: ({ name, source, options }) => ({ name, source, options }),
+      partialize: ({ name, source, options, currentColor }) => ({ name, source, options, currentColor }),
     },
   ),
 );
