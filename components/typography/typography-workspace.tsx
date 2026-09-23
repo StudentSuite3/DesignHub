@@ -57,22 +57,28 @@ export function TypographyWorkspace() {
         ))}
       </TabsList>
 
-      <TabsContent value="browse" className="flex flex-col gap-8">
-        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <SpecimenPreview />
-          <div className="flex flex-col gap-4">
+      {/*
+        Desktop: fonts on the left, the specimen pinned top right and its controls scrolling below it,
+        all within one screen. Mobile: specimen, then a scrollable font list, then controls.
+      */}
+      <TabsContent
+        value="browse"
+        className="grid gap-4 lg:h-[calc(100dvh-19rem)] lg:flex-none lg:min-h-[560px] lg:grid-cols-[minmax(300px,380px)_minmax(0,1fr)] lg:grid-rows-[auto_minmax(0,1fr)]"
+      >
+        <SpecimenPreview className="lg:col-start-2 lg:row-start-1" />
+        <FontBrowser
+          fonts={fonts}
+          loading={loading}
+          className="max-lg:h-[70dvh] lg:col-start-1 lg:row-span-2 lg:row-start-1"
+        />
+        <div className="relative flex min-h-0 flex-col gap-4 lg:col-start-2 lg:row-start-2 lg:overflow-y-auto lg:pr-1 scrollbar-thin">
+          <div className="grid items-start gap-4 xl:grid-cols-2">
             <SpecimenControls />
             <VariablePlayground />
           </div>
-        </div>
-        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
           <OpenTypeControls />
           <FontInspector />
         </div>
-        <section aria-label="Google Fonts" className="flex flex-col gap-4">
-          <h2 className="text-lg font-medium">Google Fonts</h2>
-          <FontBrowser fonts={fonts} loading={loading} />
-        </section>
       </TabsContent>
       <TabsContent value="pair">
         <PairingStudio fonts={fonts} />

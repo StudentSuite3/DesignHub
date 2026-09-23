@@ -15,8 +15,17 @@ import type { FontSort } from "@/lib/typography/filter";
 import { useTypographyStore } from "@/store/typography-store";
 import type { FontCategory } from "@/types/typography";
 
+/** Short labels so every category fits on one line in the narrow font pane. */
+const shortLabels: Record<FontCategory, string> = {
+  "sans-serif": "Sans",
+  serif: "Serif",
+  display: "Display",
+  handwriting: "Script",
+  monospace: "Mono",
+};
+
 const sorts: { value: FontSort; label: string }[] = [
-  { value: "popular", label: "Most popular" },
+  { value: "popular", label: "Popular" },
   { value: "alphabetical", label: "A → Z" },
   { value: "weights", label: "Most weights" },
 ];
@@ -29,8 +38,8 @@ export function FontFilters({ resultCount }: { resultCount: number }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-3 md:flex-row md:items-center">
-        <div className="relative flex-1">
+      <div className="flex items-center gap-2">
+        <div className="relative min-w-0 flex-1">
           <Search
             className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-subtle-foreground"
             aria-hidden
@@ -46,7 +55,7 @@ export function FontFilters({ resultCount }: { resultCount: number }) {
                 event.currentTarget.blur();
               }
             }}
-            placeholder="Search 500 Google Fonts…"
+            placeholder="Search fonts"
             aria-label="Search fonts"
             className="pr-16 pl-9 [&::-webkit-search-cancel-button]:hidden"
           />
@@ -64,7 +73,7 @@ export function FontFilters({ resultCount }: { resultCount: number }) {
           )}
         </div>
         <Select value={filters.sort} onValueChange={(value) => setFilters({ sort: value as FontSort })}>
-          <SelectTrigger className="md:w-44" aria-label="Sort fonts">
+          <SelectTrigger className="w-32 shrink-0" aria-label="Sort fonts">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -82,12 +91,12 @@ export function FontFilters({ resultCount }: { resultCount: number }) {
           value={filters.category}
           onValueChange={(value) => value && setFilters({ category: value as FontCategory | "all" })}
           aria-label="Category"
-          className="flex-wrap"
+          className="w-full"
         >
           <ToggleGroupItem value="all">All</ToggleGroupItem>
           {fontCategories.map((category) => (
-            <ToggleGroupItem key={category} value={category}>
-              {fontCategoryLabels[category]}
+            <ToggleGroupItem key={category} value={category} aria-label={fontCategoryLabels[category]}>
+              {shortLabels[category]}
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
@@ -109,7 +118,7 @@ export function FontFilters({ resultCount }: { resultCount: number }) {
             <Heart className="size-3" aria-hidden /> Favorites
           </Label>
         </div>
-        <p className="text-xs text-subtle-foreground md:ml-auto" aria-live="polite">
+        <p className="ml-auto text-xs text-subtle-foreground" aria-live="polite">
           {resultCount} {resultCount === 1 ? "family" : "families"}
         </p>
       </div>
