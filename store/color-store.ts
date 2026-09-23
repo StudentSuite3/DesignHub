@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 import { fromHex } from "@/lib/color/color";
+import { randomPalette } from "@/lib/color/generate";
 import { indexedDbStorage } from "@/lib/db";
 import { createId } from "@/lib/id";
 import type { ColorFormat, Oklch, Swatch } from "@/types/color";
@@ -31,7 +32,15 @@ type ColorState = {
   removeSwatch: (id: string) => void;
   moveSwatch: (id: string, direction: -1 | 1) => void;
   setSwatches: (swatches: Swatch[]) => void;
+  past: Swatch[][];
+  future: Swatch[][];
+  /** Regenerates every unlocked swatch. `colors` lets callers supply a harmony. */
+  generate: (colors?: Oklch[]) => void;
+  undo: () => void;
+  redo: () => void;
 };
+
+const HISTORY_LIMIT = 50;
 
 export const useColorStore = create<ColorState>()(
   persist(
@@ -78,7 +87,30 @@ export const useColorStore = create<ColorState>()(
           if (moved) swatches.splice(target, 0, moved);
           return { swatches };
         }),
-      setSwatches: (swatches) => set({ swatches }),
+      setSwatches: (swatches) =>
+        set((state) => ({ swatches, past: [...state.past, state.swatches].slice(-HISTORY_LIMIT), future: [] })),
+      past: [],
+      future: [],
+      generate: (colors) =>
+        set((state) => {
+          const fresh = colors ?? randomPalette(state.swatches.length);
+          const swatches = state.swatches.map((swatch, index) =>
+            swatch.locked ? swatch : { ...swatch, color: fresh[index] ?? swatch.color },
+          );
+          return { swatches, past: [...state.past, state.swatches].slice(-HISTORY_LIMIT), future: [] };
+        }),
+      undo: () =>
+        set((state) => {
+          const previous = state.past[state.past.length - 1];
+          if (!previous) return state;
+          return { swatches: previous, past: state.past.slice(0, -1), future: [state.swatches, ...state.future] };
+        }),
+      redo: () =>
+        set((state) => {
+          const [next, ...future] = state.future;
+          if (!next) return state;
+          return { swatches: next, past: [...state.past, state.swatches], future };
+        }),
     }),
     {
       name: "designhub:colors",

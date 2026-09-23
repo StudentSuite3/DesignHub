@@ -5,6 +5,8 @@ import type { ReactNode } from "react";
 
 import { FormatSwitcher } from "@/components/colors/format-switcher";
 import { PaletteStrip } from "@/components/colors/palette-strip";
+import { PaletteToolbar } from "@/components/colors/palette-toolbar";
+import { SavedPalettes } from "@/components/colors/saved-palettes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useColorStore, type ColorTab } from "@/store/color-store";
 
@@ -37,7 +39,9 @@ export function ColorWorkspace() {
       </div>
 
       <TabsContent value="palette" className="flex flex-col gap-6">
+        <PaletteToolbar />
         <PaletteStrip />
+        <SavedPalettes />
       </TabsContent>
       <TabsContent value="shades">
         <p className="text-sm text-muted-foreground">Shades</p>

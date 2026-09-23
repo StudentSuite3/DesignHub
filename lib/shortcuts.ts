@@ -14,6 +14,9 @@ export const shortcuts: ShortcutDefinition[] = [
   { keys: ["G", "C"], description: "Go to Color Studio", scope: "Global" },
   { keys: ["G", "I"], description: "Go to Icon Studio", scope: "Global" },
   { keys: ["G", "E"], description: "Go to Export Engine", scope: "Global" },
+  { keys: ["Space"], description: "Generate palette", scope: "Colors" },
+  { keys: ["Z"], description: "Undo palette change", scope: "Colors" },
+  { keys: ["⇧", "Z"], description: "Redo palette change", scope: "Colors" },
   { keys: ["F"], description: "Focus font search", scope: "Typography" },
   { keys: ["Space"], description: "Random font pair (Pairing tab)", scope: "Typography" },
 ];

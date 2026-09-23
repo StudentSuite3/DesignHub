@@ -3,6 +3,14 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { indexedDbStorage } from "@/lib/db";
 import type { FontPair } from "@/lib/typography/pairing";
+import type { Oklch } from "@/types/color";
+
+export type SavedPalette = {
+  id: string;
+  name: string;
+  colors: Oklch[];
+  createdAt: number;
+};
 
 const MAX_RECENTS = 12;
 
@@ -22,6 +30,9 @@ type LibraryState = {
   clearRecentFonts: () => void;
   savedPairs: FontPair[];
   toggleSavedPair: (pair: FontPair) => void;
+  savedPalettes: SavedPalette[];
+  savePalette: (palette: SavedPalette) => void;
+  deletePalette: (id: string) => void;
 };
 
 const samePair = (a: FontPair, b: FontPair) => a.heading === b.heading && a.body === b.body;
@@ -35,6 +46,9 @@ export const useLibraryStore = create<LibraryState>()(
       toggleFavoriteFont: (family) => set((state) => ({ favoriteFonts: toggle(state.favoriteFonts, family) })),
       addRecentFont: (family) => set((state) => ({ recentFonts: pushRecent(state.recentFonts, family) })),
       clearRecentFonts: () => set({ recentFonts: [] }),
+      savedPalettes: [],
+      savePalette: (palette) => set((state) => ({ savedPalettes: [palette, ...state.savedPalettes].slice(0, 60) })),
+      deletePalette: (id) => set((state) => ({ savedPalettes: state.savedPalettes.filter((item) => item.id !== id) })),
       savedPairs: [],
       toggleSavedPair: (pair) =>
         set((state) => ({
