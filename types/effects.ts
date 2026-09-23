@@ -45,6 +45,8 @@ export type GlowSettings = {
 
 export type BorderSettings = {
   colors: string[];
+  /** Inner fill painted over the gradient (padding-box). */
+  fill: string;
   thickness: number;
   radius: number;
   angle: number;

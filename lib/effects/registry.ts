@@ -1,3 +1,4 @@
+import { border } from "@/lib/effects/border";
 import type { AnyEffectDefinition, EffectDefinition } from "@/lib/effects/define";
 import { glass } from "@/lib/effects/glass";
 import { glow } from "@/lib/effects/glow";
@@ -6,7 +7,7 @@ import { shadow } from "@/lib/effects/shadow";
 import type { EffectCss, EffectKind, EffectSettingsMap } from "@/types/effects";
 
 /** Effects register here as they are implemented. */
-export const effectDefinitions: AnyEffectDefinition[] = [glass, neumorphism, shadow, glow];
+export const effectDefinitions: AnyEffectDefinition[] = [glass, neumorphism, shadow, glow, border];
 
 export function generateEffect<K extends EffectKind>(kind: K, settings: EffectSettingsMap[K]): EffectCss | null {
   const definition = effectDefinitions.find((item) => item.kind === kind) as EffectDefinition<K> | undefined;

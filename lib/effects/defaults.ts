@@ -21,6 +21,7 @@ export const effectDefaults: EffectSettingsMap = {
   glow: { color: "#6366f1", radius: 32, intensity: 0.7, text: false, radiusCorner: 16 },
   border: {
     colors: ["#6366f1", "#f472b6", "#fbbf24"],
+    fill: "#18181b",
     thickness: 2,
     radius: 16,
     angle: 135,

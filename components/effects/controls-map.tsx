@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 
+import { BorderControls } from "@/components/effects/border-controls";
 import { GlassControls } from "@/components/effects/glass-controls";
 import { GlowControls } from "@/components/effects/glow-controls";
 import { NeumorphismControls } from "@/components/effects/neumorphism-controls";
@@ -12,4 +13,5 @@ export const effectControls: Partial<Record<EffectKind, ComponentType>> = {
   neumorphism: NeumorphismControls,
   shadow: ShadowControls,
   glow: GlowControls,
+  border: BorderControls,
 };
