@@ -7,6 +7,7 @@ import { ExportPanel } from "@/components/export/export-panel";
 import { useOptimizedSvg } from "@/hooks/use-optimized-svg";
 import { useOptimizedTree } from "@/hooks/use-optimized-tree";
 import { componentNameFromFile, reactComponent, toJsx, withCurrentColor } from "@/lib/svg/jsx";
+import { reactNativeComponent } from "@/lib/svg/react-native";
 import { minify, prettyPrint } from "@/lib/svg/serialize";
 import { useSvgStore } from "@/store/svg-store";
 import type { ExportFormat } from "@/types/export";
@@ -20,8 +21,13 @@ export function SvgOutput({ root }: { root: SvgNode | null }) {
   const tree = useOptimizedTree();
   const base = name.replace(/\.svg$/i, "");
 
+  const native = useMemo(() => {
+    if (!tree) return null;
+    return reactNativeComponent(currentColor ? withCurrentColor(tree) : tree, name);
+  }, [tree, currentColor, name]);
+
   const formats = useMemo<ExportFormat[]>(() => {
-    if (!root || !optimized || !tree) return [];
+    if (!root || !optimized || !tree || !native) return [];
     const codeTree = currentColor ? withCurrentColor(tree) : tree;
     return [
       { id: "optimized", label: "Optimized", filename: `${base}.min.svg`, language: "svg", code: optimized.svg },
@@ -41,14 +47,31 @@ export function SvgOutput({ root }: { root: SvgNode | null }) {
         language: "tsx",
         code: reactComponent(codeTree, name),
       },
+      {
+        id: "native",
+        label: "React Native",
+        filename: `${componentNameFromFile(name)}.native.tsx`,
+        language: "tsx",
+        code: native.code,
+      },
     ];
-  }, [root, optimized, tree, currentColor, base, name]);
+  }, [root, optimized, tree, native, currentColor, base, name]);
 
   if (!root) return <p className="text-sm text-muted-foreground">Fix the SVG to see the generated code.</p>;
   return (
     <>
       <SwitchField label="Use currentColor in JSX / React" checked={currentColor} onChange={setCurrentColor} />
       <ExportPanel formats={formats} label="SVG output format" />
+      {native?.warnings.length ? (
+        <div role="note" className="rounded-md border border-warning/40 bg-warning/5 p-3 text-xs text-muted-foreground">
+          <p className="mb-1 font-medium text-foreground">React Native notes</p>
+          <ul className="list-disc pl-4">
+            {native.warnings.map((warning) => (
+              <li key={warning}>{warning}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </>
   );
 }

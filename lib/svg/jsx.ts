@@ -50,6 +50,8 @@ export type JsxOptions = {
   /** Elements inserted as the root's first children (e.g. a <title>). */
   rootPrefix?: string;
   indent?: string;
+  /** Elements whose children must be passed as a keyed array (react-native-svg gradients). */
+  arrayChildren?: Set<string>;
 };
 
 export function toJsx(node: SvgNode, options: JsxOptions = {}, depth = 0): string {
@@ -73,6 +75,16 @@ export function toJsx(node: SvgNode, options: JsxOptions = {}, depth = 0): strin
       .replace(/`/g, "\\`")
       .replace(/\$\{/g, "\\${");
     return `${pad}<style${attrs}>{\`${css}\`}</style>`;
+  }
+
+  if (options.arrayChildren?.has(node.name)) {
+    const items = node.children
+      .filter((child) => child.type === "element")
+      .map((child, index) => {
+        const keyed = { ...child, attributes: { key: String(index), ...child.attributes } };
+        return `${toJsx(keyed, options, depth + 2)},`;
+      });
+    return `${pad}<${node.name}${attrs}>\n${pad}${indent}{[\n${items.join("\n")}\n${pad}${indent}]}\n${pad}</${node.name}>`;
   }
 
   const children = node.children.map((child) => toJsx(child, options, depth + 1)).filter(Boolean);
