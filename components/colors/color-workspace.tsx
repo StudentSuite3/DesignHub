@@ -4,6 +4,7 @@ import { Blend, Braces, Contrast, Layers, Palette } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { HarmonyPanel } from "@/components/colors/harmony-panel";
+import { OklchEditor } from "@/components/colors/oklch-editor";
 import { FormatSwitcher } from "@/components/colors/format-switcher";
 import { PaletteStrip } from "@/components/colors/palette-strip";
 import { PaletteToolbar } from "@/components/colors/palette-toolbar";
@@ -45,7 +46,10 @@ export function ColorWorkspace() {
       <TabsContent value="palette" className="flex flex-col gap-6">
         <PaletteToolbar nextColors={nextColors} />
         <PaletteStrip />
-        <HarmonyPanel onApply={() => generate(nextColors())} />
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+          <HarmonyPanel onApply={() => generate(nextColors())} />
+          <OklchEditor />
+        </div>
         <SavedPalettes />
       </TabsContent>
       <TabsContent value="shades">

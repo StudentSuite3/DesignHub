@@ -1,0 +1,60 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+import { Input } from "@/components/ui/input";
+import { CopyButton } from "@/components/ui/copy-button";
+import { formatColor, parseColor } from "@/lib/color/color";
+import type { ColorFormat, Oklch } from "@/types/color";
+
+type ColorInputProps = {
+  format: ColorFormat;
+  color: Oklch;
+  onChange: (color: Oklch) => void;
+};
+
+/** Text field for one color notation. Accepts any CSS color on commit (Enter / blur). */
+export function ColorInput({ format, color, onChange }: ColorInputProps) {
+  const formatted = formatColor(color, format);
+  const [draft, setDraft] = useState(formatted);
+  const [invalid, setInvalid] = useState(false);
+
+  useEffect(() => {
+    setDraft(formatted);
+    setInvalid(false);
+  }, [formatted]);
+
+  function commit() {
+    if (draft === formatted) return;
+    const parsed = parseColor(draft);
+    if (parsed) onChange(parsed);
+    else setInvalid(true);
+  }
+
+  const id = `color-input-${format}`;
+
+  return (
+    <div className="flex items-center gap-2">
+      <label htmlFor={id} className="w-12 shrink-0 font-mono text-[11px] font-medium text-subtle-foreground uppercase">
+        {format}
+      </label>
+      <Input
+        id={id}
+        value={draft}
+        spellCheck={false}
+        aria-invalid={invalid}
+        onChange={(event) => {
+          setDraft(event.target.value);
+          setInvalid(false);
+        }}
+        onBlur={commit}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") commit();
+          if (event.key === "Escape") setDraft(formatted);
+        }}
+        className="h-8 font-mono text-xs"
+      />
+      <CopyButton value={formatted} label={`Copy ${format}`} className="size-8" toastMessage={`Copied ${formatted}`} />
+    </div>
+  );
+}
