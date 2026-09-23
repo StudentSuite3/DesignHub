@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { BookOpen, Home, Keyboard, Moon, Sun } from "lucide-react";
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 
 import { GithubIcon } from "@/components/layout/github-icon";
 import { useThemeToggle } from "@/components/layout/theme-toggle";
@@ -31,6 +31,7 @@ export function CommandPalette({ children }: { children?: ReactNode }) {
   const setQuery = useUiStore((state) => state.setCommandQuery);
   const setShortcutsOpen = useUiStore((state) => state.setShortcutsOpen);
   const { isDark, toggle } = useThemeToggle();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useHotkey("mod+k", () => setOpen(!open), { allowInInputs: true });
   useHotkey("/", () => setOpen(true));
@@ -42,11 +43,22 @@ export function CommandPalette({ children }: { children?: ReactNode }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent showClose={false} className="top-[15vh] max-w-xl translate-y-0 gap-0 overflow-hidden p-0">
+      <DialogContent
+        showClose={false}
+        className="top-[15vh] max-w-xl translate-y-0 gap-0 overflow-hidden p-0"
+        onOpenAutoFocus={(event) => {
+          // Radix selects the input's text on focus, which would swallow a handed-off query.
+          event.preventDefault();
+          const input = inputRef.current;
+          if (!input) return;
+          input.focus();
+          input.setSelectionRange(input.value.length, input.value.length);
+        }}
+      >
         <DialogTitle className="sr-only">Command palette</DialogTitle>
         <DialogDescription className="sr-only">Search tools, fonts, colors and actions.</DialogDescription>
         <Command loop>
-          <CommandInput value={query} onValueChange={setQuery} placeholder="Search fonts, colors, icons..." />
+          <CommandInput ref={inputRef} value={query} onValueChange={setQuery} placeholder="Search fonts, colors, icons..." />
           <CommandList>
             <CommandEmpty>No results for “{query}”.</CommandEmpty>
             {children}
