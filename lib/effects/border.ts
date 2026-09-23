@@ -28,8 +28,8 @@ export const border = defineEffect({
       tailwindNote: s.animated
         ? "Animated borders also need the @property and @keyframes rules from the CSS tab in your stylesheet."
         : undefined,
-      extra: s.animated
-        ? (selector) => `@property --border-angle {
+      global: s.animated
+        ? `@property --border-angle {
   syntax: "<angle>";
   inherits: false;
   initial-value: 0deg;
@@ -39,9 +39,10 @@ export const border = defineEffect({
   to {
     --border-angle: 360deg;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
+}`
+        : undefined,
+      extra: s.animated
+        ? (selector) => `@media (prefers-reduced-motion: reduce) {
   ${selector} {
     animation: none;
   }

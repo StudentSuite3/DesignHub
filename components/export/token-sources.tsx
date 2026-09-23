@@ -12,7 +12,8 @@ export function TokenSources({ tokens }: { tokens: DesignTokens }) {
     (tokens.gradient ? 1 : 0) +
     (tokens.typography ? tokens.typography.steps.length + 8 : 0) +
     tokens.spacing.length +
-    tokens.radius.length;
+    tokens.radius.length +
+    tokens.effects.length;
 
   return (
     <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4" aria-label="Token sources">

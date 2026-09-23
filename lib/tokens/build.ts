@@ -14,6 +14,7 @@ export type TokenSources = {
   body: FontFamily | undefined;
   scale: TypeScaleSettings;
   rhythm: TextRhythm;
+  effects: { name: string; value: string }[];
 };
 
 const spacingMultipliers: [string, number][] = [
@@ -95,6 +96,8 @@ export function buildTokens(sources: TokenSources, settings: TokenSettings): Des
     semantic: sections.colors ? semanticRoles(colors) : [],
     gradient: sections.gradient ? sources.gradient : null,
     typography,
+    // Older saved settings predate this section, so treat "missing" as enabled.
+    effects: (sections.effects ?? true) ? sources.effects : [],
     spacing: sections.spacing
       ? spacingMultipliers.map(([name, multiplier]) => ({ name, px: multiplier * settings.spacingBase }))
       : [],

@@ -42,6 +42,7 @@ function flatten(tokens: DesignTokens): Flat {
   }
   tokens.spacing.forEach((step) => list.push({ group: "spacing", name: `spacing-${step.name}`, value: px(step.px) }));
   tokens.radius.forEach((step) => list.push({ group: "radius", name: `radius-${step.name}`, value: px(step.px) }));
+  tokens.effects.forEach((effect) => list.push({ group: "effect", name: effect.name, value: effect.value }));
   return list;
 }
 

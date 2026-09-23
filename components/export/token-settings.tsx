@@ -20,6 +20,7 @@ const sectionLabels: Record<keyof TokenSections, string> = {
   typography: "Typography",
   spacing: "Spacing",
   radius: "Radius",
+  effects: "Effects (shadows, blur)",
 };
 
 export function TokenSettingsPanel() {
@@ -90,7 +91,7 @@ export function TokenSettingsPanel() {
             <Label htmlFor={`section-${section}`}>{sectionLabels[section]}</Label>
             <Switch
               id={`section-${section}`}
-              checked={settings.sections[section]}
+              checked={settings.sections[section] ?? true}
               onCheckedChange={() => toggleSection(section)}
               disabled={section === "shades" && !settings.sections.colors}
             />

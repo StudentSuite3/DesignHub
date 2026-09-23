@@ -3,7 +3,9 @@
 import { useMemo } from "react";
 
 import { useFontCatalog } from "@/hooks/use-font-catalog";
+import { effectTokens } from "@/lib/effects/bundle";
 import { buildTokens } from "@/lib/tokens/build";
+import { useEffectsStore } from "@/store/effects-store";
 import { useColorStore } from "@/store/color-store";
 import { useTokensStore } from "@/store/tokens-store";
 import { useTypographyStore } from "@/store/typography-store";
@@ -19,6 +21,7 @@ export function useDesignTokens(): DesignTokens {
   const scale = useTypographyStore((state) => state.scale);
   const rhythm = useTypographyStore((state) => state.rhythm);
   const settings = useTokensStore((state) => state.settings);
+  const effectSettings = useEffectsStore((state) => state.settings);
   const { fonts } = useFontCatalog();
 
   return useMemo(
@@ -32,9 +35,10 @@ export function useDesignTokens(): DesignTokens {
           body: fonts.find((font) => font.family === bodyFont),
           scale,
           rhythm,
+          effects: effectTokens(effectSettings),
         },
         settings,
       ),
-    [swatches, shadeOptions, gradient, fonts, headingFont, bodyFont, scale, rhythm, settings],
+    [swatches, shadeOptions, gradient, fonts, headingFont, bodyFont, scale, rhythm, settings, effectSettings],
   );
 }

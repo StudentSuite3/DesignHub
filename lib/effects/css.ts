@@ -5,12 +5,57 @@ export function cssRule(selector: string, declarations: CssDeclaration[]): strin
   return `${selector} {\n${body}\n}\n`;
 }
 
-/** Full stylesheet for an effect: the main rule plus any pseudo-element / keyframe rules. */
+/** Full stylesheet for an effect: the main rule, pseudo-element rules, then global at-rules. */
 export function effectStylesheet(effect: EffectCss, selector: string): string {
-  const extra = effect.extra?.(selector);
-  return extra
-    ? `${cssRule(selector, effect.declarations)}\n${extra.trim()}\n`
-    : cssRule(selector, effect.declarations);
+  const parts = [cssRule(selector, effect.declarations).trim(), effect.extra?.(selector).trim(), effect.global?.trim()];
+  return `${parts.filter(Boolean).join("\n\n")}\n`;
+}
+
+function indent(text: string, spaces = 2): string {
+  const pad = " ".repeat(spaces);
+  return text
+    .split("\n")
+    .map((line) => (line ? pad + line : line))
+    .join("\n");
+}
+
+function declarationLines(effect: EffectCss): string {
+  return effect.declarations.map(({ property, value }) => `  ${property}: ${value};`).join("\n");
+}
+
+/** Tailwind v4 custom utility (`class="glass"`). Pseudo-elements nest with `&`. */
+export function tailwindUtility(name: string, effect: EffectCss): string {
+  const nested = effect.extra?.("&").trim();
+  const utility = `@utility ${name} {\n${declarationLines(effect)}${nested ? `\n\n${indent(nested)}` : ""}\n}`;
+  return `${[effect.global?.trim(), utility].filter(Boolean).join("\n\n")}\n`;
+}
+
+/** SCSS mixin: `.card { @include glass; }` */
+export function scssMixin(name: string, effect: EffectCss): string {
+  const nested = effect.extra?.("&").trim();
+  const mixin = `@mixin ${name} {\n${declarationLines(effect)}${nested ? `\n\n${indent(nested)}` : ""}\n}`;
+  return `${[effect.global?.trim(), mixin].filter(Boolean).join("\n\n")}\n`;
+}
+
+/** `backdrop-filter` → `backdropFilter`, `-webkit-backdrop-filter` → `WebkitBackdropFilter`. */
+export function camelCase(property: string): string {
+  const vendor = property.startsWith("-webkit-");
+  const base = (vendor ? property.slice(8) : property).replace(/-([a-z])/g, (_, letter: string) =>
+    letter.toUpperCase(),
+  );
+  return vendor ? `Webkit${base.charAt(0).toUpperCase()}${base.slice(1)}` : base;
+}
+
+/** React inline-style object. Pseudo-elements and keyframes can't live in inline styles, so they're noted. */
+export function reactStyle(name: string, effect: EffectCss): string {
+  const entries = effect.declarations.map(
+    ({ property, value }) => `  ${camelCase(property)}: ${JSON.stringify(value)},`,
+  );
+  const note =
+    effect.extra || effect.global
+      ? "\n// This effect also needs the extra rules from the CSS tab (pseudo-elements / keyframes).\n"
+      : "";
+  return `import type { CSSProperties } from "react";\n${note}\nexport const ${name}Style: CSSProperties = {\n${entries.join("\n")}\n};\n`;
 }
 
 /** Tailwind arbitrary-value syntax: spaces become underscores, literal underscores are escaped. */

@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 
 import { ExportPanel } from "@/components/export/export-panel";
-import { effectStylesheet, tailwindClasses } from "@/lib/effects/css";
+import { reactStyle, scssMixin, effectStylesheet, tailwindClasses, tailwindUtility } from "@/lib/effects/css";
 import type { EffectCss, EffectKind } from "@/types/effects";
 import type { ExportFormat } from "@/types/export";
 
@@ -23,6 +23,15 @@ export function EffectOutput({ kind, effect }: { kind: EffectKind; effect: Effec
         language: "html",
         code: `<div\n  class="\n    ${classes}\n  "\n>\n  …\n</div>${note}\n`,
       },
+      {
+        id: "utility",
+        label: "@utility",
+        filename: `${kind}.utility.css`,
+        language: "css",
+        code: tailwindUtility(`fx-${kind}`, effect),
+      },
+      { id: "scss", label: "SCSS", filename: `_${kind}.scss`, language: "scss", code: scssMixin(`fx-${kind}`, effect) },
+      { id: "react", label: "React", filename: `${kind}.ts`, language: "ts", code: reactStyle(kind, effect) },
     ];
   }, [effect, kind]);
 

@@ -10,7 +10,15 @@ export const defaultTokenSettings: TokenSettings = {
   colorFormat: "oklch",
   spacingBase: 8,
   radiusBase: 12,
-  sections: { colors: true, shades: true, gradient: true, typography: true, spacing: true, radius: true },
+  sections: {
+    colors: true,
+    shades: true,
+    gradient: true,
+    typography: true,
+    spacing: true,
+    radius: true,
+    effects: true,
+  },
 };
 
 type TokensState = {

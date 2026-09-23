@@ -19,6 +19,8 @@ export type DesignTokens = {
     steps: TypeScaleStep[];
     rhythm: TextRhythm;
   } | null;
+  /** Shadow / blur tokens from the Effects Lab. */
+  effects: { name: string; value: string }[];
   spacing: { name: string; px: number }[];
   radius: { name: string; px: number }[];
 };
@@ -30,6 +32,7 @@ export type TokenSections = {
   typography: boolean;
   spacing: boolean;
   radius: boolean;
+  effects: boolean;
 };
 
 export type TokenSettings = {

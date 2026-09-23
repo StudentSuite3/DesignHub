@@ -79,6 +79,8 @@ export type CssDeclaration = { property: string; value: string };
 export type EffectCss = {
   declarations: CssDeclaration[];
   extra?: (selector: string) => string;
+  /** Top-level at-rules (@property, @keyframes) that can't be nested inside a selector or utility. */
+  global?: string;
   /** Some effects (animated borders, grain overlays) can't be expressed as Tailwind utilities alone. */
   tailwindNote?: string;
   /** The page color this effect is designed to sit on (e.g. neumorphism needs a matching surface). */
