@@ -1,0 +1,40 @@
+"use client";
+
+import { useMemo } from "react";
+
+import { useFontCatalog } from "@/hooks/use-font-catalog";
+import { buildTokens } from "@/lib/tokens/build";
+import { useColorStore } from "@/store/color-store";
+import { useTokensStore } from "@/store/tokens-store";
+import { useTypographyStore } from "@/store/typography-store";
+import type { DesignTokens } from "@/types/tokens";
+
+/** Live design tokens assembled from every studio's local state. */
+export function useDesignTokens(): DesignTokens {
+  const swatches = useColorStore((state) => state.swatches);
+  const shadeOptions = useColorStore((state) => state.shadeOptions);
+  const gradient = useColorStore((state) => state.gradient);
+  const headingFont = useTypographyStore((state) => state.headingFont);
+  const bodyFont = useTypographyStore((state) => state.bodyFont);
+  const scale = useTypographyStore((state) => state.scale);
+  const rhythm = useTypographyStore((state) => state.rhythm);
+  const settings = useTokensStore((state) => state.settings);
+  const { fonts } = useFontCatalog();
+
+  return useMemo(
+    () =>
+      buildTokens(
+        {
+          colors: swatches.map((swatch) => swatch.color),
+          shadeOptions,
+          gradient,
+          heading: fonts.find((font) => font.family === headingFont),
+          body: fonts.find((font) => font.family === bodyFont),
+          scale,
+          rhythm,
+        },
+        settings,
+      ),
+    [swatches, shadeOptions, gradient, fonts, headingFont, bodyFont, scale, rhythm, settings],
+  );
+}
