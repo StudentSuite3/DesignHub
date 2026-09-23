@@ -99,6 +99,19 @@ export function toScss(tokens: DesignTokens): string {
   return `${header(tokens, (text) => `// ${text}`)}\n@use "sass:map";\n\n${vars}\n\n${maps}\n`;
 }
 
+/**
+ * Less variables. Values with functions (clamp, gradients, shadows with rgb()) are escaped
+ * with ~"..." so Less passes them through instead of trying to evaluate the math.
+ */
+export function toLess(tokens: DesignTokens): string {
+  const name = (token: string) => `@${tokens.meta.prefix ? `${tokens.meta.prefix}-` : ""}${token.replace(/\./g, "_")}`;
+  const value = (raw: string) => (raw.includes("(") ? `~"${raw.replace(/"/g, '\\"')}"` : raw);
+  const vars = flatten(tokens)
+    .map((token) => `${name(token.name)}: ${value(token.value)};`)
+    .join("\n");
+  return `${header(tokens, (text) => `// ${text}`)}\n${vars}\n`;
+}
+
 /** Tailwind v4 reads design tokens from CSS `@theme` variables. */
 export function toTailwindV4(tokens: DesignTokens): string {
   // DesignHub token names already follow Tailwind v4's theme namespaces (--color-*, --text-*, --radius-*…).
@@ -304,6 +317,7 @@ export function tokenFormats(tokens: DesignTokens): ExportFormat[] {
   return [
     { id: "css", label: "CSS variables", filename: "tokens.css", language: "css", code: toCss(tokens) },
     { id: "scss", label: "SCSS", filename: "_tokens.scss", language: "scss", code: toScss(tokens) },
+    { id: "less", label: "Less", filename: "tokens.less", language: "css", code: toLess(tokens) },
     { id: "tailwind-v4", label: "Tailwind v4", filename: "theme.css", language: "css", code: toTailwindV4(tokens) },
     {
       id: "tailwind-config",
