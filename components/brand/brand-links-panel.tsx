@@ -1,0 +1,34 @@
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
+import { Panel } from "@/components/ui/panel";
+import { studios, type StudioId } from "@/lib/navigation";
+
+const connected: StudioId[] = ["typography", "colors", "icons", "backgrounds", "effects", "export"];
+
+/** The studios this brand draws from. Edits there show up here instantly. */
+export function BrandLinksPanel() {
+  return (
+    <Panel title="Connected studios" description="Your brand is assembled from these studios; nothing is copied.">
+      <ul className="flex flex-col gap-1">
+        {studios
+          .filter((studio) => connected.includes(studio.id))
+          .map((studio) => {
+            const Icon = studio.icon;
+            return (
+              <li key={studio.id}>
+                <Link
+                  href={studio.href}
+                  className="flex h-9 items-center gap-2 rounded-md px-2 text-sm text-muted-foreground transition-colors duration-150 hover:bg-accent hover:text-foreground"
+                >
+                  <Icon className="size-4" aria-hidden />
+                  <span className="flex-1">{studio.title}</span>
+                  <ArrowUpRight className="size-3.5" aria-hidden />
+                </Link>
+              </li>
+            );
+          })}
+      </ul>
+    </Panel>
+  );
+}

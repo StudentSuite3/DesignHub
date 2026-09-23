@@ -7,7 +7,7 @@ import { BookOpen, Home } from "lucide-react";
 import { GithubIcon } from "@/components/layout/github-icon";
 
 import { Kbd } from "@/components/ui/kbd";
-import { studios } from "@/lib/navigation";
+import { isActivePath, studioGroups, studios } from "@/lib/navigation";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +22,7 @@ export function SidebarNav({ onNavigate }: SidebarNavProps) {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Studios" className="flex h-full flex-col gap-6 p-3">
+    <nav aria-label="Studios" className="flex h-full flex-col gap-5 overflow-y-auto p-3 scrollbar-thin">
       <div className="flex flex-col gap-0.5">
         <Link
           href="/"
@@ -35,29 +35,35 @@ export function SidebarNav({ onNavigate }: SidebarNavProps) {
         </Link>
       </div>
 
-      <div className="flex flex-col gap-0.5">
-        <p className="px-2 pb-1 text-[11px] font-medium uppercase tracking-[0.12em] text-subtle-foreground">Studios</p>
-        {studios.map((studio) => {
-          const active = pathname.startsWith(studio.href);
-          const Icon = studio.icon;
-          return (
-            <Link
-              key={studio.id}
-              href={studio.href}
-              onClick={onNavigate}
-              aria-current={active ? "page" : undefined}
-              className={cn(itemClass, active && "bg-accent text-foreground")}
-            >
-              <Icon className={cn("size-4", active && "text-brand")} aria-hidden />
-              <span className="flex-1 truncate">{studio.title.replace(" Studio", "")}</span>
-              <span className="hidden items-center gap-0.5 opacity-0 transition-opacity duration-150 group-hover:opacity-100 lg:flex">
-                <Kbd>G</Kbd>
-                <Kbd>{studio.shortcut.toUpperCase()}</Kbd>
-              </span>
-            </Link>
-          );
-        })}
-      </div>
+      {studioGroups.map((group) => (
+        <div key={group} className="flex flex-col gap-0.5">
+          <p className="px-2 pb-1 text-[11px] font-medium uppercase tracking-[0.12em] text-subtle-foreground">
+            {group}
+          </p>
+          {studios
+            .filter((studio) => studio.group === group)
+            .map((studio) => {
+              const active = isActivePath(pathname, studio.href);
+              const Icon = studio.icon;
+              return (
+                <Link
+                  key={studio.id}
+                  href={studio.href}
+                  onClick={onNavigate}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(itemClass, active && "bg-accent text-foreground")}
+                >
+                  <Icon className={cn("size-4", active && "text-brand")} aria-hidden />
+                  <span className="flex-1 truncate">{studio.title.replace(" Studio", "")}</span>
+                  <span className="hidden items-center gap-0.5 opacity-0 transition-opacity duration-150 group-hover:opacity-100 lg:flex">
+                    <Kbd>G</Kbd>
+                    <Kbd>{studio.shortcut.toUpperCase()}</Kbd>
+                  </span>
+                </Link>
+              );
+            })}
+        </div>
+      ))}
 
       <div className="mt-auto flex flex-col gap-0.5">
         <p className="px-2 pb-1 text-[11px] font-medium uppercase tracking-[0.12em] text-subtle-foreground">
