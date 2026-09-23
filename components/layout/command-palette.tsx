@@ -1,0 +1,126 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { BookOpen, Home, Keyboard, Moon, Sun } from "lucide-react";
+import type { ReactNode } from "react";
+
+import { GithubIcon } from "@/components/layout/github-icon";
+import { useThemeToggle } from "@/components/layout/theme-toggle";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { Kbd } from "@/components/ui/kbd";
+import { useHotkey } from "@/hooks/use-hotkeys";
+import { studios } from "@/lib/navigation";
+import { siteConfig } from "@/lib/site";
+import { useUiStore } from "@/store/ui-store";
+
+export function CommandPalette({ children }: { children?: ReactNode }) {
+  const router = useRouter();
+  const open = useUiStore((state) => state.commandOpen);
+  const query = useUiStore((state) => state.commandQuery);
+  const setOpen = useUiStore((state) => state.setCommandOpen);
+  const setQuery = useUiStore((state) => state.setCommandQuery);
+  const setShortcutsOpen = useUiStore((state) => state.setShortcutsOpen);
+  const { isDark, toggle } = useThemeToggle();
+
+  useHotkey("mod+k", () => setOpen(!open), { allowInInputs: true });
+  useHotkey("/", () => setOpen(true));
+
+  function run(action: () => void) {
+    setOpen(false);
+    action();
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent showClose={false} className="top-[15vh] max-w-xl translate-y-0 gap-0 overflow-hidden p-0">
+        <DialogTitle className="sr-only">Command palette</DialogTitle>
+        <DialogDescription className="sr-only">Search tools, fonts, colors and actions.</DialogDescription>
+        <Command loop>
+          <CommandInput value={query} onValueChange={setQuery} placeholder="Search fonts, colors, icons..." />
+          <CommandList>
+            <CommandEmpty>No results for “{query}”.</CommandEmpty>
+            {children}
+            <CommandGroup heading="Studios">
+              <CommandItem value="home start" onSelect={() => run(() => router.push("/"))}>
+                <Home />
+                Home
+                <CommandShortcut>
+                  <Kbd>G</Kbd>
+                  <Kbd>H</Kbd>
+                </CommandShortcut>
+              </CommandItem>
+              {studios.map((studio) => {
+                const Icon = studio.icon;
+                return (
+                  <CommandItem
+                    key={studio.id}
+                    value={`${studio.title} ${studio.description}`}
+                    onSelect={() => run(() => router.push(studio.href))}
+                  >
+                    <Icon />
+                    {studio.title}
+                    <CommandShortcut>
+                      <Kbd>G</Kbd>
+                      <Kbd>{studio.shortcut.toUpperCase()}</Kbd>
+                    </CommandShortcut>
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="Actions">
+              <CommandItem value="toggle theme dark light mode" onSelect={() => run(toggle)}>
+                {isDark ? <Sun /> : <Moon />}
+                Switch to {isDark ? "light" : "dark"} theme
+                <CommandShortcut>
+                  <Kbd>⌥</Kbd>
+                  <Kbd>T</Kbd>
+                </CommandShortcut>
+              </CommandItem>
+              <CommandItem value="keyboard shortcuts help" onSelect={() => run(() => setShortcutsOpen(true))}>
+                <Keyboard />
+                Keyboard shortcuts
+                <CommandShortcut>
+                  <Kbd>?</Kbd>
+                </CommandShortcut>
+              </CommandItem>
+              <CommandItem value="github source code star" onSelect={() => run(() => window.open(siteConfig.github, "_blank"))}>
+                <GithubIcon />
+                View source on GitHub
+              </CommandItem>
+              <CommandItem
+                value="roadmap future plans"
+                onSelect={() => run(() => window.open(`${siteConfig.github}/blob/main/ROADMAP.md`, "_blank"))}
+              >
+                <BookOpen />
+                Roadmap
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+          <footer className="flex h-10 items-center gap-4 border-t px-4 text-[11px] text-subtle-foreground">
+            <span className="flex items-center gap-1">
+              <Kbd>↑</Kbd>
+              <Kbd>↓</Kbd> navigate
+            </span>
+            <span className="flex items-center gap-1">
+              <Kbd>↵</Kbd> select
+            </span>
+            <span className="flex items-center gap-1">
+              <Kbd>esc</Kbd> close
+            </span>
+          </footer>
+        </Command>
+      </DialogContent>
+    </Dialog>
+  );
+}

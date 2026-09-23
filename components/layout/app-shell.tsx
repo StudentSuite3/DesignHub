@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { GlobalShortcuts } from "@/components/layout/global-shortcuts";
 import { MainNav } from "@/components/layout/main-nav";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { SearchTrigger } from "@/components/layout/search-trigger";
 import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SkipLink } from "@/components/layout/skip-link";
@@ -26,6 +27,7 @@ export function AppShell({ withSidebar = false, headerActions, children }: AppSh
       <GlobalShortcuts />
       <SiteHeader leading={<MobileNav />}>
         {withSidebar ? null : <MainNav className="mr-2" />}
+        <SearchTrigger />
         {headerActions}
         <ThemeToggle />
       </SiteHeader>
