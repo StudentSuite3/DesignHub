@@ -16,6 +16,7 @@ export const shortcuts: ShortcutDefinition[] = [
   { keys: ["G", "B"], description: "Go to Background Studio", scope: "Global" },
   { keys: ["G", "F"], description: "Go to Effects Lab", scope: "Global" },
   { keys: ["G", "S"], description: "Go to SVG Playground", scope: "Global" },
+  { keys: ["G", "A"], description: "Go to Accessibility Lab", scope: "Global" },
   { keys: ["G", "E"], description: "Go to Export Engine", scope: "Global" },
   { keys: ["Space"], description: "Generate palette", scope: "Colors" },
   { keys: ["Z"], description: "Undo palette change", scope: "Colors" },

@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 
 import {
+  AccessibilityPreview,
   BackgroundPreview,
   ColorPreview,
   EffectsPreview,
@@ -20,6 +21,7 @@ const previews: Record<StudioId, ReactNode> = {
   backgrounds: <BackgroundPreview />,
   effects: <EffectsPreview />,
   svg: <SvgPreview />,
+  accessibility: <AccessibilityPreview />,
   export: <ExportPreview />,
 };
 
@@ -30,6 +32,7 @@ const highlights: Record<StudioId, string[]> = {
   backgrounds: ["8 generators", "Seeded", "SVG · PNG · CSS", "Palette aware"],
   effects: ["Glass", "Neumorphism", "Shadows", "CSS · Tailwind"],
   svg: ["Optimize", "Inspect", "JSX · React Native", "Sprites"],
+  accessibility: ["WCAG", "Color vision", "Readability", "Touch targets"],
   export: ["CSS", "SCSS", "Tailwind", "JSON tokens"],
 };
 

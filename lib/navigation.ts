@@ -1,6 +1,17 @@
-import { Braces, Palette, PenTool, Shapes, Sparkles, Type, Wallpaper, type LucideIcon } from "lucide-react";
+import {
+  Accessibility,
+  Braces,
+  Palette,
+  PenTool,
+  Shapes,
+  Sparkles,
+  Type,
+  Wallpaper,
+  type LucideIcon,
+} from "lucide-react";
 
-export type StudioId = "typography" | "colors" | "icons" | "backgrounds" | "effects" | "svg" | "export";
+export type StudioId =
+  "typography" | "colors" | "icons" | "backgrounds" | "effects" | "svg" | "accessibility" | "export";
 
 export type StudioNavItem = {
   id: StudioId;
@@ -60,6 +71,14 @@ export const studios: readonly StudioNavItem[] = [
     description: "Inspect, edit and optimize SVG. Convert to JSX, React, React Native or a sprite sheet.",
     icon: PenTool,
     shortcut: "s",
+  },
+  {
+    id: "accessibility",
+    title: "Accessibility Lab",
+    href: "/accessibility",
+    description: "WCAG contrast, color vision simulation, readability, dyslexia preview and touch-target checks.",
+    icon: Accessibility,
+    shortcut: "a",
   },
   {
     id: "export",

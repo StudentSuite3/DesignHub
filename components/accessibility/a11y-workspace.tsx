@@ -1,0 +1,64 @@
+"use client";
+
+import { useMemo } from "react";
+
+import { A11yColorsPanel } from "@/components/accessibility/a11y-colors-panel";
+import { A11yTypePanel } from "@/components/accessibility/a11y-type-panel";
+import { A11yPreview } from "@/components/accessibility/a11y-preview";
+import { A11yReportPanel } from "@/components/accessibility/a11y-report-panel";
+import { StudioLayout } from "@/components/layout/studio-layout";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGoogleFonts } from "@/hooks/use-google-font";
+import { useFontMeta } from "@/hooks/use-font-catalog";
+import { buildReport } from "@/lib/a11y/report";
+import { useA11yStore } from "@/store/a11y-store";
+import type { A11yTab } from "@/types/a11y";
+
+const tabs: { value: A11yTab; label: string }[] = [
+  { value: "contrast", label: "Contrast" },
+  { value: "vision", label: "Vision" },
+  { value: "readability", label: "Reading" },
+  { value: "targets", label: "Targets" },
+];
+
+export function A11yWorkspace() {
+  const tab = useA11yStore((state) => state.tab);
+  const setTab = useA11yStore((state) => state.setTab);
+  const colors = useA11yStore((state) => state.colors);
+  const typography = useA11yStore((state) => state.typography);
+  const targets = useA11yStore((state) => state.targets);
+  const targetGap = useA11yStore((state) => state.targetGap);
+  useGoogleFonts([useFontMeta(typography.family)]);
+
+  const report = useMemo(
+    () => buildReport({ colors, typography, targets, targetGap }, {}),
+    [colors, typography, targets, targetGap],
+  );
+
+  return (
+    <StudioLayout
+      id="accessibility"
+      controls={
+        <Tabs value={tab} onValueChange={(value) => setTab(value as A11yTab)} className="gap-4">
+          <TabsList aria-label="Accessibility tools" className="w-full">
+            {tabs.map((item) => (
+              <TabsTrigger key={item.value} value={item.value} className="px-1.5 text-xs">
+                {item.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <TabsContent value="contrast" className="flex flex-col gap-4">
+            <A11yColorsPanel />
+          </TabsContent>
+          <TabsContent value="vision" className="flex flex-col gap-4" />
+          <TabsContent value="readability" className="flex flex-col gap-4">
+            <A11yTypePanel />
+          </TabsContent>
+          <TabsContent value="targets" className="flex flex-col gap-4" />
+        </Tabs>
+      }
+      preview={<A11yPreview />}
+      output={<A11yReportPanel report={report} />}
+    />
+  );
+}

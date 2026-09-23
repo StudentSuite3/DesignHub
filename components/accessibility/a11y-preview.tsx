@@ -1,0 +1,78 @@
+"use client";
+
+import type { CSSProperties } from "react";
+
+import { fontStack } from "@/lib/typography/css";
+import { useA11yStore } from "@/store/a11y-store";
+
+/** A small but realistic UI: the thing every check in the lab is measured against. */
+export function A11yPreview({ style, compact = false }: { style?: CSSProperties; compact?: boolean }) {
+  const colors = useA11yStore((state) => state.colors);
+  const typography = useA11yStore((state) => state.typography);
+  const sample = useA11yStore((state) => state.sample);
+
+  const text: CSSProperties = {
+    fontFamily: fontStack(typography.family),
+    fontSize: typography.size,
+    lineHeight: typography.lineHeight,
+    letterSpacing: `${typography.letterSpacing}em`,
+    wordSpacing: `${typography.wordSpacing}em`,
+    fontWeight: typography.weight,
+    maxWidth: typography.measure,
+  };
+
+  return (
+    <div
+      className="flex flex-col gap-4 rounded-lg border"
+      style={{ background: colors.background, color: colors.text, padding: compact ? 16 : 32, ...style }}
+    >
+      <p
+        style={{ ...text, fontSize: typography.size * 0.8, fontWeight: 600, letterSpacing: "0.08em" }}
+        className="uppercase"
+      >
+        Accessibility Lab
+      </p>
+      <h3 style={{ ...text, fontSize: typography.size * 2, lineHeight: 1.15, fontWeight: 700 }}>
+        Designed for everyone
+      </h3>
+      {compact ? null : <p style={text}>{sample}</p>}
+      <p style={text}>
+        Read the{" "}
+        <a
+          href="#preview"
+          onClick={(event) => event.preventDefault()}
+          style={{ color: colors.accent, textDecoration: "underline" }}
+        >
+          accessibility guidelines
+        </a>{" "}
+        before you ship.
+      </p>
+      <div className="flex flex-wrap items-center gap-3">
+        <span
+          style={{ background: colors.accent, color: colors.onAccent, fontFamily: text.fontFamily }}
+          className="rounded-md px-4 py-2.5 text-sm font-semibold"
+        >
+          Primary action
+        </span>
+        <span
+          style={{ borderColor: colors.accent, color: colors.accent, fontFamily: text.fontFamily }}
+          className="rounded-md border-2 px-4 py-2 text-sm font-semibold"
+        >
+          Secondary
+        </span>
+      </div>
+      {compact ? null : (
+        <label className="flex max-w-xs flex-col gap-1.5 text-sm" style={{ fontFamily: text.fontFamily }}>
+          Email address
+          <span
+            className="rounded-md border-2 px-3 py-2 text-sm"
+            style={{ borderColor: colors.text, opacity: 0.9 }}
+            aria-hidden
+          >
+            you@example.com
+          </span>
+        </label>
+      )}
+    </div>
+  );
+}

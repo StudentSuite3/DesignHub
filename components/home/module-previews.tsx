@@ -106,3 +106,20 @@ export function SvgPreview() {
     </pre>
   );
 }
+
+export function AccessibilityPreview() {
+  return (
+    <div className="flex h-full flex-col justify-end gap-2">
+      {[
+        ["Contrast 7.1:1", "AAA", "text-success"],
+        ["Line height 1.5", "Pass", "text-success"],
+        ["Target 32×32", "Too small", "text-warning"],
+      ].map(([label, verdict, tone]) => (
+        <div key={label} className="flex items-center justify-between rounded-md border bg-surface px-3 py-2 text-xs">
+          <span className="text-muted-foreground">{label}</span>
+          <span className={`font-medium ${tone}`}>{verdict}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
