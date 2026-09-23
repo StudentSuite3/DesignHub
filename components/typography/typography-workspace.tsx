@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { FontBrowser } from "@/components/typography/font-browser";
 import { SpecimenControls } from "@/components/typography/specimen-controls";
 import { SpecimenPreview } from "@/components/typography/specimen-preview";
+import { VariablePlayground } from "@/components/typography/variable-playground";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFontCatalog } from "@/hooks/use-font-catalog";
 import { useTypographyStore, type TypographyTab } from "@/store/typography-store";
@@ -38,9 +39,12 @@ export function TypographyWorkspace() {
       </TabsList>
 
       <TabsContent value="browse" className="flex flex-col gap-8">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
           <SpecimenPreview />
-          <SpecimenControls />
+          <div className="flex flex-col gap-4">
+            <SpecimenControls />
+            <VariablePlayground />
+          </div>
         </div>
         <section aria-label="Google Fonts" className="flex flex-col gap-4">
           <h2 className="text-lg font-medium">Google Fonts</h2>
