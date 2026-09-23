@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 
 import { A11yColorsPanel } from "@/components/accessibility/a11y-colors-panel";
+import { ContrastResults } from "@/components/accessibility/contrast-results";
 import { A11yTypePanel } from "@/components/accessibility/a11y-type-panel";
 import { A11yPreview } from "@/components/accessibility/a11y-preview";
 import { A11yReportPanel } from "@/components/accessibility/a11y-report-panel";
@@ -10,6 +11,7 @@ import { StudioLayout } from "@/components/layout/studio-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGoogleFonts } from "@/hooks/use-google-font";
 import { useFontMeta } from "@/hooks/use-font-catalog";
+import { contrastSection } from "@/lib/a11y/contrast";
 import { buildReport } from "@/lib/a11y/report";
 import { useA11yStore } from "@/store/a11y-store";
 import type { A11yTab } from "@/types/a11y";
@@ -31,7 +33,7 @@ export function A11yWorkspace() {
   useGoogleFonts([useFontMeta(typography.family)]);
 
   const report = useMemo(
-    () => buildReport({ colors, typography, targets, targetGap }, {}),
+    () => buildReport({ colors, typography, targets, targetGap }, { contrast: contrastSection(colors) }),
     [colors, typography, targets, targetGap],
   );
 
@@ -49,6 +51,7 @@ export function A11yWorkspace() {
           </TabsList>
           <TabsContent value="contrast" className="flex flex-col gap-4">
             <A11yColorsPanel />
+            <ContrastResults />
           </TabsContent>
           <TabsContent value="vision" className="flex flex-col gap-4" />
           <TabsContent value="readability" className="flex flex-col gap-4">
