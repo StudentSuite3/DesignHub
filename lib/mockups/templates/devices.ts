@@ -41,3 +41,19 @@ export function monitor(x: number, y: number, sw: number, sh: number, content: s
     ${screen(bezel, bezel, sw, sh, content)}
   </g>`;
 }
+
+/** Modern phone with a dynamic island. Screen is 390 × 844 logical points. */
+export function phone(x: number, y: number, content: string, scale = 1): string {
+  const sw = 390;
+  const sh = 844;
+  const bezel = 14;
+  const w = sw + bezel * 2;
+  const h = sh + bezel * 2;
+  return `<g transform="translate(${x} ${y}) scale(${scale})">
+    <rect width="${w}" height="${h}" rx="62" fill="#1a1b1f" filter="url(#soft)"/>
+    <rect x="1.5" y="1.5" width="${w - 3}" height="${h - 3}" rx="60.5" fill="none" stroke="#45464d" stroke-width="3"/>
+    <clipPath id="phone-${x}-${y}"><rect x="${bezel}" y="${bezel}" width="${sw}" height="${sh}" rx="48"/></clipPath>
+    <g clip-path="url(#phone-${x}-${y})">${screen(bezel, bezel, sw, sh, content)}</g>
+    <rect x="${w / 2 - 62}" y="${bezel + 12}" width="124" height="36" rx="18" fill="#000"/>
+  </g>`;
+}
