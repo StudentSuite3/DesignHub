@@ -1,8 +1,8 @@
 "use client";
 
-import { Plus, Search, Star } from "lucide-react";
+import { Copy, Download, FileDown, Plus, Search, Star, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { ProjectCard } from "@/components/projects/project-card";
@@ -11,7 +11,21 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useProjects } from "@/hooks/use-projects";
-import { createBlankProject, openProject, removeProject, renameProject, toggleFavorite } from "@/lib/projects/actions";
+import { downloadText } from "@/lib/download";
+import { slugify } from "@/lib/logo/pack";
+import {
+  createBlankProject,
+  duplicateProject,
+  freshProject,
+  importProjects,
+  openProject,
+  removeProject,
+  renameProject,
+  saveActiveProject,
+  toggleFavorite,
+} from "@/lib/projects/actions";
+import { listProjects } from "@/lib/projects/repository";
+import { projectsToJson, projectToJson } from "@/lib/projects/transfer";
 import { projectName, type BrandProject } from "@/lib/projects/types";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +37,37 @@ export function ProjectManager() {
   const [creating, setCreating] = useState(false);
   const [newName, setNewName] = useState("");
   const [deleting, setDeleting] = useState<BrandProject | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  async function exportOne(project: BrandProject) {
+    const latest = (await freshProject(project.id)) ?? project;
+    downloadText(projectToJson(latest), `${slugify(projectName(latest))}.designhub.json`);
+  }
+
+  async function exportAll() {
+    await saveActiveProject();
+    const all = await listProjects();
+    downloadText(projectsToJson(all), `designhub-projects-${new Date().toISOString().slice(0, 10)}.json`);
+    toast.success(`Exported ${all.length} ${all.length === 1 ? "project" : "projects"}`);
+  }
+
+  async function importFile(file: File | undefined) {
+    if (!file) return;
+    if (file.size > 5_000_000) {
+      toast.error("That file is too large to be a project.");
+      return;
+    }
+    try {
+      const text = await file.text();
+      let count = 0;
+      await run(async () => {
+        count = await importProjects(text);
+      });
+      toast.success(`Imported ${count} ${count === 1 ? "project" : "projects"}`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not import that file.");
+    }
+  }
 
   const visible = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -66,6 +111,24 @@ export function ProjectManager() {
           <Star className={cn(favoritesOnly && "fill-warning text-warning")} /> Favorites
         </Button>
         <span className="flex-1" />
+        <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()}>
+          <Upload /> Import
+        </Button>
+        <Button variant="outline" size="sm" onClick={() => void exportAll()} disabled={!projects?.length}>
+          <FileDown /> Export all
+        </Button>
+        <input
+          ref={fileRef}
+          type="file"
+          accept=".json,application/json"
+          className="sr-only"
+          tabIndex={-1}
+          aria-label="Project file"
+          onChange={(event) => {
+            void importFile(event.target.files?.[0]);
+            event.target.value = "";
+          }}
+        />
         <Button
           size="sm"
           onClick={() => {
@@ -105,6 +168,30 @@ export function ProjectManager() {
               onRename={(name) => void run(() => renameProject(project.id, name))}
               onFavorite={() => void run(() => toggleFavorite(project.id))}
               onDelete={() => setDeleting(project)}
+              actions={
+                <>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-8"
+                    aria-label={`Duplicate ${projectName(project)}`}
+                    onClick={() =>
+                      void run(() => duplicateProject(project.id)).then(() => toast.success("Project duplicated"))
+                    }
+                  >
+                    <Copy />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-8"
+                    aria-label={`Export ${projectName(project)} as JSON`}
+                    onClick={() => void exportOne(project)}
+                  >
+                    <Download />
+                  </Button>
+                </>
+              }
             />
           ))}
         </ul>

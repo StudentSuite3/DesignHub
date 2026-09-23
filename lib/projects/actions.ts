@@ -7,7 +7,8 @@ import {
   type BrandSnapshot,
 } from "@/lib/projects/snapshot";
 import { deleteProject, getProject, listProjects, newProjectId, saveProject, updateProject } from "@/lib/projects/repository";
-import type { BrandProject } from "@/lib/projects/types";
+import { parseProjectsFile } from "@/lib/projects/transfer";
+import { projectName, type BrandProject } from "@/lib/projects/types";
 import { useBrandStore } from "@/store/brand-store";
 import { useProjectStore } from "@/store/project-store";
 
@@ -112,4 +113,37 @@ export async function ensureInitialProject(): Promise<void> {
   // The active project was deleted elsewhere: adopt the live state as a new project.
   const project = await createProject(captureSnapshot());
   setActive(project.id);
+}
+
+/** Copies a project. The live state is saved first so the copy includes the latest edits. */
+export async function duplicateProject(id: string): Promise<BrandProject | undefined> {
+  if (useProjectStore.getState().activeId === id) await saveActiveProject();
+  const source = await getProject(id);
+  if (!source) return undefined;
+  const snapshot = structuredClone(source.snapshot);
+  snapshot.brand.profile.name = `${projectName(source)} copy`.slice(0, 60);
+  return createProject(snapshot);
+}
+
+/** Adds every project in an exported file. Returns how many were imported. */
+export async function importProjects(text: string): Promise<number> {
+  const entries = parseProjectsFile(text);
+  const existing = new Set((await listProjects()).map(projectName));
+  for (const entry of entries) {
+    const snapshot = entry.snapshot;
+    // Keep names unique so an import never looks like it replaced something.
+    let name = snapshot.brand.profile.name.trim() || "Imported brand";
+    for (let n = 2; existing.has(name); n += 1) name = `${snapshot.brand.profile.name} (${n})`;
+    snapshot.brand.profile.name = name;
+    existing.add(name);
+    const project = await createProject(snapshot);
+    if (entry.favorite) await updateProject(project.id, { favorite: true });
+  }
+  return entries.length;
+}
+
+/** The latest copy of a project, including unsaved live edits when it is open. */
+export async function freshProject(id: string): Promise<BrandProject | undefined> {
+  if (useProjectStore.getState().activeId === id) await saveActiveProject();
+  return getProject(id);
 }
