@@ -48,7 +48,7 @@ export function SocialWorkspace() {
           </div>
         )
       }
-      output={<SocialExportPanel svg={svg} name={ctx.brand.name} template={template} />}
+      output={<SocialExportPanel svg={svg} ctx={ctx} template={template} />}
     />
   );
 }

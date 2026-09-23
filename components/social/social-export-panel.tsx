@@ -5,20 +5,26 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { downloadBlob } from "@/lib/download";
 import { rasterize } from "@/lib/export/raster";
 import { slugify } from "@/lib/logo/pack";
-import type { SocialTemplate } from "@/lib/social/types";
+import { ogMetaTags } from "@/lib/social/templates/open-graph";
+import type { SocialContext, SocialTemplate } from "@/lib/social/types";
 import { useSocialStore } from "@/store/social-store";
 
-type Props = { svg: string; name: string; template: SocialTemplate | undefined };
+type Props = { svg: string; ctx: SocialContext; template: SocialTemplate | undefined };
 
-export function SocialExportPanel({ svg, name, template }: Props) {
+export function SocialExportPanel({ svg, ctx, template }: Props) {
+  const name = ctx.brand.name;
   const scale = useSocialStore((state) => state.scale);
   const setScale = useSocialStore((state) => state.setScale);
   const [busy, setBusy] = useState(false);
+
+  const file = template ? `${slugify(name)}-${template.id}${scale > 1 ? `@${scale}x` : ""}.png` : "";
+  const meta = template?.platform === "Open Graph" ? ogMetaTags(ctx, "og.png") : null;
 
   async function download() {
     if (!template) return;
@@ -27,7 +33,7 @@ export function SocialExportPanel({ svg, name, template }: Props) {
       const image = await rasterize(svg, scale);
       downloadBlob(
         new Blob([image.bytes.slice().buffer], { type: "image/png" }),
-        `${slugify(name)}-${template.id}${scale > 1 ? `@${scale}x` : ""}.png`,
+        file,
       );
       toast.success("Download ready");
     } catch {
@@ -74,6 +80,18 @@ export function SocialExportPanel({ svg, name, template }: Props) {
       <Button onClick={download} disabled={!svg || busy}>
         {busy ? <Loader2 className="animate-spin" /> : <ImageDown />} Download PNG
       </Button>
+      {meta ? (
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <Label>Meta tags</Label>
+            <CopyButton value={meta} label="Copy meta tags" toastMessage="Meta tags copied" />
+          </div>
+          <pre className="max-h-56 overflow-auto rounded-md border bg-surface-raised p-2.5 font-mono text-[11px] leading-relaxed whitespace-pre-wrap text-muted-foreground">
+            {meta}
+          </pre>
+          <p className="text-[11px] text-subtle-foreground">Upload the PNG as og.png at your site root.</p>
+        </div>
+      ) : null}
     </>
   );
 }

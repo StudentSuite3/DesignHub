@@ -1,11 +1,12 @@
 import { githubBanner } from "@/lib/social/templates/github-banner";
 import { instagramSquare, instagramStory } from "@/lib/social/templates/instagram";
 import { linkedinCover } from "@/lib/social/templates/linkedin-cover";
+import { ogTemplates } from "@/lib/social/templates/open-graph";
 import { xBanner } from "@/lib/social/templates/x-banner";
 import type { SocialPlatform, SocialTemplate } from "@/lib/social/types";
 
 /** Templates register here as they are implemented. */
-export const socialTemplates: SocialTemplate[] = [githubBanner, linkedinCover, xBanner, instagramSquare, instagramStory];
+export const socialTemplates: SocialTemplate[] = [githubBanner, linkedinCover, xBanner, instagramSquare, instagramStory, ...ogTemplates];
 
 export const socialPlatforms: SocialPlatform[] = [
   "GitHub",
