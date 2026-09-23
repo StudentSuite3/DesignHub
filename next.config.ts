@@ -10,6 +10,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Paper.js only runs in the browser; keep its Node-only code paths (jsdom, canvas) out of the server bundle.
+  serverExternalPackages: ["paper"],
   experimental: {
     // Barrel-style packages: import only what each route uses.
     optimizePackageImports: ["radix-ui", "lucide-react", "framer-motion", "@iconify/utils"],

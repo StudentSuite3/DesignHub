@@ -6,12 +6,15 @@ import { BackgroundControls } from "@/components/backgrounds/background-controls
 import { BackgroundOutput } from "@/components/backgrounds/background-output";
 import { StudioLayout } from "@/components/layout/studio-layout";
 import { SvgPreviewCanvas } from "@/components/canvas/svg-preview-canvas";
-import { renderBackgroundSvg } from "@/lib/background/registry";
+import { usePaper } from "@/hooks/use-paper";
+import { getGenerator, renderBackgroundSvg } from "@/lib/background/registry";
 import { useBackgroundStore } from "@/store/background-store";
 
 export function BackgroundWorkspace() {
   const settings = useBackgroundStore((state) => state.settings);
-  const svg = useMemo(() => renderBackgroundSvg(settings), [settings]);
+  const paperReady = usePaper(Boolean(getGenerator(settings.kind)?.usesPaper));
+  // `paperReady` is a dependency on purpose: Paper-based generators re-render once it loads.
+  const svg = useMemo(() => renderBackgroundSvg(settings), [settings, paperReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <StudioLayout
