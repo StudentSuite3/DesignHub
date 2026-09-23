@@ -1,13 +1,13 @@
 import { contrastRatio, oklch, parseColor } from "@/lib/color/color";
 import { nestLogo, type Rect } from "@/lib/logo/compose";
 import { monochromeSvg } from "@/lib/logo/recolor";
-import type { MockupContext } from "@/lib/mockups/types";
+import type { DrawContext } from "@/lib/mockups/types";
 
 export const escapeXml = (value: string) =>
   value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 /** Standalone SVG with the brand fonts inlined and `.h` / `.b` classes for heading and body text. */
-export function mockupDoc(ctx: MockupContext, width: number, height: number, body: string, defs = ""): string {
+export function mockupDoc(ctx: DrawContext, width: number, height: number, body: string, defs = ""): string {
   const { heading, headingCategory, body: bodyFont, bodyCategory } = ctx.brand.typography;
   const fallback = (category: string) =>
     category === "serif"
@@ -36,13 +36,13 @@ export function text(x: number, y: number, value: string, options: TextOptions):
   return `<text class="${font}" x="${x}" y="${y}" font-size="${size}" fill="${fill}" text-anchor="${anchor}"${spacing ? ` letter-spacing="${spacing}"` : ""}${opacity < 1 ? ` fill-opacity="${opacity}"` : ""}>${escapeXml(value)}</text>`;
 }
 
-export function logo(ctx: MockupContext, rect: Rect, color?: string, id?: string): string {
+export function logo(ctx: DrawContext, rect: Rect, color?: string, id?: string): string {
   const svg = color ? monochromeSvg(ctx.brand.logo.svg, color) : ctx.brand.logo.svg;
   return nestLogo(svg, rect, id);
 }
 
 /** A soft studio backdrop behind printed mockups. */
-export function desk(ctx: MockupContext, width: number, height: number): string {
+export function desk(ctx: DrawContext, width: number, height: number): string {
   const top = ctx.mode === "light" ? "#e9e7e3" : "#15161a";
   const bottom = ctx.mode === "light" ? "#d8d5cf" : "#0b0c0f";
   return `<defs><linearGradient id="desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${top}"/><stop offset="1" stop-color="${bottom}"/></linearGradient></defs><rect width="${width}" height="${height}" fill="url(#desk)"/>`;
@@ -57,7 +57,7 @@ export function rotate(degrees: number, cx: number, cy: number, body: string): s
  * text and graphics, so white wins whenever it reaches that, which matches how
  * most brands print on their own color.
  */
-export function onPrimaryLarge(ctx: MockupContext): string {
+export function onPrimaryLarge(ctx: DrawContext): string {
   const primary = parseColor(ctx.surface.primary);
   if (primary && contrastRatio(primary, oklch(1, 0, 0)) >= 3) return "#ffffff";
   return ctx.surface.onPrimary;
@@ -65,7 +65,7 @@ export function onPrimaryLarge(ctx: MockupContext): string {
 
 /** Greedy word wrap using real font metrics. */
 export function wrap(
-  ctx: MockupContext,
+  ctx: DrawContext,
   value: string,
   maxWidth: number,
   size: number,

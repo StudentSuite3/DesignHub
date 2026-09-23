@@ -11,15 +11,17 @@ export type MockupContent = {
   cta: string;
 };
 
-export type MockupContext = {
+/** What every brand drawing (mockups, social assets, guideline pages) is rendered from. */
+export type DrawContext = {
   brand: BrandTokens;
   surface: BrandSurface;
   mode: BrandMode;
-  content: MockupContent;
   fontCss: string;
   /** Text width in px in the given family (real font when loaded). */
   measure: (text: string, family: string, weight: number, size: number) => number;
 };
+
+export type MockupContext = DrawContext & { content: MockupContent };
 
 export type MockupCategory = "Print" | "Screens";
 
