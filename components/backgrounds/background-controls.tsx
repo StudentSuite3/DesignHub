@@ -58,6 +58,9 @@ export function BackgroundControls() {
             </Button>
           </div>
         </div>
+        <p className="-mt-2 text-[11px] text-subtle-foreground">
+          Press <Kbd>Space</Kbd> for a new seed.
+        </p>
         <ColorList />
         <SliderField
           label="Density"
