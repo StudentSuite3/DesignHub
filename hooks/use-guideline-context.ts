@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import { useDesignTokens } from "@/hooks/use-design-tokens";
 import { useDrawContext } from "@/hooks/use-draw-context";
 import { useVariantContext } from "@/hooks/use-variant-context";
 import { guidelinePages } from "@/lib/guidelines/registry";
@@ -17,6 +18,7 @@ export function useGuidelineContext(): { ctx: GuidelineContext; pages: Guideline
   const clearSpace = useLogoStore((state) => state.clearSpace);
   const draw = useDrawContext(mode);
   const logo = useVariantContext();
+  const tokens = useDesignTokens();
   // Set after mount so server and client render the same markup.
   const [date, setDate] = useState("");
   useEffect(() => {
@@ -26,6 +28,6 @@ export function useGuidelineContext(): { ctx: GuidelineContext; pages: Guideline
   return useMemo(() => {
     const pages = guidelinePages.filter((page) => !excluded.includes(page.id));
     const contents = pages.map((page, i) => ({ id: page.id, title: page.title, number: i + 1 }));
-    return { ctx: { ...draw, voice, logo, clearSpace, date, contents }, pages };
-  }, [draw, voice, logo, clearSpace, date, excluded]);
+    return { ctx: { ...draw, voice, tokens, logo, clearSpace, date, contents }, pages };
+  }, [draw, voice, tokens, logo, clearSpace, date, excluded]);
 }

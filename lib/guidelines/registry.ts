@@ -1,3 +1,10 @@
+import {
+  accessibilityPage,
+  colorPalettePage,
+  componentsPage,
+  iconographyPage,
+  typographyPage,
+} from "@/lib/guidelines/pages/foundations";
 import { coverPage, introductionPage, voicePage } from "@/lib/guidelines/pages/intro";
 import { clearSpacePage, incorrectUsagePage, logoUsagePage, minimumSizePage } from "@/lib/guidelines/pages/logo";
 import type { GuidelinePage } from "@/lib/guidelines/types";
@@ -10,6 +17,11 @@ export const guidelinePages: GuidelinePage[] = [
   clearSpacePage,
   minimumSizePage,
   incorrectUsagePage,
+  colorPalettePage,
+  typographyPage,
+  iconographyPage,
+  componentsPage,
+  accessibilityPage,
   voicePage,
 ];
 

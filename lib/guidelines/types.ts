@@ -1,9 +1,12 @@
 import type { VariantContext } from "@/lib/logo/variants";
 import type { DrawContext } from "@/lib/mockups/types";
 import type { BrandVoice } from "@/types/brand";
+import type { DesignTokens } from "@/types/tokens";
 
 export type GuidelineContext = DrawContext & {
   voice: BrandVoice;
+  /** The same token set the Export Engine produces. */
+  tokens: DesignTokens;
   logo: VariantContext;
   /** Clear space as a fraction of the logo height, from Logo Studio. */
   clearSpace: number;
