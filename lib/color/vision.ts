@@ -1,6 +1,5 @@
-import Color from "colorjs.io";
-
 import { oklch } from "@/lib/color/color";
+import { OKLCH, sRGB_Linear, to, toGamut } from "@/lib/color/engine";
 import type { Oklch } from "@/types/color";
 
 export type VisionType = "normal" | "protanopia" | "deuteranopia" | "tritanopia" | "achromatopsia";
@@ -24,7 +23,10 @@ const matrices: Record<Exclude<VisionType, "normal" | "achromatopsia">, Matrix> 
 
 export function simulateVision(color: Oklch, type: VisionType): Oklch {
   if (type === "normal") return color;
-  const linear = new Color("oklch", [color.l, color.c, color.h]).toGamut({ space: "srgb" }).to("srgb-linear");
+  const linear = to(
+    toGamut({ space: OKLCH, coords: [color.l, color.c, color.h], alpha: 1 }, { space: "srgb" }),
+    "srgb-linear",
+  );
   const [r = 0, g = 0, b = 0] = linear.coords.map((value) => value ?? 0);
 
   let out: [number, number, number];
@@ -37,6 +39,6 @@ export function simulateVision(color: Oklch, type: VisionType): Oklch {
   }
 
   const clamped = out.map((value) => Math.min(1, Math.max(0, value))) as [number, number, number];
-  const [l, c, h] = new Color("srgb-linear", clamped).to("oklch").coords;
+  const [l, c, h] = to({ space: sRGB_Linear, coords: clamped, alpha: 1 }, "oklch").coords;
   return oklch(l ?? 0, c ?? 0, h ?? 0, color.alpha);
 }

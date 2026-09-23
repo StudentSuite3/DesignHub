@@ -10,19 +10,20 @@ import { fetchCollections } from "@/lib/icons/iconify";
 import { cn } from "@/lib/utils";
 import type { IconCollection } from "@/types/icons";
 
-/** Well-maintained sets surfaced as quick chips. */
-export const popularCollections = [
-  "lucide",
-  "tabler",
-  "ph",
-  "solar",
-  "heroicons",
-  "mdi",
-  "ri",
-  "iconoir",
-  "simple-icons",
-  "logos",
+/** Well-maintained sets surfaced as quick chips. Labels are static so the row never reflows on load. */
+export const popularCollections: { prefix: string; label: string }[] = [
+  { prefix: "lucide", label: "Lucide" },
+  { prefix: "tabler", label: "Tabler" },
+  { prefix: "ph", label: "Phosphor" },
+  { prefix: "solar", label: "Solar" },
+  { prefix: "heroicons", label: "Heroicons" },
+  { prefix: "mdi", label: "Material" },
+  { prefix: "ri", label: "Remix" },
+  { prefix: "iconoir", label: "Iconoir" },
+  { prefix: "simple-icons", label: "Simple Icons" },
+  { prefix: "logos", label: "Logos" },
 ];
+const popularPrefixes = new Set(popularCollections.map((item) => item.prefix));
 
 type CollectionPickerProps = {
   value: string | null;
@@ -60,7 +61,7 @@ export function CollectionPicker({ value, onChange }: CollectionPickerProps) {
       >
         All sets
       </button>
-      {popularCollections.map((prefix) => (
+      {popularCollections.map(({ prefix, label }) => (
         <button
           key={prefix}
           type="button"
@@ -68,14 +69,21 @@ export function CollectionPicker({ value, onChange }: CollectionPickerProps) {
           aria-pressed={value === prefix}
           className="h-7 rounded-full border px-3 text-xs text-muted-foreground transition-colors duration-150 hover:text-foreground aria-pressed:border-brand/50 aria-pressed:text-foreground"
         >
-          {collections[prefix]?.name ?? prefix}
+          {label}
         </button>
       ))}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" size="sm" className="h-7 rounded-full" role="combobox" aria-expanded={open}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-7 rounded-full"
+            role="combobox"
+            aria-expanded={open}
+            aria-label="Browse all icon sets"
+          >
             <Library />
-            {current && !popularCollections.includes(current.prefix) ? current.name : "More sets"}
+            {current && !popularPrefixes.has(current.prefix) ? current.name : "More sets"}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>

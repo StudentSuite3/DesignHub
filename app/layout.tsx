@@ -15,6 +15,29 @@ export const metadata: Metadata = {
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  applicationName: siteConfig.name,
+  keywords: [
+    "design tools",
+    "google fonts",
+    "color palette",
+    "oklch",
+    "icons",
+    "design tokens",
+    "tailwind",
+    "open source",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    url: siteConfig.url,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+  },
 };
 
 export const viewport: Viewport = {

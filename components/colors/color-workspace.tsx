@@ -1,23 +1,39 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { Blend, Braces, Contrast, Layers, Palette } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { HarmonyPanel } from "@/components/colors/harmony-panel";
 import { OklchEditor } from "@/components/colors/oklch-editor";
-import { ShadesStudio } from "@/components/colors/shades-studio";
-import { GradientStudio } from "@/components/colors/gradient-studio";
-import { ContrastChecker } from "@/components/colors/contrast-checker";
-import { ContrastMatrix } from "@/components/colors/contrast-matrix";
-import { VisionPreview } from "@/components/colors/vision-preview";
-import { ColorExport } from "@/components/colors/color-export";
 import { FormatSwitcher } from "@/components/colors/format-switcher";
 import { PaletteStrip } from "@/components/colors/palette-strip";
 import { PaletteToolbar } from "@/components/colors/palette-toolbar";
 import { SavedPalettes } from "@/components/colors/saved-palettes";
+import { TabSkeleton } from "@/components/ui/tab-skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useHarmonyGenerator } from "@/hooks/use-harmony";
 import { useColorStore, type ColorTab } from "@/store/color-store";
+
+// Secondary tabs are split out so the first tab paints fast.
+const ShadesStudio = dynamic(() => import("@/components/colors/shades-studio").then((m) => m.ShadesStudio), {
+  loading: TabSkeleton,
+});
+const GradientStudio = dynamic(() => import("@/components/colors/gradient-studio").then((m) => m.GradientStudio), {
+  loading: TabSkeleton,
+});
+const ContrastChecker = dynamic(() => import("@/components/colors/contrast-checker").then((m) => m.ContrastChecker), {
+  loading: TabSkeleton,
+});
+const ContrastMatrix = dynamic(() => import("@/components/colors/contrast-matrix").then((m) => m.ContrastMatrix), {
+  loading: () => null,
+});
+const VisionPreview = dynamic(() => import("@/components/colors/vision-preview").then((m) => m.VisionPreview), {
+  loading: () => null,
+});
+const ColorExport = dynamic(() => import("@/components/colors/color-export").then((m) => m.ColorExport), {
+  loading: TabSkeleton,
+});
 
 const tabs: { value: ColorTab; label: string; icon: ReactNode }[] = [
   { value: "palette", label: "Palette", icon: <Palette /> },

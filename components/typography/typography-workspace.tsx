@@ -1,20 +1,34 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { Braces, Combine, LayoutGrid, Ruler } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { FontBrowser } from "@/components/typography/font-browser";
-import { FontInspector } from "@/components/typography/font-inspector";
 import { OpenTypeControls } from "@/components/typography/opentype-controls";
-import { PairingStudio } from "@/components/typography/pairing-studio";
 import { SpecimenControls } from "@/components/typography/specimen-controls";
-import { TypographyExport } from "@/components/typography/typography-export";
-import { TypeScaleStudio } from "@/components/typography/type-scale-studio";
 import { SpecimenPreview } from "@/components/typography/specimen-preview";
 import { VariablePlayground } from "@/components/typography/variable-playground";
+import { TabSkeleton } from "@/components/ui/tab-skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFontCatalog } from "@/hooks/use-font-catalog";
 import { useTypographyStore, type TypographyTab } from "@/store/typography-store";
+
+// Secondary tabs are split out so the first tab paints fast.
+const PairingStudio = dynamic(() => import("@/components/typography/pairing-studio").then((m) => m.PairingStudio), {
+  loading: TabSkeleton,
+});
+const TypeScaleStudio = dynamic(
+  () => import("@/components/typography/type-scale-studio").then((m) => m.TypeScaleStudio),
+  { loading: TabSkeleton },
+);
+const TypographyExport = dynamic(
+  () => import("@/components/typography/typography-export").then((m) => m.TypographyExport),
+  { loading: TabSkeleton },
+);
+const FontInspector = dynamic(() => import("@/components/typography/font-inspector").then((m) => m.FontInspector), {
+  loading: () => null,
+});
 
 const tabs: { value: TypographyTab; label: string; icon: ReactNode }[] = [
   { value: "browse", label: "Browse", icon: <LayoutGrid /> },

@@ -1,7 +1,6 @@
-"use client";
+import type { CSSProperties, ReactNode } from "react";
 
-import { LazyMotion, domAnimation, m, useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 type FadeInProps = {
   children: ReactNode;
@@ -9,19 +8,15 @@ type FadeInProps = {
   className?: string;
 };
 
-/** 200ms rise-in. Respects reduced motion. */
+/**
+ * 200ms rise-in done in CSS so the landing page ships no animation runtime.
+ * `prefers-reduced-motion` is handled globally in globals.css.
+ */
 export function FadeIn({ children, delay = 0, className }: FadeInProps) {
-  const reduce = useReducedMotion();
+  const style: CSSProperties = { animationDelay: `${delay}s`, animationFillMode: "both" };
   return (
-    <LazyMotion features={domAnimation} strict>
-      <m.div
-        className={className}
-        initial={reduce ? false : { opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.2, delay, ease: [0.25, 1, 0.5, 1] }}
-      >
-        {children}
-      </m.div>
-    </LazyMotion>
+    <div className={cn("animate-rise", className)} style={style}>
+      {children}
+    </div>
   );
 }

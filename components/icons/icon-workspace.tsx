@@ -1,15 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { Braces, Globe, LayoutGrid } from "lucide-react";
 import { useState } from "react";
 
-import { FaviconGenerator } from "@/components/icons/favicon-generator";
-import { IconExport } from "@/components/icons/icon-export";
 import { IconControls } from "@/components/icons/icon-controls";
 import { IconLibrary } from "@/components/icons/icon-library";
 import { IconPreview } from "@/components/icons/icon-preview";
 import { Panel } from "@/components/ui/panel";
+import { TabSkeleton } from "@/components/ui/tab-skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+// Secondary tabs are split out so the first tab paints fast.
+const FaviconGenerator = dynamic(() => import("@/components/icons/favicon-generator").then((m) => m.FaviconGenerator), {
+  loading: TabSkeleton,
+});
+const IconExport = dynamic(() => import("@/components/icons/icon-export").then((m) => m.IconExport), {
+  loading: TabSkeleton,
+});
 
 type IconTab = "library" | "favicon" | "export";
 

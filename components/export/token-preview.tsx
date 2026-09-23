@@ -57,7 +57,10 @@ export const TokenPreview = forwardRef<HTMLDivElement, TokenPreviewProps>(functi
         aria-label="Gradient token"
       />
       <div className="flex flex-col" style={{ padding: space("8", 32), gap: space("4", 16) }}>
-        <p style={{ ...bodyStyle, fontSize: size("sm", "14px"), color: brand, fontWeight: 600 }}>{tokens.meta.name}</p>
+        <p className="flex items-center gap-2" style={{ ...bodyStyle, fontSize: size("sm", "14px"), fontWeight: 600 }}>
+          <span aria-hidden style={{ width: 8, height: 8, borderRadius: 999, background: brand }} />
+          {tokens.meta.name}
+        </p>
         <h3 style={{ ...headingStyle, fontSize: size("3xl", "40px") }}>Tokens, rendered.</h3>
         <p style={{ fontSize: size("base", "16px"), opacity: 0.75, maxWidth: "60ch" }}>
           Every value on this card comes from the tokens below: colors, fonts, the fluid scale, spacing and radii.
@@ -89,8 +92,8 @@ export const TokenPreview = forwardRef<HTMLDivElement, TokenPreviewProps>(functi
           {accent ? (
             <span
               style={{
-                background: `${toHex(accent)}26`,
-                color: toHex(accent),
+                background: toHex(accent),
+                color: toHex(readableTextColor(accent)),
                 borderRadius: radius("full", 999),
                 padding: `${space("1", 4)}px ${space("3", 12)}px`,
                 fontSize: size("xs", "12px"),

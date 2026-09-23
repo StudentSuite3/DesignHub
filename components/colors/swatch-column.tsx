@@ -1,5 +1,6 @@
 "use client";
 
+import { m } from "framer-motion";
 import { ChevronLeft, ChevronRight, Copy, Lock, Unlock, X } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -47,9 +48,14 @@ export function SwatchColumn({ swatch, name, index, total, selected }: SwatchCol
   const value = formatColor(swatch.color, format);
 
   return (
-    <li
+    <m.li
+      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
       className={cn(
-        "group relative flex min-h-28 flex-1 flex-col justify-end transition-[flex-grow] duration-200 md:min-h-0",
+        "group relative flex min-h-28 flex-1 flex-col justify-end md:min-h-0",
         selected && "md:flex-[1.35]",
       )}
       style={{ background: hex, color: text }}
@@ -90,10 +96,10 @@ export function SwatchColumn({ swatch, name, index, total, selected }: SwatchCol
           <span className="font-mono text-sm font-medium tracking-tight uppercase md:text-base">
             {hex.replace("#", "")}
           </span>
-          <span className="text-xs opacity-70">{name}</span>
-          {format !== "hex" ? <span className="mt-1 font-mono text-[11px] opacity-70">{value}</span> : null}
+          <span className="text-xs">{name}</span>
+          {format !== "hex" ? <span className="mt-1 font-mono text-[11px] opacity-90">{value}</span> : null}
         </div>
       </div>
-    </li>
+    </m.li>
   );
 }

@@ -1,4 +1,13 @@
-import Color from "colorjs.io";
+import {
+  OKLCH,
+  contrastWCAG21,
+  deltaEOK,
+  getColor,
+  inGamut as isInGamut,
+  to,
+  toGamut,
+  type ColorObject,
+} from "@/lib/color/engine";
 
 import type { ColorFormat, Oklch } from "@/types/color";
 
@@ -17,14 +26,16 @@ export function oklch(l: number, c: number, h: number, alpha = 1): Oklch {
   return { l: clamp(l, 0, 1), c: clamp(c, 0, 0.4), h: normalizeHue(h), alpha: clamp(alpha, 0, 1) };
 }
 
-function toColor(value: Oklch): Color {
-  return new Color("oklch", [value.l, value.c, value.h], value.alpha);
+function toColor(value: Oklch): ColorObject {
+  return { space: OKLCH, coords: [value.l, value.c, value.h], alpha: value.alpha };
 }
+
+const toSrgbGamut = (value: Oklch) => toGamut(toColor(value), { space: "srgb" });
 
 /** Parses any CSS color string (hex, rgb(), hsl(), oklch(), named colors…). */
 export function parseColor(input: string): Oklch | null {
   try {
-    const color = new Color(input.trim()).to("oklch");
+    const color = to(getColor(input.trim()), "oklch");
     const [l, c, h] = color.coords;
     return oklch(l ?? 0, c ?? 0, h ?? 0, color.alpha ?? 1);
   } catch {
@@ -38,7 +49,7 @@ export function fromHex(hex: string): Oklch {
 
 /** sRGB channels 0–255 after gamut mapping (CSS Color 4 algorithm). */
 export function toRgb(value: Oklch): { r: number; g: number; b: number; alpha: number } {
-  const srgb = toColor(value).toGamut({ space: "srgb" }).to("srgb");
+  const srgb = to(toSrgbGamut(value), "srgb");
   const [r, g, b] = srgb.coords;
   return {
     r: Math.round(clamp(r ?? 0, 0, 1) * 255),
@@ -61,7 +72,7 @@ export function toHex(value: Oklch): string {
 }
 
 export function toHsl(value: Oklch): { h: number; s: number; l: number } {
-  const hsl = toColor(value).toGamut({ space: "srgb" }).to("hsl");
+  const hsl = to(toSrgbGamut(value), "hsl");
   const [h, s, l] = hsl.coords;
   return { h: Math.round(normalizeHue(h)), s: Math.round(s ?? 0), l: Math.round(l ?? 0) };
 }
@@ -85,18 +96,18 @@ export function formatColor(value: Oklch, format: ColorFormat): string {
 }
 
 export function inGamut(value: Oklch, space: "srgb" | "p3" = "srgb"): boolean {
-  return toColor(value).inGamut(space);
+  return isInGamut(toColor(value), space);
 }
 
 /** WCAG 2.1 contrast ratio between two colors (1–21). */
 export function contrastRatio(a: Oklch, b: Oklch): number {
-  return Color.contrast(toColor(a).toGamut({ space: "srgb" }), toColor(b).toGamut({ space: "srgb" }), "WCAG21");
+  return contrastWCAG21(toSrgbGamut(a), toSrgbGamut(b));
 }
 
 /** Relative luminance-based pick between black and white text. */
 export function readableTextColor(background: Oklch): Oklch {
   const white = oklch(1, 0, 0);
-  const black = oklch(0.15, 0, 0);
+  const black = oklch(0, 0, 0);
   return contrastRatio(background, white) >= contrastRatio(background, black) ? white : black;
 }
 
@@ -106,5 +117,5 @@ export function isSameColor(a: Oklch, b: Oklch): boolean {
 
 /** Perceptual distance (ΔE OK). Values below ~0.02 are hard to tell apart. */
 export function colorDistance(a: Oklch, b: Oklch): number {
-  return toColor(a).deltaE(toColor(b), "OK");
+  return deltaEOK(toColor(a), toColor(b));
 }

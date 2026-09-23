@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, LazyMotion, MotionConfig, domAnimation } from "framer-motion";
 import { useMemo } from "react";
 
 import { SwatchColumn } from "@/components/colors/swatch-column";
@@ -17,16 +18,22 @@ export function PaletteStrip() {
       aria-label="Palette"
       className="flex min-h-[420px] flex-col overflow-hidden rounded-xl border md:h-[min(56vh,560px)] md:flex-row"
     >
-      {swatches.map((swatch, index) => (
-        <SwatchColumn
-          key={swatch.id}
-          swatch={swatch}
-          name={names[index] ?? "color"}
-          index={index}
-          total={swatches.length}
-          selected={swatch.id === activeId}
-        />
-      ))}
+      <LazyMotion features={domAnimation} strict>
+        <MotionConfig reducedMotion="user">
+          <AnimatePresence initial={false}>
+            {swatches.map((swatch, index) => (
+              <SwatchColumn
+                key={swatch.id}
+                swatch={swatch}
+                name={names[index] ?? "color"}
+                index={index}
+                total={swatches.length}
+                selected={swatch.id === activeId}
+              />
+            ))}
+          </AnimatePresence>
+        </MotionConfig>
+      </LazyMotion>
     </ul>
   );
 }

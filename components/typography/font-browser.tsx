@@ -29,23 +29,24 @@ export function FontBrowser({ fonts, loading }: FontBrowserProps) {
   const [visible, setVisible] = useState(PAGE_SIZE);
   const results = useMemo(() => filterFonts(fonts, filters, favorites), [fonts, filters, favorites]);
 
-  if (loading) {
-    return (
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4" aria-busy="true" aria-label="Loading fonts">
-        {Array.from({ length: 12 }, (_, index) => (
-          <div key={index} className="h-32 animate-pulse rounded-lg border bg-muted/40" />
-        ))}
-      </div>
-    );
-  }
-
   const shown = results.slice(0, visible);
 
   return (
     <div className="flex flex-col gap-4">
       <FontFilters resultCount={results.length} />
       <RecentFonts />
-      {results.length === 0 ? (
+      {loading ? (
+        <ul
+          className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4"
+          aria-busy="true"
+          aria-label="Loading fonts"
+        >
+          {Array.from({ length: 12 }, (_, index) => (
+            <li key={index} className="h-[142px] animate-pulse rounded-lg border bg-muted/40" />
+          ))}
+        </ul>
+      ) : null}
+      {!loading && results.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed py-16 text-center">
           <SearchX className="size-6 text-subtle-foreground" aria-hidden />
           <p className="text-sm text-muted-foreground">No fonts match these filters.</p>
