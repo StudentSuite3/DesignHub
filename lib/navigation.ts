@@ -1,6 +1,6 @@
-import { Braces, Palette, Shapes, Type, type LucideIcon } from "lucide-react";
+import { Braces, Palette, Shapes, Type, Wallpaper, type LucideIcon } from "lucide-react";
 
-export type StudioId = "typography" | "colors" | "icons" | "export";
+export type StudioId = "typography" | "colors" | "icons" | "backgrounds" | "export";
 
 export type StudioNavItem = {
   id: StudioId;
@@ -36,6 +36,14 @@ export const studios: readonly StudioNavItem[] = [
     description: "Search 200,000+ open source icons. Restyle and export to SVG, React, PNG or ICO.",
     icon: Shapes,
     shortcut: "i",
+  },
+  {
+    id: "backgrounds",
+    title: "Background Studio",
+    href: "/backgrounds",
+    description: "Procedural waves, blobs, mesh gradients, aurora, noise and patterns. Export SVG, PNG or CSS.",
+    icon: Wallpaper,
+    shortcut: "b",
   },
   {
     id: "export",

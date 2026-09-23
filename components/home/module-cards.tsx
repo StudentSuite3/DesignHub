@@ -2,13 +2,20 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { ColorPreview, ExportPreview, IconPreview, TypographyPreview } from "@/components/home/module-previews";
+import {
+  BackgroundPreview,
+  ColorPreview,
+  ExportPreview,
+  IconPreview,
+  TypographyPreview,
+} from "@/components/home/module-previews";
 import { studios, type StudioId } from "@/lib/navigation";
 
 const previews: Record<StudioId, ReactNode> = {
   typography: <TypographyPreview />,
   colors: <ColorPreview />,
   icons: <IconPreview />,
+  backgrounds: <BackgroundPreview />,
   export: <ExportPreview />,
 };
 
@@ -16,6 +23,7 @@ const highlights: Record<StudioId, string[]> = {
   typography: ["Google Fonts", "Pairing", "Fluid scale", "OpenType"],
   colors: ["OKLCH", "Harmonies", "Shades 50–950", "WCAG"],
   icons: ["Iconify", "Restyle", "SVG · React · PNG", "Favicons"],
+  backgrounds: ["8 generators", "Seeded", "SVG · PNG · CSS", "Palette aware"],
   export: ["CSS", "SCSS", "Tailwind", "JSON tokens"],
 };
 
@@ -23,7 +31,9 @@ export function ModuleCards() {
   return (
     <section aria-labelledby="modules-title" className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-16 md:py-24">
       <div className="flex flex-col gap-2">
-        <p className="text-xs font-medium uppercase tracking-[0.14em] text-subtle-foreground">Four studios</p>
+        <p className="text-xs font-medium uppercase tracking-[0.14em] text-subtle-foreground">
+          {studios.length} studios
+        </p>
         <h2 id="modules-title" className="text-3xl font-medium md:text-4xl">
           One workspace. Every design decision.
         </h2>

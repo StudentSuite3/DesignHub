@@ -70,3 +70,14 @@ export function ExportPreview() {
     </pre>
   );
 }
+
+export function BackgroundPreview() {
+  return (
+    <svg viewBox="0 0 400 144" className="h-full w-full rounded-md" preserveAspectRatio="none" aria-hidden>
+      <rect width="400" height="144" fill="#0e0e10" />
+      <path d="M0 80 C 80 40, 160 120, 240 70 S 360 50, 400 80 V144 H0Z" fill="#6366f1" opacity="0.8" />
+      <path d="M0 104 C 90 70, 170 140, 260 96 S 360 84, 400 104 V144 H0Z" fill="#f472b6" opacity="0.8" />
+      <path d="M0 124 C 100 100, 190 150, 280 118 S 370 110, 400 124 V144 H0Z" fill="#fbbf24" opacity="0.9" />
+    </svg>
+  );
+}

@@ -1,7 +1,7 @@
 export type ShortcutDefinition = {
   keys: string[];
   description: string;
-  scope: "Global" | "Colors" | "Typography" | "Icons";
+  scope: "Global" | "Colors" | "Typography" | "Icons" | "Backgrounds";
 };
 
 export const shortcuts: ShortcutDefinition[] = [
@@ -13,6 +13,7 @@ export const shortcuts: ShortcutDefinition[] = [
   { keys: ["G", "T"], description: "Go to Typography Studio", scope: "Global" },
   { keys: ["G", "C"], description: "Go to Color Studio", scope: "Global" },
   { keys: ["G", "I"], description: "Go to Icon Studio", scope: "Global" },
+  { keys: ["G", "B"], description: "Go to Background Studio", scope: "Global" },
   { keys: ["G", "E"], description: "Go to Export Engine", scope: "Global" },
   { keys: ["Space"], description: "Generate palette", scope: "Colors" },
   { keys: ["Z"], description: "Undo palette change", scope: "Colors" },
@@ -22,4 +23,5 @@ export const shortcuts: ShortcutDefinition[] = [
   { keys: ["R"], description: "Rotate icon 90° clockwise", scope: "Icons" },
   { keys: ["⇧", "R"], description: "Rotate icon 90° counter-clockwise", scope: "Icons" },
   { keys: ["Space"], description: "Random font pair (Pairing tab)", scope: "Typography" },
+  { keys: ["Space"], description: "New random seed", scope: "Backgrounds" },
 ];

@@ -9,16 +9,16 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-/** Rasterizes an SVG string into a square PNG. */
-export async function svgToPngBlob(svg: string, size: number): Promise<Blob> {
+/** Rasterizes an SVG string into a PNG (square unless `height` is given). */
+export async function svgToPngBlob(svg: string, size: number, height = size): Promise<Blob> {
   const image = await loadImage(svgToDataUrl(svg));
   const canvas = document.createElement("canvas");
   canvas.width = size;
-  canvas.height = size;
+  canvas.height = height;
   const context = canvas.getContext("2d");
   if (!context) throw new Error("Canvas is not available");
   context.imageSmoothingQuality = "high";
-  context.drawImage(image, 0, 0, size, size);
+  context.drawImage(image, 0, 0, size, height);
   return new Promise((resolve, reject) =>
     canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("PNG encoding failed"))), "image/png"),
   );

@@ -6,10 +6,11 @@ import { HeroSearch } from "@/components/home/hero-search";
 import { GithubIcon } from "@/components/layout/github-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { studios } from "@/lib/navigation";
 import { siteConfig } from "@/lib/site";
 
 const stats = [
-  { value: "4", label: "studios" },
+  { value: String(studios.length), label: "studios" },
   { value: "200k+", label: "open source icons" },
   { value: "0", label: "accounts required" },
   { value: "100%", label: "runs in your browser" },
