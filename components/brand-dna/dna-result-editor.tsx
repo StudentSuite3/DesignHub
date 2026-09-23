@@ -4,6 +4,7 @@ import { Plus, X } from "lucide-react";
 
 import { FontPicker } from "@/components/typography/font-picker";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { SliderField } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,6 +46,12 @@ export function DnaResultEditor({ dna, onChange }: Props) {
                 {color.hex}
                 <span className="ml-2 text-subtle-foreground">{Math.round(color.weight * 100)}%</span>
               </span>
+              <CopyButton
+                value={color.hex.toUpperCase()}
+                label={`Copy ${color.hex.toUpperCase()}`}
+                toastMessage={`Copied ${color.hex.toUpperCase()}`}
+                className="size-7 shrink-0"
+              />
               <Select
                 value={color.role}
                 onValueChange={(value) =>
