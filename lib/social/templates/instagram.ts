@@ -8,7 +8,7 @@ export const instagramSquare: SocialTemplate = {
   label: "Square post",
   width: 1080,
   height: 1080,
-  description: "Feed post, 1080 × 1080. The grid crops to a 4:5 center on some profiles.",
+  description: "Feed post, 1080 × 1080. The profile grid shows a 3:4 center crop.",
   safe: { x: 90, y: 90, width: 900, height: 900 },
   render(ctx) {
     const { surface, content } = ctx;

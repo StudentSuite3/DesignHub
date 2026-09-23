@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageDown, Loader2 } from "lucide-react";
+import { FileArchive, ImageDown, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -11,6 +11,8 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { downloadBlob } from "@/lib/download";
 import { rasterize } from "@/lib/export/raster";
 import { slugify } from "@/lib/logo/pack";
+import { buildSocialPack } from "@/lib/social/pack";
+import { socialTemplates } from "@/lib/social/registry";
 import { ogMetaTags } from "@/lib/social/templates/open-graph";
 import type { SocialContext, SocialTemplate } from "@/lib/social/types";
 import { useSocialStore } from "@/store/social-store";
@@ -22,19 +24,30 @@ export function SocialExportPanel({ svg, ctx, template }: Props) {
   const scale = useSocialStore((state) => state.scale);
   const setScale = useSocialStore((state) => state.setScale);
   const [busy, setBusy] = useState(false);
+  const [packProgress, setPackProgress] = useState<number | null>(null);
 
   const file = template ? `${slugify(name)}-${template.id}${scale > 1 ? `@${scale}x` : ""}.png` : "";
   const meta = template?.platform === "Open Graph" ? ogMetaTags(ctx, "og.png") : null;
+
+  async function downloadAll() {
+    setPackProgress(0);
+    try {
+      const zip = await buildSocialPack(ctx, (done, total) => setPackProgress(Math.round((done / total) * 100)));
+      downloadBlob(new Blob([zip.slice().buffer], { type: "application/zip" }), `${slugify(name)}-social.zip`);
+      toast.success("Social pack ready");
+    } catch {
+      toast.error("Export failed in this browser.");
+    } finally {
+      setPackProgress(null);
+    }
+  }
 
   async function download() {
     if (!template) return;
     setBusy(true);
     try {
       const image = await rasterize(svg, scale);
-      downloadBlob(
-        new Blob([image.bytes.slice().buffer], { type: "image/png" }),
-        file,
-      );
+      downloadBlob(new Blob([image.bytes.slice().buffer], { type: "image/png" }), file);
       toast.success("Download ready");
     } catch {
       toast.error("Export failed in this browser.");
@@ -79,6 +92,10 @@ export function SocialExportPanel({ svg, ctx, template }: Props) {
       </div>
       <Button onClick={download} disabled={!svg || busy}>
         {busy ? <Loader2 className="animate-spin" /> : <ImageDown />} Download PNG
+      </Button>
+      <Button variant="outline" onClick={downloadAll} disabled={packProgress !== null}>
+        {packProgress !== null ? <Loader2 className="animate-spin" /> : <FileArchive />}
+        {packProgress !== null ? `Rendering ${packProgress}%` : `All ${socialTemplates.length} assets (ZIP)`}
       </Button>
       {meta ? (
         <div className="flex flex-col gap-2">
