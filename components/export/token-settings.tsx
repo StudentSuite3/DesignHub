@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Panel } from "@/components/ui/panel";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useBrandStore } from "@/store/brand-store";
 import { useTokensStore } from "@/store/tokens-store";
 import type { ColorFormat } from "@/types/color";
 import type { TokenSections } from "@/types/tokens";
@@ -28,6 +29,8 @@ export function TokenSettingsPanel() {
   const update = useTokensStore((state) => state.update);
   const toggleSection = useTokensStore((state) => state.toggleSection);
   const reset = useTokensStore((state) => state.reset);
+  const brandName = useBrandStore((state) => state.profile.name);
+  const updateProfile = useBrandStore((state) => state.updateProfile);
 
   return (
     <Panel
@@ -39,8 +42,8 @@ export function TokenSettingsPanel() {
       }
     >
       <div className="flex flex-col gap-2">
-        <Label htmlFor="token-name">System name</Label>
-        <Input id="token-name" value={settings.name} onChange={(event) => update({ name: event.target.value })} />
+        <Label htmlFor="token-name">Brand name</Label>
+        <Input id="token-name" value={brandName} onChange={(event) => updateProfile({ name: event.target.value })} />
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="token-prefix">Variable prefix</Label>

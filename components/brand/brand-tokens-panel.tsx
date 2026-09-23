@@ -3,13 +3,25 @@
 import { useMemo } from "react";
 
 import { ExportPanel } from "@/components/export/export-panel";
+import { useBrandTokens } from "@/hooks/use-brand";
 import { useDesignTokens } from "@/hooks/use-design-tokens";
+import { brandJson } from "@/lib/brand/json";
 import { tokenFormats } from "@/lib/tokens/formats";
+import { useBrandStore } from "@/store/brand-store";
+import type { ExportFormat } from "@/types/export";
 
-/** The same tokens the Export Engine ships, live for the current brand. */
+/** The same tokens the Export Engine ships, plus the portable brand JSON, live for the current brand. */
 export function BrandTokensPanel() {
   const tokens = useDesignTokens();
-  const formats = useMemo(() => tokenFormats(tokens), [tokens]);
+  const brand = useBrandTokens();
+  const voice = useBrandStore((state) => state.profile.voice);
+  const formats = useMemo<ExportFormat[]>(
+    () => [
+      { id: "brand", label: "Brand JSON", filename: "brand.json", language: "json", code: brandJson(brand, voice) },
+      ...tokenFormats(tokens),
+    ],
+    [tokens, brand, voice],
+  );
 
   return (
     <>
