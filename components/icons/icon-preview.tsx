@@ -1,13 +1,16 @@
 "use client";
 
-import { Heart } from "lucide-react";
+import { Download, Heart } from "lucide-react";
 
 import { IconImage } from "@/components/icons/icon-image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
 import { useIcon } from "@/hooks/use-icon-data";
 import { useForegroundHex } from "@/hooks/use-theme-color";
+import { downloadText } from "@/lib/download";
 import { splitIconId } from "@/lib/icons/iconify";
+import { buildIconSvg } from "@/lib/icons/svg";
 import { cn } from "@/lib/utils";
 import { useIconStore } from "@/store/icon-store";
 
@@ -37,15 +40,34 @@ export function IconPreview() {
             {prefix}
           </Badge>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-pressed={favorite}
-          aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
-          onClick={() => toggleFavorite(selected)}
-        >
-          <Heart className={cn(favorite && "fill-current text-destructive")} />
-        </Button>
+        <div className="flex items-center">
+          {icon ? (
+            <>
+              <CopyButton
+                value={buildIconSvg(icon, style, { uniqueIds: true })}
+                label="Copy SVG"
+                toastMessage="SVG copied"
+              />
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Download SVG"
+                onClick={() => downloadText(buildIconSvg(icon, style, { uniqueIds: true }), `${name}.svg`)}
+              >
+                <Download />
+              </Button>
+            </>
+          ) : null}
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-pressed={favorite}
+            aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+            onClick={() => toggleFavorite(selected)}
+          >
+            <Heart className={cn(favorite && "fill-current text-destructive")} />
+          </Button>
+        </div>
       </div>
     </div>
   );

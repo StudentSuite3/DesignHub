@@ -4,6 +4,7 @@ import { Braces, Globe, LayoutGrid } from "lucide-react";
 import { useState } from "react";
 
 import { FaviconGenerator } from "@/components/icons/favicon-generator";
+import { IconExport } from "@/components/icons/icon-export";
 import { IconControls } from "@/components/icons/icon-controls";
 import { IconLibrary } from "@/components/icons/icon-library";
 import { IconPreview } from "@/components/icons/icon-preview";
@@ -36,7 +37,7 @@ export function IconWorkspace() {
           <FaviconGenerator />
         </TabsContent>
         <TabsContent value="export">
-          <p className="text-sm text-muted-foreground">Export</p>
+          <IconExport />
         </TabsContent>
       </Tabs>
       <aside className="flex flex-col gap-4 scrollbar-thin lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto lg:pb-4">

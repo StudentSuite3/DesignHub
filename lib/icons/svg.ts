@@ -61,9 +61,16 @@ export function buildIconSvg(icon: IconData, style: IconStyle, options: { unique
   const scale = inner / Math.max(width, height);
   const offsetX = (canvas - width * scale) / 2 - minX * scale;
   const offsetY = (canvas - height * scale) / 2 - minY * scale;
-  const rotate = style.rotate ? ` rotate(${style.rotate} ${canvas / 2} ${canvas / 2})` : "";
+  const round = (value: number) => Math.round(value * 1000) / 1000;
+  const transform = [
+    style.rotate ? `rotate(${style.rotate} ${canvas / 2} ${canvas / 2})` : "",
+    `translate(${round(offsetX)} ${round(offsetY)})`,
+    `scale(${round(scale)})`,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-  let body = `${backgroundShape(style, canvas)}<g transform="${rotate.trim()} translate(${offsetX} ${offsetY}) scale(${scale})">${rendered.body}</g>`;
+  let body = `${backgroundShape(style, canvas)}<g transform="${transform}">${rendered.body}</g>`;
   if (options.uniqueIds) body = replaceIDs(body);
 
   return iconToHTML(body, {
