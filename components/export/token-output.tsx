@@ -48,7 +48,14 @@ export function TokenOutput({
     setBusy(action);
     try {
       if (action === "zip") {
-        const zip = createZip(formats.map((format) => ({ name: format.filename, data: format.code })));
+        // React and Vue both export theme.ts; files that share a name go in a folder per format.
+        const shared = (filename: string) => formats.filter((item) => item.filename === filename).length > 1;
+        const zip = createZip(
+          formats.map((format) => ({
+            name: shared(format.filename) ? `${format.id}/${format.filename}` : format.filename,
+            data: format.code,
+          })),
+        );
         downloadBlob(new Blob([zip.slice().buffer], { type: "application/zip" }), `${name}-tokens.zip`);
       }
       if (action === "png" && previewRef.current) {

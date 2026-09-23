@@ -1,6 +1,7 @@
 import { imagesToPdf, type PdfPage } from "@/lib/export/pdf";
 import { rasterize } from "@/lib/export/raster";
-import type { GuidelineContext, GuidelinePage } from "@/lib/guidelines/types";
+import { guidelinePages } from "@/lib/guidelines/registry";
+import type { GuidelineBase, GuidelineContext, GuidelinePage } from "@/lib/guidelines/types";
 
 /** Page size in points: 16:10 landscape, a little larger than A4 so small type stays crisp. */
 const PAGE_PT = { width: 960, height: 600 };
@@ -28,4 +29,18 @@ export async function buildBrandBook(
   });
   onProgress?.(pages.length + 1, pages.length + 1);
   return pdf;
+}
+
+/** The book from outside Brand Guidelines (Export Engine), honoring the pages switched off there. */
+export function buildBrandBookFrom(
+  base: GuidelineBase,
+  excluded: string[],
+  onProgress?: (done: number, total: number) => void,
+): Promise<Uint8Array> {
+  const pages = guidelinePages.filter((page) => !excluded.includes(page.id));
+  const ctx: GuidelineContext = {
+    ...base,
+    contents: pages.map((page, i) => ({ id: page.id, title: page.title, number: i + 1 })),
+  };
+  return buildBrandBook(ctx, pages, onProgress);
 }

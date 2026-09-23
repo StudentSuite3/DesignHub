@@ -16,6 +16,8 @@ export type GuidelineContext = DrawContext & {
   contents: { id: string; title: string; number: number }[];
 };
 
+export type GuidelineBase = Omit<GuidelineContext, "contents">;
+
 export type GuidelinePage = {
   id: string;
   title: string;

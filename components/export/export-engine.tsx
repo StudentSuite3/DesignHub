@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useRef } from "react";
 
 import { AssetExports } from "@/components/export/asset-exports";
@@ -8,6 +9,12 @@ import { TokenPreview } from "@/components/export/token-preview";
 import { TokenSettingsPanel } from "@/components/export/token-settings";
 import { TokenSources } from "@/components/export/token-sources";
 import { useDesignTokens } from "@/hooks/use-design-tokens";
+
+// Brand assets embed fonts and render logos; load them after the token tools are interactive.
+const BrandAssetExports = dynamic(
+  () => import("@/components/export/brand-asset-exports").then((m) => m.BrandAssetExports),
+  { ssr: false, loading: () => <div className="h-64 animate-pulse rounded-lg border bg-surface-raised" /> },
+);
 
 export function ExportEngine() {
   const tokens = useDesignTokens();
@@ -24,6 +31,7 @@ export function ExportEngine() {
         <TokenSettingsPanel />
       </div>
       <TokenOutput tokens={tokens} previewRef={previewRef} />
+      <BrandAssetExports />
       <AssetExports />
     </div>
   );
