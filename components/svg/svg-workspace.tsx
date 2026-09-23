@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import { SvgPreviewCanvas } from "@/components/canvas/svg-preview-canvas";
 import { StudioLayout } from "@/components/layout/studio-layout";
+import { OptimizePanel } from "@/components/svg/optimize-panel";
 import { SvgDocumentPanel } from "@/components/svg/svg-document-panel";
 import { SvgDropzone } from "@/components/svg/svg-dropzone";
 import { SvgOutput } from "@/components/svg/svg-output";
@@ -25,6 +26,7 @@ export function SvgWorkspace() {
         <>
           <SvgDocumentPanel />
           {root ? <ViewBoxEditor root={root} /> : null}
+          {root ? <OptimizePanel /> : null}
         </>
       }
       preview={

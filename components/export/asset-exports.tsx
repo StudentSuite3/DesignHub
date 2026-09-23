@@ -13,7 +13,10 @@ import { downloadText } from "@/lib/download";
 import { effectsBundle } from "@/lib/effects/bundle";
 import { svgToDataUrl } from "@/lib/icons/svg";
 import { useBackgroundStore } from "@/store/background-store";
+import { useOptimizedSvg } from "@/hooks/use-optimized-svg";
+import { formatBytes } from "@/lib/svg-size";
 import { useEffectsStore } from "@/store/effects-store";
+import { useSvgStore } from "@/store/svg-store";
 
 /** Files from the other studios that don't fit the token model: backgrounds, effects… */
 export function AssetExports() {
@@ -23,6 +26,8 @@ export function AssetExports() {
   const backgroundSvg = useMemo(() => renderBackgroundSvg(background), [background]);
   const backgroundStyles = useMemo(() => backgroundCss(background), [background]);
   const effectsCss = useMemo(() => effectsBundle(effects), [effects]);
+  const svgName = useSvgStore((state) => state.name);
+  const optimized = useOptimizedSvg();
 
   return (
     <section aria-labelledby="assets-title" className="flex flex-col gap-4">
@@ -75,6 +80,33 @@ export function AssetExports() {
             </>
           }
         />
+        {optimized ? (
+          <AssetCard
+            title="Optimized SVG"
+            description={`${svgName} · ${formatBytes(optimized.before)} → ${formatBytes(optimized.after)} (−${Math.round(optimized.saved * 100)}%)`}
+            preview={
+              // eslint-disable-next-line @next/next/no-img-element -- optimized SVG data URL (scripts already stripped)
+              <img src={svgToDataUrl(optimized.svg)} alt="" className="bg-checker size-full object-contain p-2" />
+            }
+            actions={
+              <>
+                <CopyButton value={optimized.svg} variant="outline" size="sm" toastMessage="SVG copied">
+                  SVG
+                </CopyButton>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => downloadText(optimized.svg, svgName.replace(/\.svg$/i, ".min.svg"))}
+                >
+                  <Download /> .svg
+                </Button>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/svg">Edit</Link>
+                </Button>
+              </>
+            }
+          />
+        ) : null}
       </ul>
     </section>
   );
