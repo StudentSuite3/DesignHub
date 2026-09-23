@@ -1,6 +1,7 @@
 import {
   Accessibility,
   BadgeCheck,
+  BookOpen,
   Hexagon,
   Megaphone,
   Presentation,
@@ -19,6 +20,7 @@ export const studioIds = [
   "logo",
   "mockups",
   "social",
+  "guidelines",
   "typography",
   "colors",
   "icons",
@@ -81,6 +83,15 @@ export const studios: readonly StudioNavItem[] = [
     description: "Banners, covers, OG images and thumbnails for every platform, generated from your brand.",
     icon: Megaphone,
     shortcut: "o",
+    group: "Brand",
+  },
+  {
+    id: "guidelines",
+    title: "Brand Guidelines",
+    href: "/guidelines",
+    description: "A complete brand book, from logo usage to design tokens, generated from your brand and exported as PDF.",
+    icon: BookOpen,
+    shortcut: "u",
     group: "Brand",
   },
   {
