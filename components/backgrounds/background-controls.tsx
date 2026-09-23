@@ -51,7 +51,7 @@ export function BackgroundControls() {
               min={1}
               value={settings.seed}
               onChange={(event) => update({ seed: Math.max(1, Number(event.target.value) || 1) })}
-              className="min-w-24 flex-1 font-mono tabular-nums"
+              className="min-w-20 flex-1 font-mono tabular-nums"
             />
             <Button variant="outline" onClick={randomize} className="shrink-0" title="Randomize · Space">
               <Dices /> Randomize
