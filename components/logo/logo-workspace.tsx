@@ -3,9 +3,9 @@
 import { useMemo } from "react";
 
 import { SvgPreviewCanvas } from "@/components/canvas/svg-preview-canvas";
-import { CodeBlock } from "@/components/export/code-block";
 import { StudioLayout } from "@/components/layout/studio-layout";
 import { LogoDocumentPanel } from "@/components/logo/logo-document-panel";
+import { LogoExportPanel } from "@/components/logo/logo-export-panel";
 import { LogoEditorPanel } from "@/components/logo/logo-editor-panel";
 import { LogoGuidesPanel } from "@/components/logo/logo-guides-panel";
 import { LogoVariants } from "@/components/logo/logo-variants";
@@ -57,7 +57,7 @@ export function LogoWorkspace() {
           </TabsContent>
         </Tabs>
       }
-      output={<CodeBlock code={brand.logo.svg} filename="logo.svg" />}
+      output={<LogoExportPanel />}
     />
   );
 }
