@@ -79,6 +79,8 @@ export type EffectCss = {
   extra?: (selector: string) => string;
   /** Some effects (animated borders, grain overlays) can't be expressed as Tailwind utilities alone. */
   tailwindNote?: string;
+  /** The page color this effect is designed to sit on (e.g. neumorphism needs a matching surface). */
+  surface?: string;
 };
 
 export type EffectBackdrop = "gradient" | "photo" | "light" | "dark";

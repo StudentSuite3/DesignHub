@@ -2,9 +2,15 @@
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { EffectBackdrop } from "@/components/effects/effect-backdrop";
+import { parseColor } from "@/lib/color/color";
 import { effectStylesheet } from "@/lib/effects/css";
 import { useEffectsStore } from "@/store/effects-store";
 import type { EffectBackdrop as Backdrop, EffectCss } from "@/types/effects";
+
+function isDark(hex: string): boolean {
+  const color = parseColor(hex);
+  return color ? color.l < 0.6 : true;
+}
 
 export const PREVIEW_SELECTOR = ".dh-effect-preview";
 
@@ -18,7 +24,8 @@ const backdrops: { value: Backdrop; label: string }[] = [
 export function EffectPreview({ effect }: { effect: EffectCss | null }) {
   const backdrop = useEffectsStore((state) => state.backdrop);
   const setBackdrop = useEffectsStore((state) => state.setBackdrop);
-  const dark = backdrop !== "light";
+  const surface = effect?.surface;
+  const dark = surface ? isDark(surface) : backdrop !== "light";
 
   return (
     <>
@@ -29,6 +36,7 @@ export function EffectPreview({ effect }: { effect: EffectCss | null }) {
           value={backdrop}
           onValueChange={(value) => value && setBackdrop(value as Backdrop)}
           aria-label="Preview backdrop"
+          disabled={Boolean(surface)}
         >
           {backdrops.map((item) => (
             <ToggleGroupItem key={item.value} value={item.value}>
@@ -39,7 +47,7 @@ export function EffectPreview({ effect }: { effect: EffectCss | null }) {
       </div>
       {/* The stylesheet is generated from numeric controls and color pickers, never from free text. */}
       {effect ? <style>{effectStylesheet(effect, PREVIEW_SELECTOR)}</style> : null}
-      <EffectBackdrop backdrop={backdrop}>
+      <EffectBackdrop backdrop={backdrop} surface={surface}>
         <article
           className={`dh-effect-preview flex w-full max-w-sm flex-col gap-3 p-8 ${dark ? "text-white" : "text-slate-800"}`}
         >

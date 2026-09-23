@@ -15,15 +15,24 @@ const backdrops: Record<Backdrop, { className: string; style?: React.CSSProperti
 };
 
 /** The surface effects are previewed on. Busy backdrops make blur and glass legible. */
-export function EffectBackdrop({ backdrop, children }: { backdrop: Backdrop; children: ReactNode }) {
+export function EffectBackdrop({
+  backdrop,
+  surface,
+  children,
+}: {
+  backdrop: Backdrop;
+  /** Overrides the backdrop with a flat color (for effects that need a matching surface). */
+  surface?: string;
+  children: ReactNode;
+}) {
   const config = backdrops[backdrop];
   return (
     <div
       className={cn(
         "relative flex min-h-[420px] flex-1 items-center justify-center overflow-hidden rounded-lg border p-10",
-        config.className,
+        !surface && config.className,
       )}
-      style={config.style}
+      style={surface ? { background: surface } : config.style}
     >
       {children}
     </div>

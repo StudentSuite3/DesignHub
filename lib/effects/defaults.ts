@@ -10,7 +10,7 @@ export const effectDefaults: EffectSettingsMap = {
     shadowOpacity: 0.25,
     radius: 20,
   },
-  neumorphism: { color: "#e0e5ec", depth: 12, blur: 24, intensity: 0.18, lightAngle: 135, radius: 24, shape: "flat" },
+  neumorphism: { color: "#e0e5ec", depth: 12, blur: 24, intensity: 0.18, lightAngle: 315, radius: 24, shape: "flat" },
   shadow: {
     radius: 16,
     layers: [
