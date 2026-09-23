@@ -5,6 +5,7 @@ import { BookOpen, Home, Keyboard, Moon, Sun } from "lucide-react";
 import { useRef, type ReactNode } from "react";
 
 import { FontCommands } from "@/components/layout/font-commands";
+import { IconCommands } from "@/components/layout/icon-commands";
 import { GithubIcon } from "@/components/layout/github-icon";
 import { useThemeToggle } from "@/components/layout/theme-toggle";
 import {
@@ -69,6 +70,7 @@ export function CommandPalette({ children }: { children?: ReactNode }) {
             <CommandEmpty>No results for “{query}”.</CommandEmpty>
             {children}
             {open ? <FontCommands query={query} onDone={() => setOpen(false)} /> : null}
+            {open ? <IconCommands query={query} onDone={() => setOpen(false)} /> : null}
             <CommandGroup heading="Studios">
               <CommandItem value="home start" onSelect={() => run(() => router.push("/"))}>
                 <Home />

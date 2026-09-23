@@ -80,7 +80,8 @@ export async function fetchIcons(ids: IconId[], signal?: AbortSignal): Promise<M
     byPrefix.set(prefix, [...(byPrefix.get(prefix) ?? []), name]);
   });
 
-  await Promise.all(
+  // One collection failing (or being slow to 404) must not blank the whole grid.
+  const settled = await Promise.allSettled(
     [...byPrefix].map(async ([prefix, names]) => {
       const json = await getJson<IconifyJSON>(`${API}/${prefix}.json?icons=${names.join(",")}`, signal);
       const records = names.flatMap((name) => {
@@ -101,6 +102,10 @@ export async function fetchIcons(ids: IconId[], signal?: AbortSignal): Promise<M
       if (db && records.length) await db.icons.bulkPut(records).catch(() => undefined);
     }),
   );
+  if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+  if (settled.length && settled.every((outcome) => outcome.status === "rejected") && result.size === 0) {
+    throw new Error("Iconify is unreachable");
+  }
 
   return result;
 }

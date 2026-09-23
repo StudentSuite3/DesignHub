@@ -18,5 +18,6 @@ export const shortcuts: ShortcutDefinition[] = [
   { keys: ["Z"], description: "Undo palette change", scope: "Colors" },
   { keys: ["⇧", "Z"], description: "Redo palette change", scope: "Colors" },
   { keys: ["F"], description: "Focus font search", scope: "Typography" },
+  { keys: ["F"], description: "Focus icon search", scope: "Icons" },
   { keys: ["Space"], description: "Random font pair (Pairing tab)", scope: "Typography" },
 ];

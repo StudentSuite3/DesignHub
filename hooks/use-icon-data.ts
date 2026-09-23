@@ -5,33 +5,28 @@ import { useEffect, useState } from "react";
 import { fetchIcons } from "@/lib/icons/iconify";
 import type { IconData, IconId } from "@/types/icons";
 
+type LoadState = { key: string; icons: Map<IconId, IconData>; error: boolean };
+
 /** Batched, cached icon bodies for a list of ids. */
 export function useIconData(ids: IconId[]) {
-  const [icons, setIcons] = useState<Map<IconId, IconData>>(new Map());
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const key = ids.join(",");
+  const [state, setState] = useState<LoadState>({ key: "", icons: new Map(), error: false });
 
   useEffect(() => {
-    if (!key) {
-      setIcons(new Map());
-      return;
-    }
+    if (!key) return;
     const controller = new AbortController();
-    setLoading(true);
-    setError(false);
     fetchIcons(key.split(",") as IconId[], controller.signal)
-      .then((result) => setIcons(result))
+      .then((icons) => setState({ key, icons, error: false }))
       .catch((reason: unknown) => {
-        if (!(reason instanceof DOMException && reason.name === "AbortError")) setError(true);
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setLoading(false);
+        if (reason instanceof DOMException && reason.name === "AbortError") return;
+        setState((current) => ({ ...current, key, error: true }));
       });
     return () => controller.abort();
   }, [key]);
 
-  return { icons, loading, error };
+  // Derived rather than stored, so a new id list is "loading" on the very first render.
+  const loading = Boolean(key) && state.key !== key;
+  return { icons: state.icons, loading, error: !loading && state.error };
 }
 
 export function useIcon(id: IconId): IconData | undefined {
