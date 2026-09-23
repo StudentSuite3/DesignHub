@@ -3,10 +3,11 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { fromHex } from "@/lib/color/color";
 import { randomPalette } from "@/lib/color/generate";
+import { defaultGradient } from "@/lib/color/gradient";
 import { defaultShadeOptions, type ShadeOptions } from "@/lib/color/shades";
 import { indexedDbStorage } from "@/lib/db";
 import { createId } from "@/lib/id";
-import type { ColorFormat, HarmonyMode, Oklch, Swatch } from "@/types/color";
+import type { ColorFormat, Gradient, HarmonyMode, Oklch, Swatch } from "@/types/color";
 
 export const MIN_SWATCHES = 2;
 export const MAX_SWATCHES = 10;
@@ -28,6 +29,9 @@ type ColorState = {
   setHarmony: (harmony: HarmonyMode) => void;
   shadeOptions: ShadeOptions;
   setShadeOptions: (patch: Partial<ShadeOptions>) => void;
+  gradient: Gradient;
+  setGradient: (gradient: Gradient) => void;
+  updateGradient: (patch: Partial<Gradient>) => void;
   setTab: (tab: ColorTab) => void;
   setFormat: (format: ColorFormat) => void;
   select: (id: string) => void;
@@ -58,6 +62,9 @@ export const useColorStore = create<ColorState>()(
       setHarmony: (harmony) => set({ harmony }),
       shadeOptions: defaultShadeOptions,
       setShadeOptions: (patch) => set((state) => ({ shadeOptions: { ...state.shadeOptions, ...patch } })),
+      gradient: defaultGradient,
+      setGradient: (gradient) => set({ gradient }),
+      updateGradient: (patch) => set((state) => ({ gradient: { ...state.gradient, ...patch } })),
       setTab: (tab) => set({ tab }),
       setFormat: (format) => set({ format }),
       select: (id) => set({ selectedId: id }),
@@ -125,12 +132,13 @@ export const useColorStore = create<ColorState>()(
       name: "designhub:colors",
       version: 1,
       storage: createJSONStorage(() => indexedDbStorage),
-      partialize: ({ swatches, selectedId, format, harmony, shadeOptions }) => ({
+      partialize: ({ swatches, selectedId, format, harmony, shadeOptions, gradient }) => ({
         swatches,
         selectedId,
         format,
         harmony,
         shadeOptions,
+        gradient,
       }),
     },
   ),

@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { HarmonyPanel } from "@/components/colors/harmony-panel";
 import { OklchEditor } from "@/components/colors/oklch-editor";
 import { ShadesStudio } from "@/components/colors/shades-studio";
+import { GradientStudio } from "@/components/colors/gradient-studio";
 import { FormatSwitcher } from "@/components/colors/format-switcher";
 import { PaletteStrip } from "@/components/colors/palette-strip";
 import { PaletteToolbar } from "@/components/colors/palette-toolbar";
@@ -57,7 +58,7 @@ export function ColorWorkspace() {
         <ShadesStudio />
       </TabsContent>
       <TabsContent value="gradient">
-        <p className="text-sm text-muted-foreground">Gradient</p>
+        <GradientStudio />
       </TabsContent>
       <TabsContent value="contrast">
         <p className="text-sm text-muted-foreground">Contrast</p>
