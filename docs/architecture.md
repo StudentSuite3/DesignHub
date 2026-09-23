@@ -10,12 +10,18 @@ app/
 ├── (studio)/typography       → /typography  Typography Studio
 ├── (studio)/colors           → /colors      Color Studio
 ├── (studio)/icons            → /icons       Icon Studio
+├── (studio)/backgrounds      → /backgrounds Background Studio
+├── (studio)/effects          → /effects     Effects Lab
+├── (studio)/svg              → /svg         SVG Playground
+├── (studio)/accessibility    → /accessibility Accessibility Lab
 ├── (studio)/export           → /export      Export Engine
 ├── manifest.ts, robots.ts, sitemap.ts, icon.svg, not-found.tsx
 └── layout.tsx                Root layout: fonts, metadata, providers
 ```
 
 Route groups share layouts: `(marketing)` gets the header nav and footer; `(studio)` gets the persistent sidebar. Each studio page is a Server Component that renders a header and one client "workspace" component.
+
+The four studios added last (backgrounds, effects, SVG, accessibility) share `components/layout/studio-layout.tsx`: a resizable three-pane layout (controls · preview · code) built on react-resizable-panels, stacking on small screens. Vector previews use `components/canvas/svg-preview-canvas.tsx`.
 
 ## State
 
@@ -41,6 +47,10 @@ UI components stay thin, and the real work is plain TypeScript functions that ar
 - `lib/color/` — the OKLCH color model (`Oklch` type), conversions and formatting (`color.ts`, `engine.ts`), harmonies, shades, gradients, WCAG contrast and color-vision simulation.
 - `lib/typography/` — the font catalog, Google Fonts URL building, filtering, pairing, type scales and `clamp()`, OpenType definitions and exports.
 - `lib/icons/` — the Iconify client (memory → IndexedDB → network), the SVG builder, rasterization, ICO encoding and the favicon package.
+- `lib/background/` — seeded PRNG, smoothing, patterns, the eight generators and background CSS export. Paper.js is loaded on demand (`lib/background/paper.ts`).
+- `lib/effects/` — effect definitions and the CSS, Tailwind, `@utility`, SCSS and React writers, plus effect tokens.
+- `lib/svg/` — svgson parsing, a serializer (minify / pretty print), the optimizer and path optimizer, the inspector, JSX / React / React Native converters and the sprite builder.
+- `lib/a11y/` — contrast pairs, vision re-measurement, readability metrics, touch-target rules and the JSON report.
 - `lib/tokens/` — the shared `DesignTokens` model (`build.ts`), the format generators (`formats.ts`) and the PDF style guide (`pdf.ts`).
 - `lib/zip.ts` — a dependency-free ZIP (store) writer used by every "download all" button.
 

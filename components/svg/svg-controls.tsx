@@ -14,14 +14,18 @@ export function SvgControls({ root }: { root: SvgNode | null }) {
   return (
     <Tabs defaultValue="document" className="gap-4">
       <TabsList aria-label="SVG tools" className="w-full">
-        <TabsTrigger value="document">Document</TabsTrigger>
-        <TabsTrigger value="layers" disabled={!root}>
+        <TabsTrigger value="document" className="px-1.5 text-xs">
+          Document
+        </TabsTrigger>
+        <TabsTrigger value="layers" className="px-1.5 text-xs" disabled={!root}>
           Layers
         </TabsTrigger>
-        <TabsTrigger value="optimize" disabled={!root}>
+        <TabsTrigger value="optimize" className="px-1.5 text-xs" disabled={!root}>
           Optimize
         </TabsTrigger>
-        <TabsTrigger value="sprite">Sprite</TabsTrigger>
+        <TabsTrigger value="sprite" className="px-1.5 text-xs">
+          Sprite
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="document" className="flex flex-col gap-4">
         <SvgDocumentPanel />

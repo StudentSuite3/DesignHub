@@ -6,10 +6,10 @@ Even so, we take security seriously. Relevant issues include cross-site scriptin
 
 ## Supported versions
 
-| Version            | Supported         |
-| ------------------ | ----------------- |
-| 1.x (latest minor) | ✅ Security fixes |
-| < 1.0              | ❌ Not supported  |
+| Version                           | Supported         |
+| --------------------------------- | ----------------- |
+| 1.0.x (latest, all eight studios) | ✅ Security fixes |
+| < 1.0                             | ❌ Not supported  |
 
 Only the latest release on the `main` branch receives security updates. Please upgrade before reporting.
 

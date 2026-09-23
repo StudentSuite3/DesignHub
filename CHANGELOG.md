@@ -9,11 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Nothing yet. Planned V2 work is tracked in [ROADMAP.md](ROADMAP.md).
+- Nothing yet. Planned V3 work is tracked in [ROADMAP.md](ROADMAP.md).
 
 ## [1.0.0] - 2026-09-23
 
-The first public release. Four studios, one local-first workspace.
+The first public release. Eight studios, one local-first workspace.
 
 ### Added
 
@@ -24,10 +24,12 @@ The first public release. Four studios, one local-first workspace.
 - Responsive app shell with a studio sidebar, a header nav and a mobile navigation sheet.
 - Dark and light themes that follow the system preference, toggled with `⌥T`.
 - Command palette (`⌘K` or `/`) that searches studios, actions, Google Fonts and Iconify.
-- Keyboard navigation (`G` then `H`/`T`/`C`/`I`/`E`) and a shortcuts dialog (`?`).
+- Keyboard navigation (`G` then `H`/`T`/`C`/`I`/`B`/`F`/`S`/`A`/`E`) and a shortcuts dialog (`?`).
 - Toast notifications for copy, save and download actions.
 - Local-first persistence: every studio saves to IndexedDB through a Dexie-backed Zustand storage adapter.
-- Homepage with a hero, search bar, four module cards, principles section, GitHub call to action and footer.
+- Homepage with a hero, search bar, a card for every studio, principles section, GitHub call to action and footer.
+- Resizable three-pane studio layout (controls · live preview · code and exports) with keyboard-operable dividers, stacking on small screens.
+- Reusable SVG preview canvas with zoom, fit, 100%, backdrops, size and byte readouts.
 
 #### Typography Studio
 
@@ -62,12 +64,43 @@ The first public release. Four studios, one local-first workspace.
 - Favicon generator producing `favicon.ico`, `icon.svg`, Apple touch and PWA icons, `site.webmanifest` and HTML, bundled as a ZIP.
 - Exports: SVG, React TSX component, CSS data URI, PNG (16–1024px) and ICO.
 
+#### Background Studio
+
+- Procedural generators for waves, organic blobs (Paper.js smoothing), mesh gradients, aurora, noise textures, dot patterns, grid patterns and isometric patterns.
+- Deterministic seeds with randomize (`Space`), color controls with a "use palette" shortcut, density, scale, rotation and canvas presets.
+- Exports: SVG, PNG (1× and 2×) and CSS backgrounds (native gradients where possible, inline SVG otherwise).
+
+#### Effects Lab
+
+- Glassmorphism, neumorphism, layered shadow (with smooth presets), glow, gradient and animated borders, and grain overlay generators.
+- Live preview on gradient, photo, light and dark backdrops.
+- Exports: CSS, Tailwind arbitrary-property classes, Tailwind v4 `@utility`, SCSS mixins and React style objects, plus an `effects.css` bundle.
+
+#### SVG Playground
+
+- Upload, drag and drop, paste or edit SVG source, with a script-safe preview.
+- viewBox editor, element tree, path and group inspector (svg-path-parser) and fill/stroke editing per element or for every shape.
+- Optimization engine built on svgson: metadata and editor-data removal, id cleanup, group collapsing, precision control, shortest path data, color shortening and always-on sanitizing; minify and pretty print.
+- Converters: SVG → JSX, SVG → React component and SVG → React Native (react-native-svg).
+- Sprite generator with namespaced symbol ids and usage snippets.
+
+#### Accessibility Lab
+
+- WCAG contrast checks for body text, links, button labels and non-text UI, with AA/AAA verdicts and one-click fixes.
+- Vision simulation (protanopia, deuteranopia, tritanopia, grayscale, low vision) with perceived-contrast measurements.
+- Readability analysis: font size, line height, characters per line measured in the real font, Flesch reading score.
+- Dyslexia preview with spacing controls, a friendly preset and a reading simulation.
+- Touch-target validation for WCAG 2.5.5 (44px) and 2.5.8 (24px + spacing).
+- Downloadable JSON accessibility report.
+
 #### Export Engine
 
 - Shared design-token model assembled live from all studios, with semantic color roles.
 - Configurable name, variable prefix, color notation, spacing base, radius base and included sections.
 - Generators for CSS variables, SCSS, Tailwind v4 `@theme`, Tailwind v3 config, React theme and W3C DTCG JSON.
 - Live preview UI kit, one-click copy, Download JSON, all formats as a ZIP, preview PNG (html-to-image) and a PDF style guide (pdf-lib).
+- Effect tokens (`--shadow-card`, `--shadow-glow`, `--blur-glass`) in every format.
+- Assets section with background CSS and SVG, the effects bundle, the optimized SVG and the accessibility JSON report.
 
 ### Performance
 
@@ -79,6 +112,9 @@ The first public release. Four studios, one local-first workspace.
 - Removed layout shifts in the Icon and Typography studios; the landing page animates with CSS only.
 - Accessible names on every slider thumb and combobox, and token contrast raised to at least 4.5:1.
 - Static metadata routes (sitemap, robots, web manifest) and baseline security headers.
+- Every studio is its own route chunk; Paper.js loads only for Paper-based generators and stays out of the server bundle.
+- The four new studios score 97–100 performance and 100 accessibility, best practices and SEO (Lighthouse, DevTools throttling and desktop).
+- The SVG preview canvas waits for layout before painting, removing its layout shift.
 
 ### Documentation
 
@@ -86,6 +122,7 @@ The first public release. Four studios, one local-first workspace.
 - CONTRIBUTING, SECURITY, CODE_OF_CONDUCT (Contributor Covenant 2.1), ROADMAP and this changelog.
 - Architecture and design-token notes in `docs/`.
 - Issue templates, a pull request template and a CI workflow.
+- README, ROADMAP and CONTRIBUTING updated for the Background Studio, Effects Lab, SVG Playground and Accessibility Lab.
 
-[Unreleased]: https://github.com/yashkewlani/designhub/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/yashkewlani/designhub/releases/tag/v1.0.0
+[Unreleased]: https://github.com/yakew7/DesignHub/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/yakew7/DesignHub/releases/tag/v1.0.0

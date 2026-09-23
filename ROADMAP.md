@@ -39,33 +39,37 @@ Have an idea, or want to help build something here? Open an issue or discussion 
 
 ---
 
-## V2 — Surfaces & quality 🚧 _(planned)_
+## V2 — Surfaces, effects, SVG & accessibility ✅ _(released in 1.0.0)_
 
 ### Background Studio
 
-- Mesh gradients, noise, grain and patterns
-- Exports as CSS, SVG and PNG, sized for social and device wallpapers
+- Waves, blobs, mesh gradients, aurora, noise textures, dot, grid and isometric patterns
+- Seeds, randomize, color, density, scale and rotation controls
+- SVG, PNG and CSS exports
 
 ### Effects Lab
 
-- Shadows, glows, borders and blend modes, with elevation scales exported as tokens
-- Motion presets (easing curves, durations) as tokens
-
-### Accessibility
-
-- APCA contrast alongside WCAG 2.x
-- Focus-ring and target-size auditing for exported themes
-- Full-page color blindness simulation of the live preview
+- Glassmorphism, neumorphism, layered shadows, glows, gradient and animated borders, grain
+- CSS, Tailwind classes, Tailwind `@utility`, SCSS and React exports
+- Shadow and blur tokens in the Export Engine
 
 ### SVG Playground
 
-- Paste or drop any SVG to optimize, restyle and inspect it
-- Path simplification and `currentColor` normalization
-- Sprite sheet and icon-font generation
+- Upload, drag and drop, preview, viewBox, fill and stroke editing
+- Path and group inspector
+- Optimization, minify and pretty print
+- SVG → JSX, React and React Native; sprite generator
+
+### Accessibility Lab
+
+- WCAG contrast checker with fixes
+- Color vision simulation (protanopia, deuteranopia, tritanopia, grayscale, low vision)
+- Readability, dyslexia preview and touch-target validation
+- JSON accessibility report
 
 ---
 
-## V3 — Brand 🔭 _(exploring)_
+## V3 — Brand 🔭 _(pending)_
 
 ### Brand Studio
 

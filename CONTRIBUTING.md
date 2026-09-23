@@ -19,8 +19,8 @@ Requirements:
 - pnpm **11** (pinned via the `packageManager` field — run `corepack enable`)
 
 ```bash
-git clone https://github.com/<your-username>/designhub.git
-cd designhub
+git clone https://github.com/<your-username>/DesignHub.git
+cd DesignHub
 pnpm install
 pnpm dev
 ```
@@ -131,6 +131,37 @@ Write comments only when they add information the code can't express — the _wh
 2. Register it in `tokenFormats()` with an `id`, `label`, `filename` and `language`.
 3. Verify the output is valid by pasting it into a real project.
 
+## Adding a background generator
+
+Background generators live in `lib/background/generators/` and are pure functions of `BackgroundSettings`.
+
+1. Create `lib/background/generators/<name>.ts` exporting a `BackgroundDefinition` (`kind`, `label`, `description`, `render`, optional `css` and `defaults`), and add the kind to `BackgroundKind` in `types/background.ts`.
+2. **Be deterministic.** Take all randomness from `createRandom(settings.seed)`, never `Math.random()`. The same seed must always draw the same background.
+3. Map the shared controls consistently: `density` → how much (layers, points, spacing), `scale` → how big, `colors` → foreground palette, `background` → canvas color.
+4. Return the drawing through `wrapSvg(settings, body, defs)` (or `patternSvg` for tiles). Rotation and cover scaling are handled there.
+5. Provide `css()` when the look can be expressed with native CSS gradients; otherwise the exporter falls back to an inline SVG data URI.
+6. Register it in `lib/background/registry.ts`. If it needs Paper.js, set `usesPaper: true`, call `getPaper()` inside `render`, and keep a fallback for when it hasn't loaded yet (and for server rendering).
+7. Keep output compact: round coordinates with `r1()` and avoid thousands of nodes where a `<pattern>` would do.
+
+## Adding an effect
+
+1. Add the settings type to `EffectSettingsMap` in `types/effects.ts` and its defaults to `lib/effects/defaults.ts`.
+2. Create `lib/effects/<name>.ts` with `defineEffect({ kind, label, description, generate })`. `generate` returns `declarations` (property/value pairs), plus optional `extra` (selector-scoped rules such as `::after`), `global` (top-level `@property` / `@keyframes`), `surface` and `needsFill` for the preview.
+3. Add a controls component in `components/effects/` and register it in `components/effects/controls-map.tsx`.
+4. Every effect automatically gets CSS, Tailwind classes, `@utility`, SCSS and React output, so keep declarations framework-neutral and respect `prefers-reduced-motion` for anything animated.
+
+## SVG coding guidelines
+
+These apply to generated SVG (backgrounds, icons, sprites) and to code that transforms user SVG.
+
+- **Never inject untrusted SVG into the DOM.** Preview it through an `<img>` data URL (`svgToDataUrl`) or `SvgPreviewCanvas`. Converters and exports must go through `optimizeTree`, which always strips `<script>`, `<foreignObject>`, `on*` handlers and `javascript:` URLs.
+- Always emit `xmlns="http://www.w3.org/2000/svg"` and a `viewBox`; add `width`/`height` only when a fixed intrinsic size is intended.
+- Round numbers to the precision the output needs (1 decimal for backgrounds, the user's choice in the optimizer). Don't emit `-0`, trailing zeros or leading zeros (`.5`, not `0.5`, in path data).
+- Prefer `<pattern>` for repeating tiles and shared `<defs>` for gradients and filters over duplicated geometry.
+- Namespace ids when combining documents (sprites) and update every `url(#…)` / `href="#…"` reference with them. A bare `#abc` is only a reference in `href` attributes — elsewhere it's a color.
+- Don't remove inherited presentation attributes (`stroke-width`, `fill-rule`, `fill-opacity`, …) as "defaults": a parent may set a different value.
+- Test transformations against real files: compare renders before and after (the optimizer is verified pixel by pixel against Iconify and design-tool exports).
+
 ## Questions?
 
-Open a [discussion](https://github.com/yashkewlani/designhub/discussions) or an issue. We're happy to help.
+Open a [discussion](https://github.com/yakew7/DesignHub/discussions) or an issue. We're happy to help.

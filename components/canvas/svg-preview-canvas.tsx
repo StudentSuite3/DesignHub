@@ -119,14 +119,17 @@ export const SvgPreviewCanvas = memo(function SvgPreviewCanvas({
         style={{ minHeight }}
       >
         <div className="flex min-h-full min-w-full items-center justify-center" style={{ padding }}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- SVG data URL */}
-          <img
-            src={src}
-            alt=""
-            draggable={false}
-            className="block max-w-none shadow-sm"
-            style={{ width: size.width * scale, height: size.height * scale }}
-          />
+          {/* Wait for the viewport to be measured so "fit" doesn't paint at full size first (layout shift). */}
+          {viewportWidth || zoom !== null ? (
+            // eslint-disable-next-line @next/next/no-img-element -- SVG data URL
+            <img
+              src={src}
+              alt=""
+              draggable={false}
+              className="block max-w-none shadow-sm"
+              style={{ width: size.width * scale, height: size.height * scale }}
+            />
+          ) : null}
         </div>
       </div>
       <figcaption className="flex h-8 shrink-0 items-center justify-between border-t px-3 font-mono text-[11px] text-subtle-foreground">

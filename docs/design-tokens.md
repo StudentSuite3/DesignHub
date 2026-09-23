@@ -14,6 +14,7 @@ The Export Engine turns what you have designed in each studio into one `DesignTo
 | Type scale      | Fluid scale (`clamp()`)                             | `text-xs` … `text-4xl`                                                  |
 | Spacing         | 8px base (configurable)                             | `spacing-1` (4px), `spacing-2` (8px), `spacing-4` (16px)                |
 | Radius          | 12px base (configurable)                            | `radius-sm`, `radius-lg` (12px), `radius-full`                          |
+| Effects         | Effects Lab (shadow, glow, glass)                   | `shadow-card`, `shadow-glow`, `blur-glass`                              |
 
 Each group can be switched off in the Export Engine settings. You can also set a variable prefix (for example `dh` → `--dh-color-primary`) and the color notation (HEX, RGB, HSL or OKLCH).
 
