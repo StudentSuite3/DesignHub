@@ -1,6 +1,7 @@
 import {
   Accessibility,
   BadgeCheck,
+  Hexagon,
   Braces,
   Palette,
   PenTool,
@@ -11,8 +12,20 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export type StudioId =
-  "brand" | "typography" | "colors" | "icons" | "backgrounds" | "effects" | "svg" | "accessibility" | "export";
+export const studioIds = [
+  "brand",
+  "logo",
+  "typography",
+  "colors",
+  "icons",
+  "backgrounds",
+  "effects",
+  "svg",
+  "accessibility",
+  "export",
+] as const;
+
+export type StudioId = (typeof studioIds)[number];
 
 export type StudioGroup = "Brand" | "Design" | "Tools";
 
@@ -37,6 +50,15 @@ export const studios: readonly StudioNavItem[] = [
     description: "The hub of your identity: name, logo, colors, type, radius, spacing and shadows, synced everywhere.",
     icon: BadgeCheck,
     shortcut: "r",
+    group: "Brand",
+  },
+  {
+    id: "logo",
+    title: "Logo Studio",
+    href: "/logo",
+    description: "Edit your SVG logo, check construction and clear space, generate variants and export a logo pack.",
+    icon: Hexagon,
+    shortcut: "l",
     group: "Brand",
   },
   {

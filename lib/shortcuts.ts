@@ -11,6 +11,7 @@ export const shortcuts: ShortcutDefinition[] = [
   { keys: ["⌥", "T"], description: "Toggle dark / light theme", scope: "Global" },
   { keys: ["G", "H"], description: "Go home", scope: "Global" },
   { keys: ["G", "R"], description: "Go to Brand Studio", scope: "Global" },
+  { keys: ["G", "L"], description: "Go to Logo Studio", scope: "Global" },
   { keys: ["G", "T"], description: "Go to Typography Studio", scope: "Global" },
   { keys: ["G", "C"], description: "Go to Color Studio", scope: "Global" },
   { keys: ["G", "I"], description: "Go to Icon Studio", scope: "Global" },
