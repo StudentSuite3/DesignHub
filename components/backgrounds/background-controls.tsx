@@ -44,14 +44,14 @@ export function BackgroundControls() {
       >
         <div className="flex flex-col gap-2">
           <Label htmlFor="bg-seed">Seed</Label>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Input
               id="bg-seed"
               type="number"
               min={1}
               value={settings.seed}
               onChange={(event) => update({ seed: Math.max(1, Number(event.target.value) || 1) })}
-              className="min-w-0 flex-1 font-mono tabular-nums"
+              className="min-w-24 flex-1 font-mono tabular-nums"
             />
             <Button variant="outline" onClick={randomize} className="shrink-0" title="Randomize · Space">
               <Dices /> Randomize
