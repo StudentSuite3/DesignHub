@@ -32,14 +32,14 @@ export function BrandLogoField() {
   return (
     <div className="flex flex-col gap-2">
       <Label>Logo</Label>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         {/* eslint-disable-next-line @next/next/no-img-element -- sanitized SVG data URL */}
         <img
           src={svgToDataUrl(brand.logo.svg)}
           alt="Current logo"
           className="bg-checker size-14 shrink-0 rounded-md border object-contain p-1.5"
         />
-        <div className="flex flex-col gap-1.5">
+        <div className="flex min-w-0 flex-col gap-1.5">
           <Button variant="outline" size="sm" onClick={() => inputRef.current?.click()}>
             <Upload /> Upload SVG
           </Button>
