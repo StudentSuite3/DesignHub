@@ -1,4 +1,4 @@
-import { desk, logo, mockupDoc, rotate, text } from "@/lib/mockups/kit";
+import { desk, logo, mockupDoc, onPrimaryLarge, rotate, text } from "@/lib/mockups/kit";
 import type { MockupTemplate } from "@/lib/mockups/types";
 
 const W = 700;
@@ -12,12 +12,12 @@ export const businessCard: MockupTemplate = {
   render(ctx) {
     const { surface, content, brand } = ctx;
     const r = Math.min(brand.radius, 24);
+    const onPrimary = onPrimaryLarge(ctx);
     const front = `<g filter="url(#soft)"><rect width="${W}" height="${H}" rx="${r}" fill="${surface.primary}"/></g>
-      ${logo(ctx, { x: W / 2 - 60, y: H / 2 - 88, width: 120, height: 120 }, surface.onPrimary, "front")}
-      ${text(W / 2, H / 2 + 88, brand.name, { size: 38, fill: surface.onPrimary, font: "h", anchor: "middle" })}`;
+      ${logo(ctx, { x: W / 2 - 60, y: H / 2 - 88, width: 120, height: 120 }, onPrimary, "front")}
+      ${text(W / 2, H / 2 + 88, brand.name, { size: 38, fill: onPrimary, font: "h", anchor: "middle" })}`;
 
     const back = `<g filter="url(#soft)"><rect width="${W}" height="${H}" rx="${r}" fill="${surface.background}"/></g>
-      <rect width="${W}" height="${H}" rx="${r}" fill="${surface.background}"/>
       <clipPath id="card-clip"><rect width="${W}" height="${H}" rx="${r}"/></clipPath>
       <rect x="0" y="${H - 14}" width="${W}" height="14" fill="${surface.primary}" clip-path="url(#card-clip)"/>
       ${logo(ctx, { x: 48, y: 48, width: 56, height: 56 }, undefined, "back")}
