@@ -17,14 +17,13 @@ type FontCardProps = {
   onSelect: (family: string) => void;
 };
 
-const PREVIEW = "Aa";
-
+/** One row in the font list: the family name set in its own typeface, plus its details. */
 export const FontCard = memo(function FontCard({ font, active, onSelect }: FontCardProps) {
   const { ref, inView } = useInView<HTMLButtonElement>();
 
   useEffect(() => {
     // Only the glyphs we render are downloaded, so hundreds of previews stay cheap.
-    if (inView) injectStylesheet(googleFontsCssUrl(font, { text: `${PREVIEW}${font.family}`, weight: 400 }));
+    if (inView) injectStylesheet(googleFontsCssUrl(font, { text: `Aa${font.family}`, weight: 400 }));
   }, [inView, font]);
 
   return (
@@ -35,29 +34,19 @@ export const FontCard = memo(function FontCard({ font, active, onSelect }: FontC
         onClick={() => onSelect(font.family)}
         aria-pressed={active}
         className={cn(
-          "group flex w-full flex-col gap-4 rounded-lg border bg-card p-4 text-left transition-[border-color,background-color] duration-150 hover:border-border-strong hover:bg-surface-raised",
+          "flex w-full min-w-0 flex-col gap-0.5 rounded-md border border-transparent py-2 pr-11 pl-3 text-left transition-[border-color,background-color] duration-150 hover:bg-surface-raised",
           active && "border-brand/60 bg-surface-raised",
         )}
       >
-        <span
-          aria-hidden
-          className="text-5xl leading-none"
-          style={{ fontFamily: fontStack(font.family, font.category) }}
-        >
-          {PREVIEW}
+        <span className="truncate text-xl leading-tight" style={{ fontFamily: fontStack(font.family, font.category) }}>
+          {font.family}
         </span>
-        <span className="flex min-w-0 flex-col gap-1">
-          <span className="truncate text-sm font-medium" style={{ fontFamily: fontStack(font.family, font.category) }}>
-            {font.family}
-          </span>
-          <span className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-            {fontCategoryLabels[font.category]} · {font.weights.length}{" "}
-            {font.weights.length === 1 ? "style" : "weights"}
-            {isVariableFont(font) ? <Badge variant="brand">Variable</Badge> : null}
-          </span>
+        <span className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+          {fontCategoryLabels[font.category]} · {font.weights.length} {font.weights.length === 1 ? "style" : "weights"}
+          {isVariableFont(font) ? <Badge variant="brand">Variable</Badge> : null}
         </span>
       </button>
-      <FavoriteFontButton family={font.family} className="absolute top-2 right-2" />
+      <FavoriteFontButton family={font.family} className="absolute top-1/2 right-2 -translate-y-1/2" />
     </div>
   );
 });
