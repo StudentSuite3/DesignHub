@@ -49,6 +49,7 @@ export function EffectPreview({ effect }: { effect: EffectCss | null }) {
       {effect ? <style>{effectStylesheet(effect, PREVIEW_SELECTOR)}</style> : null}
       <EffectBackdrop backdrop={backdrop} surface={surface}>
         <article
+          style={effect?.needsFill ? { backgroundColor: dark ? "#18181b" : "#ffffff" } : undefined}
           className={`dh-effect-preview flex w-full max-w-sm flex-col gap-3 p-8 ${dark ? "text-white" : "text-slate-800"}`}
         >
           <p className="text-xs font-semibold tracking-[0.16em] uppercase opacity-80">Effects Lab</p>

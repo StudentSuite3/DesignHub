@@ -81,6 +81,8 @@ export type EffectCss = {
   tailwindNote?: string;
   /** The page color this effect is designed to sit on (e.g. neumorphism needs a matching surface). */
   surface?: string;
+  /** Preview-only: give the sample card a solid fill (shadows and glows need something to cast from). */
+  needsFill?: boolean;
 };
 
 export type EffectBackdrop = "gradient" | "photo" | "light" | "dark";
