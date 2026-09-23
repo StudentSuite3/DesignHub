@@ -3,11 +3,13 @@
 import { Blend, Braces, Contrast, Layers, Palette } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { HarmonyPanel } from "@/components/colors/harmony-panel";
 import { FormatSwitcher } from "@/components/colors/format-switcher";
 import { PaletteStrip } from "@/components/colors/palette-strip";
 import { PaletteToolbar } from "@/components/colors/palette-toolbar";
 import { SavedPalettes } from "@/components/colors/saved-palettes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useHarmonyGenerator } from "@/hooks/use-harmony";
 import { useColorStore, type ColorTab } from "@/store/color-store";
 
 const tabs: { value: ColorTab; label: string; icon: ReactNode }[] = [
@@ -23,6 +25,8 @@ const isTab = (value: string): value is ColorTab => tabs.some((tab) => tab.value
 export function ColorWorkspace() {
   const tab = useColorStore((state) => state.tab);
   const setTab = useColorStore((state) => state.setTab);
+  const generate = useColorStore((state) => state.generate);
+  const nextColors = useHarmonyGenerator();
 
   return (
     <Tabs value={tab} onValueChange={(value) => isTab(value) && setTab(value)} className="gap-6">
@@ -39,8 +43,9 @@ export function ColorWorkspace() {
       </div>
 
       <TabsContent value="palette" className="flex flex-col gap-6">
-        <PaletteToolbar />
+        <PaletteToolbar nextColors={nextColors} />
         <PaletteStrip />
+        <HarmonyPanel onApply={() => generate(nextColors())} />
         <SavedPalettes />
       </TabsContent>
       <TabsContent value="shades">

@@ -5,7 +5,7 @@ import { fromHex } from "@/lib/color/color";
 import { randomPalette } from "@/lib/color/generate";
 import { indexedDbStorage } from "@/lib/db";
 import { createId } from "@/lib/id";
-import type { ColorFormat, Oklch, Swatch } from "@/types/color";
+import type { ColorFormat, HarmonyMode, Oklch, Swatch } from "@/types/color";
 
 export const MIN_SWATCHES = 2;
 export const MAX_SWATCHES = 10;
@@ -23,6 +23,8 @@ type ColorState = {
   swatches: Swatch[];
   selectedId: string | null;
   format: ColorFormat;
+  harmony: HarmonyMode;
+  setHarmony: (harmony: HarmonyMode) => void;
   setTab: (tab: ColorTab) => void;
   setFormat: (format: ColorFormat) => void;
   select: (id: string) => void;
@@ -49,6 +51,8 @@ export const useColorStore = create<ColorState>()(
       swatches: starter.map((hex) => createSwatch(fromHex(hex))),
       selectedId: null,
       format: "hex",
+      harmony: "random",
+      setHarmony: (harmony) => set({ harmony }),
       setTab: (tab) => set({ tab }),
       setFormat: (format) => set({ format }),
       select: (id) => set({ selectedId: id }),
@@ -116,7 +120,7 @@ export const useColorStore = create<ColorState>()(
       name: "designhub:colors",
       version: 1,
       storage: createJSONStorage(() => indexedDbStorage),
-      partialize: ({ swatches, selectedId, format }) => ({ swatches, selectedId, format }),
+      partialize: ({ swatches, selectedId, format, harmony }) => ({ swatches, selectedId, format, harmony }),
     },
   ),
 );
