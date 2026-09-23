@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { indexedDbStorage } from "@/lib/db";
 import { defaultFontFilters, type FontFilters } from "@/lib/typography/filter";
 
-import type { OpenTypeSettings, SpecimenSettings, TypeScaleSettings } from "@/types/typography";
+import type { OpenTypeSettings, SpecimenSettings, TextRhythm, TypeScaleSettings } from "@/types/typography";
 
 export const DEFAULT_SPECIMEN_TEXT = "The quick brown fox jumps over the lazy dog";
 
@@ -46,6 +46,15 @@ export const defaultOpenType: OpenTypeSettings = {
   case: false,
 };
 
+export const defaultRhythm: TextRhythm = {
+  headingWeight: 600,
+  bodyWeight: 400,
+  headingLineHeight: 1.1,
+  bodyLineHeight: 1.6,
+  headingTracking: -0.02,
+  bodyTracking: 0,
+};
+
 export type TypographyTab = "browse" | "pair" | "scale" | "export";
 
 type TypographyState = {
@@ -58,6 +67,8 @@ type TypographyState = {
   scale: TypeScaleSettings;
   openType: OpenTypeSettings;
   filters: FontFilters;
+  rhythm: TextRhythm;
+  updateRhythm: (patch: Partial<TextRhythm>) => void;
   setTab: (tab: TypographyTab) => void;
   setActiveFont: (family: string) => void;
   setPair: (pair: { heading?: string; body?: string }) => void;
@@ -90,6 +101,8 @@ export const useTypographyStore = create<TypographyState>()(
       updateScale: (patch) => set((state) => ({ scale: { ...state.scale, ...patch } })),
       toggleFeature: (tag) => set((state) => ({ openType: { ...state.openType, [tag]: !state.openType[tag] } })),
       resetSpecimen: () => set({ specimen: defaultSpecimen, openType: defaultOpenType }),
+      rhythm: defaultRhythm,
+      updateRhythm: (patch) => set((state) => ({ rhythm: { ...state.rhythm, ...patch } })),
       filters: defaultFontFilters,
       setFilters: (patch) => set((state) => ({ filters: { ...state.filters, ...patch } })),
       resetFilters: () => set({ filters: defaultFontFilters }),
@@ -99,7 +112,8 @@ export const useTypographyStore = create<TypographyState>()(
       version: 1,
       storage: createJSONStorage(() => indexedDbStorage),
       // UI-only state (tab, search) is not worth restoring.
-      partialize: ({ activeFont, headingFont, bodyFont, specimen, scale, openType }) => ({
+      partialize: ({ activeFont, headingFont, bodyFont, specimen, scale, openType, rhythm }) => ({
+        rhythm,
         activeFont,
         headingFont,
         bodyFont,

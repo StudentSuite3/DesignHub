@@ -66,3 +66,13 @@ export type SpecimenSettings = {
   lineHeight: number;
   axes: Record<string, number>;
 };
+
+/** Global rhythm settings applied to headings and body text in previews and exports. */
+export type TextRhythm = {
+  headingWeight: number;
+  bodyWeight: number;
+  headingLineHeight: number;
+  bodyLineHeight: number;
+  headingTracking: number;
+  bodyTracking: number;
+};

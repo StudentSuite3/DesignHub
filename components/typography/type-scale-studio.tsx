@@ -3,6 +3,8 @@
 import { useMemo } from "react";
 
 import { ClampGenerator } from "@/components/typography/clamp-generator";
+import { ResponsivePreview } from "@/components/typography/responsive-preview";
+import { RhythmControls } from "@/components/typography/rhythm-controls";
 import { ScaleControls } from "@/components/typography/scale-controls";
 import { ScaleTable } from "@/components/typography/scale-table";
 import { useGoogleFonts } from "@/hooks/use-google-font";
@@ -20,10 +22,12 @@ export function TypeScaleStudio({ fonts }: { fonts: FontFamily[] }) {
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
       <div className="flex min-w-0 flex-col gap-6">
+        <ResponsivePreview steps={steps} />
         <ScaleTable steps={steps} headingFont={headingFont} bodyFont={bodyFont} />
       </div>
       <div className="flex flex-col gap-4">
         <ScaleControls />
+        <RhythmControls />
         <ClampGenerator />
       </div>
     </div>
