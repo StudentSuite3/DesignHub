@@ -29,7 +29,7 @@ export function SpecimenPreview({ className }: { className?: string }) {
   };
 
   return (
-    <div className={cn("flex min-h-64 flex-col gap-4 rounded-lg border bg-card p-6 md:p-8", className)}>
+    <div className={cn("flex min-h-44 flex-col gap-4 rounded-lg border bg-card p-6", className)}>
       <div className="flex items-center justify-between gap-4 text-xs text-muted-foreground">
         <span className="font-medium text-foreground">{activeFont}</span>
         <span className="font-mono tabular-nums">
@@ -47,7 +47,7 @@ export function SpecimenPreview({ className }: { className?: string }) {
         spellCheck={false}
         rows={3}
         style={style}
-        className="w-full flex-1 resize-none bg-transparent break-words outline-none [field-sizing:content]"
+        className="max-h-[40dvh] w-full flex-1 resize-none overflow-y-auto bg-transparent break-words outline-none scrollbar-thin [field-sizing:content]"
       />
     </div>
   );
