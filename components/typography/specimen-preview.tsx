@@ -33,7 +33,8 @@ export function SpecimenPreview({ className }: { className?: string }) {
       <div className="flex items-center justify-between gap-4 text-xs text-muted-foreground">
         <span className="font-medium text-foreground">{activeFont}</span>
         <span className="font-mono tabular-nums">
-          {specimen.size}px · {specimen.weight} · {specimen.lineHeight.toFixed(2)} / {specimen.letterSpacing.toFixed(2)}em
+          {specimen.size}px · {specimen.weight} · {specimen.lineHeight.toFixed(2)} / {specimen.letterSpacing.toFixed(2)}
+          em
         </span>
       </div>
       <label htmlFor="specimen-text" className="sr-only">

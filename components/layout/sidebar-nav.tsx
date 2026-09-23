@@ -36,9 +36,7 @@ export function SidebarNav({ onNavigate }: SidebarNavProps) {
       </div>
 
       <div className="flex flex-col gap-0.5">
-        <p className="px-2 pb-1 text-[11px] font-medium uppercase tracking-[0.12em] text-subtle-foreground">
-          Studios
-        </p>
+        <p className="px-2 pb-1 text-[11px] font-medium uppercase tracking-[0.12em] text-subtle-foreground">Studios</p>
         {studios.map((studio) => {
           const active = pathname.startsWith(studio.href);
           const Icon = studio.icon;

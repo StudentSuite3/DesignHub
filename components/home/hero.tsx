@@ -25,14 +25,13 @@ export function Hero() {
       <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-8 px-4 pt-20 pb-16 text-center md:pt-28 md:pb-24">
         <FadeIn>
           <Badge variant="outline" className="h-7 gap-2 rounded-full px-3 text-xs">
-            <span className="size-1.5 rounded-full bg-success" aria-hidden />
-            v{siteConfig.version} · MIT licensed · Local first
+            <span className="size-1.5 rounded-full bg-success" aria-hidden />v{siteConfig.version} · MIT licensed ·
+            Local first
           </Badge>
         </FadeIn>
         <FadeIn delay={0.03} className="flex flex-col items-center gap-4">
           <h1 id="hero-title" className="max-w-4xl text-4xl leading-[1.05] font-medium sm:text-5xl md:text-7xl">
-            Everything a designer needs.{" "}
-            <span className="text-muted-foreground">Open source.</span>
+            Everything a designer needs. <span className="text-muted-foreground">Open source.</span>
           </h1>
           <p className="max-w-xl text-base text-muted-foreground md:text-lg">
             {siteConfig.tagline} Typography, color, icons and design tokens — no login, no backend, works offline.

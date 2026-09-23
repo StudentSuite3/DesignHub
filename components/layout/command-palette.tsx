@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { BookOpen, Home, Keyboard, Moon, Sun } from "lucide-react";
 import { useRef, type ReactNode } from "react";
 
+import { FontCommands } from "@/components/layout/font-commands";
 import { GithubIcon } from "@/components/layout/github-icon";
 import { useThemeToggle } from "@/components/layout/theme-toggle";
 import {
@@ -58,10 +59,16 @@ export function CommandPalette({ children }: { children?: ReactNode }) {
         <DialogTitle className="sr-only">Command palette</DialogTitle>
         <DialogDescription className="sr-only">Search tools, fonts, colors and actions.</DialogDescription>
         <Command loop>
-          <CommandInput ref={inputRef} value={query} onValueChange={setQuery} placeholder="Search fonts, colors, icons..." />
+          <CommandInput
+            ref={inputRef}
+            value={query}
+            onValueChange={setQuery}
+            placeholder="Search fonts, colors, icons..."
+          />
           <CommandList>
             <CommandEmpty>No results for “{query}”.</CommandEmpty>
             {children}
+            {open ? <FontCommands query={query} onDone={() => setOpen(false)} /> : null}
             <CommandGroup heading="Studios">
               <CommandItem value="home start" onSelect={() => run(() => router.push("/"))}>
                 <Home />
@@ -106,7 +113,10 @@ export function CommandPalette({ children }: { children?: ReactNode }) {
                   <Kbd>?</Kbd>
                 </CommandShortcut>
               </CommandItem>
-              <CommandItem value="github source code star" onSelect={() => run(() => window.open(siteConfig.github, "_blank"))}>
+              <CommandItem
+                value="github source code star"
+                onSelect={() => run(() => window.open(siteConfig.github, "_blank"))}
+              >
                 <GithubIcon />
                 View source on GitHub
               </CommandItem>

@@ -36,7 +36,10 @@ function CommandList({ className, ...props }: React.ComponentProps<typeof Comman
   return (
     <CommandPrimitive.List
       data-slot="command-list"
-      className={cn("max-h-[min(420px,60vh)] scroll-py-2 overflow-y-auto overflow-x-hidden p-2 scrollbar-thin", className)}
+      className={cn(
+        "max-h-[min(420px,60vh)] scroll-py-2 overflow-y-auto overflow-x-hidden p-2 scrollbar-thin",
+        className,
+      )}
       {...props}
     />
   );
@@ -77,7 +80,9 @@ function CommandItem({ className, ...props }: React.ComponentProps<typeof Comman
 }
 
 function CommandShortcut({ className, ...props }: React.ComponentProps<"span">) {
-  return <span className={cn("ml-auto flex items-center gap-0.5 text-xs text-subtle-foreground", className)} {...props} />;
+  return (
+    <span className={cn("ml-auto flex items-center gap-0.5 text-xs text-subtle-foreground", className)} {...props} />
+  );
 }
 
 export {

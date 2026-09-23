@@ -16,7 +16,10 @@ export function Logo({ className }: { className?: string }) {
   return (
     <Link
       href="/"
-      className={cn("flex items-center gap-2 rounded-md font-display text-[15px] font-semibold tracking-tight", className)}
+      className={cn(
+        "flex items-center gap-2 rounded-md font-display text-[15px] font-semibold tracking-tight",
+        className,
+      )}
     >
       <LogoMark />
       <span>DesignHub</span>

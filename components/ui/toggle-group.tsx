@@ -15,10 +15,7 @@ function ToggleGroup({ className, ...props }: React.ComponentProps<typeof Toggle
   );
 }
 
-function ToggleGroupItem({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Item>) {
+function ToggleGroupItem({ className, ...props }: React.ComponentProps<typeof ToggleGroupPrimitive.Item>) {
   return (
     <ToggleGroupPrimitive.Item
       data-slot="toggle-group-item"

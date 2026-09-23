@@ -25,10 +25,7 @@ function Slider({
       value={value}
       min={min}
       max={max}
-      className={cn(
-        "relative flex w-full touch-none select-none items-center data-[disabled]:opacity-50",
-        className,
-      )}
+      className={cn("relative flex w-full touch-none select-none items-center data-[disabled]:opacity-50", className)}
       {...props}
     >
       <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-muted">

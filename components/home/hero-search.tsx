@@ -31,7 +31,10 @@ export function HeroSearch() {
       <label htmlFor="hero-search" className="sr-only">
         Search fonts, colors, icons
       </label>
-      <Search className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-subtle-foreground" aria-hidden />
+      <Search
+        className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-subtle-foreground"
+        aria-hidden
+      />
       <input
         id="hero-search"
         type="search"

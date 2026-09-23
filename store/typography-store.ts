@@ -1,4 +1,8 @@
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+
+import { indexedDbStorage } from "@/lib/db";
+import { defaultFontFilters, type FontFilters } from "@/lib/typography/filter";
 
 import type { OpenTypeSettings, SpecimenSettings, TypeScaleSettings } from "@/types/typography";
 
@@ -53,6 +57,7 @@ type TypographyState = {
   specimen: SpecimenSettings;
   scale: TypeScaleSettings;
   openType: OpenTypeSettings;
+  filters: FontFilters;
   setTab: (tab: TypographyTab) => void;
   setActiveFont: (family: string) => void;
   setPair: (pair: { heading?: string; body?: string }) => void;
@@ -61,25 +66,47 @@ type TypographyState = {
   updateScale: (patch: Partial<TypeScaleSettings>) => void;
   toggleFeature: (tag: keyof OpenTypeSettings) => void;
   resetSpecimen: () => void;
+  setFilters: (patch: Partial<FontFilters>) => void;
+  resetFilters: () => void;
 };
 
-export const useTypographyStore = create<TypographyState>()((set) => ({
-  tab: "browse",
-  activeFont: "Inter",
-  headingFont: "Space Grotesk",
-  bodyFont: "Inter",
-  specimen: defaultSpecimen,
-  scale: defaultScale,
-  openType: defaultOpenType,
-  setTab: (tab) => set({ tab }),
-  setActiveFont: (family) =>
-    set((state) => ({ activeFont: family, specimen: { ...state.specimen, axes: {} } })),
-  setPair: ({ heading, body }) =>
-    set((state) => ({ headingFont: heading ?? state.headingFont, bodyFont: body ?? state.bodyFont })),
-  updateSpecimen: (patch) => set((state) => ({ specimen: { ...state.specimen, ...patch } })),
-  setAxis: (tag, value) =>
-    set((state) => ({ specimen: { ...state.specimen, axes: { ...state.specimen.axes, [tag]: value } } })),
-  updateScale: (patch) => set((state) => ({ scale: { ...state.scale, ...patch } })),
-  toggleFeature: (tag) => set((state) => ({ openType: { ...state.openType, [tag]: !state.openType[tag] } })),
-  resetSpecimen: () => set({ specimen: defaultSpecimen, openType: defaultOpenType }),
-}));
+export const useTypographyStore = create<TypographyState>()(
+  persist(
+    (set) => ({
+      tab: "browse",
+      activeFont: "Inter",
+      headingFont: "Space Grotesk",
+      bodyFont: "Inter",
+      specimen: defaultSpecimen,
+      scale: defaultScale,
+      openType: defaultOpenType,
+      setTab: (tab) => set({ tab }),
+      setActiveFont: (family) => set((state) => ({ activeFont: family, specimen: { ...state.specimen, axes: {} } })),
+      setPair: ({ heading, body }) =>
+        set((state) => ({ headingFont: heading ?? state.headingFont, bodyFont: body ?? state.bodyFont })),
+      updateSpecimen: (patch) => set((state) => ({ specimen: { ...state.specimen, ...patch } })),
+      setAxis: (tag, value) =>
+        set((state) => ({ specimen: { ...state.specimen, axes: { ...state.specimen.axes, [tag]: value } } })),
+      updateScale: (patch) => set((state) => ({ scale: { ...state.scale, ...patch } })),
+      toggleFeature: (tag) => set((state) => ({ openType: { ...state.openType, [tag]: !state.openType[tag] } })),
+      resetSpecimen: () => set({ specimen: defaultSpecimen, openType: defaultOpenType }),
+      filters: defaultFontFilters,
+      setFilters: (patch) => set((state) => ({ filters: { ...state.filters, ...patch } })),
+      resetFilters: () => set({ filters: defaultFontFilters }),
+    }),
+    {
+      name: "designhub:typography",
+      version: 1,
+      storage: createJSONStorage(() => indexedDbStorage),
+      // UI-only state (tab, search) is not worth restoring.
+      partialize: ({ activeFont, headingFont, bodyFont, specimen, scale, openType }) => ({
+        activeFont,
+        headingFont,
+        bodyFont,
+        specimen,
+        scale,
+        openType,
+      }),
+    },
+  ),
+);

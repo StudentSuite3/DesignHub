@@ -43,7 +43,7 @@ export function WeightPicker() {
           type="single"
           value={String(specimen.weight)}
           onValueChange={(value) => value && updateSpecimen({ weight: Number(value) })}
-          className="flex w-full flex-wrap"
+          className="grid w-full grid-cols-5 gap-0.5"
           aria-label="Font weight"
         >
           {weights.map((weight) => (

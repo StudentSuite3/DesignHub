@@ -16,7 +16,7 @@ export function fontStack(family: string, category: FontCategory = "sans-serif")
 export function openTypeFeatureSettings(settings: OpenTypeSettings): string {
   const entries = Object.entries(settings) as [keyof OpenTypeSettings, boolean][];
   const parts = entries
-    .filter(([tag, enabled]) => ((tag === "liga" || tag === "kern") ? !enabled : enabled))
+    .filter(([tag, enabled]) => (tag === "liga" || tag === "kern" ? !enabled : enabled))
     .map(([tag, enabled]) => `"${tag}" ${enabled ? 1 : 0}`);
   return parts.length ? parts.join(", ") : "normal";
 }
