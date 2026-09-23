@@ -19,5 +19,7 @@ export const shortcuts: ShortcutDefinition[] = [
   { keys: ["⇧", "Z"], description: "Redo palette change", scope: "Colors" },
   { keys: ["F"], description: "Focus font search", scope: "Typography" },
   { keys: ["F"], description: "Focus icon search", scope: "Icons" },
+  { keys: ["R"], description: "Rotate icon 90° clockwise", scope: "Icons" },
+  { keys: ["⇧", "R"], description: "Rotate icon 90° counter-clockwise", scope: "Icons" },
   { keys: ["Space"], description: "Random font pair (Pairing tab)", scope: "Typography" },
 ];
