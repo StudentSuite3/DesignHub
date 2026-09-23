@@ -17,7 +17,7 @@ const fields: { key: keyof ClampInputs; label: string }[] = [
   { key: "maxViewport", label: "Max viewport (px)" },
 ];
 
-/** Standalone clamp() calculator for any fluid value — font sizes, spacing, gaps. */
+/** Standalone clamp() calculator for any fluid value - font sizes, spacing, gaps. */
 export function ClampGenerator() {
   const [inputs, setInputs] = useState<ClampInputs>({ minSize: 32, maxSize: 64, minViewport: 360, maxViewport: 1280 });
   const value = fluidClamp(inputs.minSize, inputs.maxSize, inputs.minViewport, inputs.maxViewport);

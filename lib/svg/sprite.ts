@@ -56,7 +56,7 @@ export function buildSprite(items: SpriteItem[], pretty = true): string {
     name: "svg",
     type: "element",
     value: "",
-    // Not display:none — Chrome won't paint gradients defined inside a display:none sprite.
+    // Not display:none - Chrome won't paint gradients defined inside a display:none sprite.
     attributes: {
       xmlns: "http://www.w3.org/2000/svg",
       width: "0",

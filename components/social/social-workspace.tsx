@@ -19,10 +19,7 @@ export function SocialWorkspace() {
   const safeArea = useSocialStore((state) => state.safeArea);
   const template = getSocialTemplate(templateId) ?? socialTemplates[0];
   const svg = useMemo(() => (template ? template.render(ctx) : ""), [template, ctx]);
-  const preview = useMemo(
-    () => (template && safeArea ? withSafeArea(svg, template) : svg),
-    [svg, template, safeArea],
-  );
+  const preview = useMemo(() => (template && safeArea ? withSafeArea(svg, template) : svg), [svg, template, safeArea]);
 
   return (
     <StudioLayout
@@ -37,11 +34,7 @@ export function SocialWorkspace() {
       }
       preview={
         preview && template ? (
-          <SvgPreviewCanvas
-            svg={preview}
-            label={`${template.platform} ${template.label}`}
-            defaultBackdrop="checker"
-          />
+          <SvgPreviewCanvas svg={preview} label={`${template.platform} ${template.label}`} defaultBackdrop="checker" />
         ) : (
           <div className="flex min-h-80 flex-1 items-center justify-center rounded-lg border border-dashed text-sm text-muted-foreground">
             Pick a template.

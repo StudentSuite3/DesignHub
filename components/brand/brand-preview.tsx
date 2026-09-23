@@ -94,7 +94,7 @@ export function BrandPreview() {
           style={{ borderColor: surface.border }}
         >
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: surface.primary }}>
+            <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: surface.primaryText }}>
               Heading · {brand.typography.heading}
             </span>
             <span className="text-5xl" style={heading}>
@@ -102,7 +102,7 @@ export function BrandPreview() {
             </span>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: surface.primary }}>
+            <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: surface.primaryText }}>
               Body · {brand.typography.body}
             </span>
             <p style={{ color: surface.muted }}>

@@ -19,6 +19,13 @@ export function brandSurface(tokens: BrandTokens, mode: BrandMode): BrandSurface
   const muted = mode === "light" ? oklch(0.45, tint, hue) : oklch(0.74, tint, hue);
   const border = mode === "light" ? oklch(0.9, tint, hue) : oklch(0.3, tint, hue);
 
+  // The primary color nudged in lightness until small text in it reaches 4.5:1.
+  let primaryText = primary;
+  for (let i = 0; i < 40 && contrastRatio(primaryText, background) < 4.5; i += 1) {
+    const l = mode === "light" ? primaryText.l - 0.02 : primaryText.l + 0.02;
+    primaryText = oklch(Math.min(1, Math.max(0, l)), primaryText.c, primaryText.h);
+  }
+
   return {
     background: toHex(background),
     surface: toHex(surface),
@@ -26,6 +33,7 @@ export function brandSurface(tokens: BrandTokens, mode: BrandMode): BrandSurface
     muted: toHex(muted),
     border: toHex(border),
     primary: primaryHex,
+    primaryText: toHex(primaryText),
     onPrimary: toHex(readableTextColor(primary)),
     secondary: secondaryHex,
   };

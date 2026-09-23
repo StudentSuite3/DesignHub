@@ -4,10 +4,28 @@ import type { BrandDna, BrandDnaProvider, DnaColor, DnaOptions } from "@/lib/bra
 type Mood = { id: string; personality: string[]; heading: string; body: string; radius: number };
 
 const moods: Record<string, Mood> = {
-  vibrant: { id: "Vibrant", personality: ["Bold", "Energetic", "Playful"], heading: "Space Grotesk", body: "Inter", radius: 14 },
+  vibrant: {
+    id: "Vibrant",
+    personality: ["Bold", "Energetic", "Playful"],
+    heading: "Space Grotesk",
+    body: "Inter",
+    radius: 14,
+  },
   calm: { id: "Calm", personality: ["Friendly", "Clear", "Warm"], heading: "Nunito", body: "Nunito Sans", radius: 16 },
-  elegant: { id: "Elegant", personality: ["Refined", "Confident", "Timeless"], heading: "Playfair Display", body: "Source Sans 3", radius: 4 },
-  technical: { id: "Technical", personality: ["Precise", "Reliable", "Direct"], heading: "IBM Plex Sans", body: "IBM Plex Sans", radius: 6 },
+  elegant: {
+    id: "Elegant",
+    personality: ["Refined", "Confident", "Timeless"],
+    heading: "Playfair Display",
+    body: "Source Sans 3",
+    radius: 4,
+  },
+  technical: {
+    id: "Technical",
+    personality: ["Precise", "Reliable", "Direct"],
+    heading: "IBM Plex Sans",
+    body: "IBM Plex Sans",
+    radius: 6,
+  },
   minimal: { id: "Minimal", personality: ["Clear", "Honest", "Focused"], heading: "Inter", body: "Inter", radius: 8 },
 };
 
@@ -36,7 +54,8 @@ const wait = (ms: number, signal?: AbortSignal) =>
 export const localProvider: BrandDnaProvider = {
   id: "local",
   label: "On-device",
-  description: "Extracts the palette and suggests type, radius and personality with simple heuristics. Free, private, instant.",
+  description:
+    "Extracts the palette and suggests type, radius and personality with simple heuristics. Free, private, instant.",
   local: true,
   mocked: false,
   async analyze(image, options: DnaOptions = {}) {
@@ -60,7 +79,8 @@ export const localProvider: BrandDnaProvider = {
     const colors: DnaColor[] = palette.map((item) => ({
       hex: hexOf(item.color),
       weight: item.weight,
-      role: item === primary ? "primary" : item === secondary ? "secondary" : item.color.c < 0.05 ? "neutral" : "secondary",
+      role:
+        item === primary ? "primary" : item === secondary ? "secondary" : item.color.c < 0.05 ? "neutral" : "secondary",
     }));
     const result: BrandDna = {
       colors,

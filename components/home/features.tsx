@@ -29,7 +29,7 @@ export function Features() {
             Built like the tools you already love.
           </h2>
           <p className="text-muted-foreground">
-            Fast, quiet and respectful of your data — inspired by Linear, Raycast and Vercel.
+            Fast, quiet and respectful of your data - inspired by Linear, Raycast and Vercel.
           </p>
         </div>
         <ul className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">

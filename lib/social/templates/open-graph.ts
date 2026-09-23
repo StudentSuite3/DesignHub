@@ -54,7 +54,7 @@ function minimal(ctx: SocialContext): string {
     ${logo(ctx, { x: W / 2 - 80, y: 140, width: 160, height: 160 }, undefined, "og-m")}
     ${text(W / 2, 390, brand.name, { size: 76, fill: surface.text, font: "h", anchor: "middle" })}
     ${text(W / 2, 450, content.subtitle, { size: 28, fill: surface.muted, anchor: "middle" })}
-    ${text(W / 2, H - 60, content.website, { size: 22, fill: surface.primary, font: "bb", anchor: "middle" })}`;
+    ${text(W / 2, H - 60, content.website, { size: 22, fill: surface.primaryText, font: "bb", anchor: "middle" })}`;
 }
 
 function og(id: string, label: string, description: string, draw: (ctx: SocialContext) => string): SocialTemplate {

@@ -105,7 +105,7 @@ export function CollectionPicker({ value, onChange }: CollectionPickerProps) {
                   <span className="flex min-w-0 flex-col">
                     <span className="truncate">{item.name}</span>
                     <span className="truncate text-[11px] text-subtle-foreground">
-                      {item.total.toLocaleString()} icons · {item.license?.spdx ?? item.license?.title ?? "—"}
+                      {item.total.toLocaleString()} icons · {item.license?.spdx ?? item.license?.title ?? "-"}
                     </span>
                   </span>
                 </CommandItem>

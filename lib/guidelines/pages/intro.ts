@@ -64,7 +64,7 @@ export const introductionPage: GuidelinePage = {
     const toc = entries
       .map((entry, i) => {
         const y = CONTENT_TOP + 70 + i * rowH;
-        return `${text(tocX + 32, y, String(entry.number).padStart(2, "0"), { size: 16, fill: surface.primary, font: "bb" })}
+        return `${text(tocX + 32, y, String(entry.number).padStart(2, "0"), { size: 16, fill: surface.primaryText, font: "bb" })}
           ${text(tocX + 80, y, entry.title, { size: 18, fill: entry.id === "introduction" ? surface.muted : surface.text })}`;
       })
       .join("");
@@ -103,7 +103,7 @@ export const voicePage: GuidelinePage = {
       .map((word, i) => {
         const x = MARGIN + i * (pw + 24);
         return `${card(ctx, x, CONTENT_TOP, pw, 150)}
-          ${text(x + 32, CONTENT_TOP + 50, String(i + 1).padStart(2, "0"), { size: 16, fill: surface.primary, font: "bb" })}
+          ${text(x + 32, CONTENT_TOP + 50, String(i + 1).padStart(2, "0"), { size: 16, fill: surface.primaryText, font: "bb" })}
           ${text(x + 32, CONTENT_TOP + 108, word, { size: 40, fill: surface.text, font: "h" })}`;
       })
       .join("");
@@ -141,4 +141,3 @@ export const voicePage: GuidelinePage = {
     );
   },
 };
-

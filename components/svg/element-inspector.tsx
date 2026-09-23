@@ -45,7 +45,7 @@ export function ElementInspector({ root }: { root: SvgNode }) {
                 <div className="rounded-sm bg-muted px-2 py-1">
                   <dt className="text-subtle-foreground">Bounds</dt>
                   <dd className="truncate font-mono">
-                    {report.bounds ? `${report.bounds.width}×${report.bounds.height}` : "—"}
+                    {report.bounds ? `${report.bounds.width}×${report.bounds.height}` : "-"}
                   </dd>
                 </div>
               </dl>

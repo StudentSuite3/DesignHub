@@ -1,24 +1,24 @@
-## What
+## Summary
 
-Short summary of the change.
-
-## Why
-
-The problem this solves. Link the issue: Closes #
-
-## How to test
-
-1.
-2.
+What changed and why. Link the issue: Closes #
 
 ## Screenshots
 
-Before / after for UI changes (dark and light).
+Before and after for UI changes, in dark and light themes.
 
 ## Checklist
 
-- [ ] `pnpm lint`, `pnpm typecheck` and `pnpm build` pass
-- [ ] Tested in dark and light themes
-- [ ] Tested at mobile width (≈375px)
+- [ ] `pnpm typecheck`, `pnpm lint` and `pnpm build` pass
+- [ ] Conventional commit messages (`feat:`, `fix:`, `docs:`, `chore:`)
+- [ ] Tested in dark and light themes and at mobile width (375 px)
 - [ ] Works with keyboard only
-- [ ] Docs and `CHANGELOG.md` (Unreleased) updated if behavior changed
+- [ ] No `any`, no `console.log`, no new external services without a note in `.env.example`
+- [ ] Docs and `CHANGELOG.md` updated if behavior changed
+
+## Breaking changes
+
+None, or describe what breaks and how to migrate (stored data, exports, URLs).
+
+## Testing completed
+
+Describe what you tested and how (browsers, flows, exports).

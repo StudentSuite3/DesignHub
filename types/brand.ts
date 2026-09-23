@@ -61,6 +61,8 @@ export type BrandSurface = {
   muted: string;
   border: string;
   primary: string;
+  /** Primary adjusted to reach 4.5:1 on the background, for small text and links. */
+  primaryText: string;
   onPrimary: string;
   secondary: string;
 };

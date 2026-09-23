@@ -23,7 +23,9 @@ export const useGuidelinesStore = create<GuidelinesState>()(
       select: (selected) => set({ selected }),
       toggle: (id) =>
         set((state) => ({
-          excluded: state.excluded.includes(id) ? state.excluded.filter((item) => item !== id) : [...state.excluded, id],
+          excluded: state.excluded.includes(id)
+            ? state.excluded.filter((item) => item !== id)
+            : [...state.excluded, id],
         })),
       setMode: (mode) => set({ mode }),
     }),

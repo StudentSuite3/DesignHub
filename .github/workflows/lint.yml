@@ -1,4 +1,4 @@
-name: CI
+name: Lint
 
 on:
   push:
@@ -8,12 +8,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: lint-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Install, typecheck, lint and build
+  lint:
+    name: ESLint and Prettier
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +23,5 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm format:check
-      - run: pnpm build

@@ -7,7 +7,16 @@ import { xBanner } from "@/lib/social/templates/x-banner";
 import type { SocialPlatform, SocialTemplate } from "@/lib/social/types";
 
 /** Templates register here as they are implemented. */
-export const socialTemplates: SocialTemplate[] = [githubBanner, linkedinCover, xBanner, instagramSquare, instagramStory, ...ogTemplates, productHuntGallery, youtubeThumbnail];
+export const socialTemplates: SocialTemplate[] = [
+  githubBanner,
+  linkedinCover,
+  xBanner,
+  instagramSquare,
+  instagramStory,
+  ...ogTemplates,
+  productHuntGallery,
+  youtubeThumbnail,
+];
 
 export const socialPlatforms: SocialPlatform[] = [
   "GitHub",

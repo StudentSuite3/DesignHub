@@ -52,7 +52,7 @@ export function ContrastMatrix() {
                   return (
                     <td key={column.id} className="p-1">
                       {same ? (
-                        <span className="block text-center text-subtle-foreground">—</span>
+                        <span className="block text-center text-subtle-foreground">-</span>
                       ) : (
                         <button
                           type="button"

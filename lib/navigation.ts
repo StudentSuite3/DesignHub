@@ -66,7 +66,8 @@ export const studios: readonly StudioNavItem[] = [
     id: "brand-dna",
     title: "Brand DNA",
     href: "/brand-dna",
-    description: "Extract a palette, mood and type pairing from any image and apply it to your brand. Runs on your device.",
+    description:
+      "Extract a palette, mood and type pairing from any image and apply it to your brand. Runs on your device.",
     icon: Dna,
     shortcut: "d",
     group: "Brand",
@@ -102,7 +103,8 @@ export const studios: readonly StudioNavItem[] = [
     id: "guidelines",
     title: "Brand Guidelines",
     href: "/guidelines",
-    description: "A complete brand book, from logo usage to design tokens, generated from your brand and exported as PDF.",
+    description:
+      "A complete brand book, from logo usage to design tokens, generated from your brand and exported as PDF.",
     icon: BookOpen,
     shortcut: "u",
     group: "Brand",
@@ -111,7 +113,8 @@ export const studios: readonly StudioNavItem[] = [
     id: "projects",
     title: "Brand Projects",
     href: "/projects",
-    description: "Keep several brands side by side. Everything saves locally in your browser; import and export as JSON.",
+    description:
+      "Keep several brands side by side. Everything saves locally in your browser; import and export as JSON.",
     icon: FolderOpen,
     shortcut: "p",
     group: "Brand",
@@ -156,7 +159,7 @@ export const studios: readonly StudioNavItem[] = [
     id: "effects",
     title: "Effects Lab",
     href: "/effects",
-    description: "Glass, neumorphism, layered shadows, glows, gradient borders and grain — as CSS and Tailwind.",
+    description: "Glass, neumorphism, layered shadows, glows, gradient borders and grain - as CSS and Tailwind.",
     icon: Sparkles,
     shortcut: "f",
     group: "Design",

@@ -1,5 +1,16 @@
 import { contrastRatio, formatColor, parseColor, toHex } from "@/lib/color/color";
-import { BAD, card, caption, checkIcon, CONTENT_TOP, CONTENT_WIDTH, GOOD, guidelinePage, MARGIN, paragraph } from "@/lib/guidelines/kit";
+import {
+  BAD,
+  card,
+  caption,
+  checkIcon,
+  CONTENT_TOP,
+  CONTENT_WIDTH,
+  GOOD,
+  guidelinePage,
+  MARGIN,
+  paragraph,
+} from "@/lib/guidelines/kit";
 import { shadowFilter } from "@/lib/guidelines/shadow";
 import type { GuidelineContext, GuidelinePage } from "@/lib/guidelines/types";
 import { escapeXml, onPrimaryLarge, text } from "@/lib/mockups/kit";
@@ -29,7 +40,10 @@ export const colorPalettePage: GuidelinePage = {
         const shades = tokens.colors[brand.colors.all.indexOf(color)]?.shades ?? [];
         const sw = w / Math.max(1, shades.length);
         const strip = shades
-          .map((shade, j) => `<rect x="${x + j * sw}" y="${CONTENT_TOP + h + 16}" width="${sw + 0.5}" height="44" fill="${toHex(shade.value)}"/>`)
+          .map(
+            (shade, j) =>
+              `<rect x="${x + j * sw}" y="${CONTENT_TOP + h + 16}" width="${sw + 0.5}" height="44" fill="${toHex(shade.value)}"/>`,
+          )
           .join("");
         return `<clipPath id="sw-${i}"><rect x="${x}" y="${CONTENT_TOP}" width="${w}" height="${h + 60}" rx="${r}"/></clipPath>
           <g clip-path="url(#sw-${i})">
@@ -94,7 +108,7 @@ export const typographyPage: GuidelinePage = {
         y = baseline + 34;
         const label = `${Math.round(step.minPx)}-${Math.round(step.maxPx)}px`;
         const sample = escapeXml(step.maxPx >= 28 ? brand.name : brand.description || brand.name);
-        return `${text(sx, baseline - 16, step.name, { size: 14, fill: surface.primary, font: "bb" })}
+        return `${text(sx, baseline - 16, step.name, { size: 14, fill: surface.primaryText, font: "bb" })}
           ${text(sx, baseline + 2, label, { size: 12, fill: surface.muted })}
           <text class="${step.maxPx >= 24 ? "h" : "b"}" x="${sx + 130}" y="${baseline}" font-size="${size}" fill="${surface.text}">${sample}</text>
           <rect x="${sx}" y="${baseline + 16}" width="${sw}" height="1" fill="${surface.border}"/>`;
@@ -171,7 +185,11 @@ export const iconographyPage: GuidelinePage = {
       "Icons inherit text color. Use primary only for active states.",
     ];
     const ruleList = rules
-      .map((rule, i) => paragraph(ctx, rule, rx + 20, CONTENT_TOP + 40 + i * 64, rw - 20, 17, surface.text, 2) + `<circle cx="${rx + 4}" cy="${CONTENT_TOP + 34 + i * 64}" r="4" fill="${surface.primary}"/>`)
+      .map(
+        (rule, i) =>
+          paragraph(ctx, rule, rx + 20, CONTENT_TOP + 40 + i * 64, rw - 20, 17, surface.text, 2) +
+          `<circle cx="${rx + 4}" cy="${CONTENT_TOP + 34 + i * 64}" r="4" fill="${surface.primary}"/>`,
+      )
       .join("");
     return guidelinePage(
       ctx,
@@ -239,7 +257,10 @@ export const componentsPage: GuidelinePage = {
       ["Spacing unit", `${brand.spacing}px`],
       ["Shadow", brand.shadowLayers.length ? `${brand.shadowLayers.length} layers` : "None"],
     ]
-      .map(([k, v], i) => `${text(MARGIN + i * 300, CONTENT_TOP + 560, k ?? "", { size: 16, fill: surface.muted })}${text(MARGIN + i * 300, CONTENT_TOP + 590, v ?? "", { size: 20, fill: surface.text, font: "bb" })}`)
+      .map(
+        ([k, v], i) =>
+          `${text(MARGIN + i * 300, CONTENT_TOP + 560, k ?? "", { size: 16, fill: surface.muted })}${text(MARGIN + i * 300, CONTENT_TOP + 590, v ?? "", { size: 20, fill: surface.text, font: "bb" })}`,
+      )
       .join("");
     const defs = `${shadowFilter("brand-shadow", brand.shadowLayers)}<linearGradient id="card-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${surface.primary}"/><stop offset="1" stop-color="${surface.secondary}"/></linearGradient>`;
     return guidelinePage(

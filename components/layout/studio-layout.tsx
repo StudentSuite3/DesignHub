@@ -19,7 +19,7 @@ const panelClass = "flex h-full min-h-0 flex-col gap-4 overflow-y-auto scrollbar
 /**
  * Three-pane studio layout: controls · live preview · code & exports.
  * Resizable (mouse, touch and arrow keys) from `lg` up; stacked on smaller screens.
- * react-resizable-panels sets its sizing inline, so the stacked layout overrides it with `!important`.
+ * react-resizable-panels sets its sizing inline, so both layouts override it with `!important`.
  */
 export function StudioLayout({ id, controls, preview, output, className }: StudioLayoutProps) {
   return (
@@ -27,7 +27,7 @@ export function StudioLayout({ id, controls, preview, output, className }: Studi
       id={id}
       orientation="horizontal"
       className={cn(
-        "lg:h-[calc(100dvh-13rem)] lg:min-h-[560px]",
+        "lg:h-[calc(100dvh-13rem)]! lg:min-h-[560px]",
         "max-lg:h-auto! max-lg:flex-col! max-lg:gap-6 max-lg:overflow-visible!",
         "max-lg:[&>[data-panel]]:basis-auto! max-lg:[&>[data-panel]]:grow-0! max-lg:[&>[data-separator]]:hidden!",
         className,

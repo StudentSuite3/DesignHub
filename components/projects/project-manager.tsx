@@ -75,9 +75,7 @@ export function ProjectManager() {
       .filter((project) => (!favoritesOnly || project.favorite) && projectName(project).toLowerCase().includes(term))
       .sort(
         (a, b) =>
-          Number(b.favorite) - Number(a.favorite) ||
-          b.lastOpenedAt - a.lastOpenedAt ||
-          b.updatedAt - a.updatedAt,
+          Number(b.favorite) - Number(a.favorite) || b.lastOpenedAt - a.lastOpenedAt || b.updatedAt - a.updatedAt,
       );
   }, [projects, query, favoritesOnly]);
 
@@ -142,8 +140,8 @@ export function ProjectManager() {
 
       {!persistent ? (
         <p role="status" className="rounded-lg border border-warning/40 bg-warning/10 p-3 text-sm">
-          This browser is blocking local storage, so projects only last until you close the tab. Export them as JSON
-          to keep a copy.
+          This browser is blocking local storage, so projects only last until you close the tab. Export them as JSON to
+          keep a copy.
         </p>
       ) : null}
 

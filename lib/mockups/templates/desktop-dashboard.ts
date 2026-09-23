@@ -39,7 +39,7 @@ export function dashboard(ctx: MockupContext, width: number, height: number): st
       return `<rect x="${x}" y="140" width="${sw}" height="150" rx="${r}" fill="${surface.surface}" stroke="${surface.border}"/>
         ${text(x + 28, 184, label ?? "", { size: 17, fill: surface.muted })}
         ${text(x + 28, 238, value ?? "", { size: 38, fill: surface.text, font: "h" })}
-        ${text(x + 28, 270, delta ?? "", { size: 15, fill: surface.primary, font: "bb" })}`;
+        ${text(x + 28, 270, delta ?? "", { size: 15, fill: surface.primaryText, font: "bb" })}`;
     })
     .join("");
 
@@ -129,6 +129,11 @@ export const desktopDashboard: MockupTemplate = {
     const width = 2000;
     const height = 1500;
     const x = (width - (SW + 44)) / 2;
-    return mockupDoc(ctx, width, height, `${studio(ctx, width, height)}${monitor(x, 70, SW, SH, dashboard(ctx, SW, SH))}`);
+    return mockupDoc(
+      ctx,
+      width,
+      height,
+      `${studio(ctx, width, height)}${monitor(x, 70, SW, SH, dashboard(ctx, SW, SH))}`,
+    );
   },
 };

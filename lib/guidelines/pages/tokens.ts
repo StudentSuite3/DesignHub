@@ -75,7 +75,12 @@ export const colorTokensPage: GuidelinePage = {
       const swatch = swatches.get(token.name);
       return { ...token, value: swatch ? swatch.toUpperCase() : token.value, swatch };
     });
-    return guidelinePage(ctx, number, { section: "Appendix", title: "Design tokens: color" }, tokenColumns(ctx, list, 4));
+    return guidelinePage(
+      ctx,
+      number,
+      { section: "Appendix", title: "Design tokens: color" },
+      tokenColumns(ctx, list, 4),
+    );
   },
 };
 

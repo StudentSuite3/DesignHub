@@ -18,7 +18,7 @@ export const grain = defineEffect({
         { property: "isolation", value: "isolate" },
         { property: "overflow", value: "hidden" },
       ],
-      tailwindNote: "The grain itself lives in ::after — copy the ::after rule from the CSS tab.",
+      tailwindNote: "The grain itself lives in ::after - copy the ::after rule from the CSS tab.",
       extra: (selector) => `${selector}::after {
   content: "";
   position: absolute;

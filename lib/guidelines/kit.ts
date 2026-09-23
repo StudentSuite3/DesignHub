@@ -15,12 +15,10 @@ export function guidelinePage(
   defs = "",
 ): string {
   const { surface, brand } = ctx;
-  const lead = options.lead
-    ? paragraph(ctx, options.lead, MARGIN, 196, CONTENT_WIDTH * 0.6, 20, surface.muted, 2)
-    : "";
+  const lead = options.lead ? paragraph(ctx, options.lead, MARGIN, 196, CONTENT_WIDTH * 0.6, 20, surface.muted, 2) : "";
   const markup = `<rect width="${PAGE_WIDTH}" height="${PAGE_HEIGHT}" fill="${surface.background}"/>
     <rect x="${MARGIN}" y="64" width="28" height="4" rx="2" fill="${surface.primary}"/>
-    ${text(MARGIN + 40, 71, options.section.toUpperCase(), { size: 14, fill: surface.primary, font: "bb", spacing: 3 })}
+    ${text(MARGIN + 40, 71, options.section.toUpperCase(), { size: 14, fill: surface.primaryText, font: "bb", spacing: 3 })}
     ${text(PAGE_WIDTH - MARGIN, 71, String(number).padStart(2, "0"), { size: 14, fill: surface.muted, font: "bb", anchor: "end", spacing: 2 })}
     ${text(MARGIN, 150, options.title, { size: 52, fill: surface.text, font: "h" })}
     ${lead}
@@ -48,7 +46,13 @@ export function paragraph(
 }
 
 /** Small uppercase caption. */
-export function caption(ctx: GuidelineContext, x: number, y: number, value: string, anchor: "start" | "middle" = "start") {
+export function caption(
+  ctx: GuidelineContext,
+  x: number,
+  y: number,
+  value: string,
+  anchor: "start" | "middle" = "start",
+) {
   return text(x, y, value.toUpperCase(), { size: 13, fill: ctx.surface.muted, font: "bb", spacing: 2, anchor });
 }
 

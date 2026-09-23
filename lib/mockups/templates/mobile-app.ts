@@ -23,7 +23,9 @@ function onboarding(ctx: MockupContext): string {
   const { surface, content, brand } = ctx;
   const onPrimary = onPrimaryLarge(ctx);
   const headline = wrap(ctx, content.headline, W - 64, 34, "h", 3);
-  const title = headline.map((line, i) => text(32, 560 + i * 40, line, { size: 34, fill: surface.text, font: "h" })).join("");
+  const title = headline
+    .map((line, i) => text(32, 560 + i * 40, line, { size: 34, fill: surface.text, font: "h" }))
+    .join("");
   return `<defs><linearGradient id="ob" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${surface.primary}"/><stop offset="1" stop-color="${surface.secondary}"/></linearGradient></defs>
     <rect width="${W}" height="${H}" fill="${surface.background}"/>
     <rect width="${W}" height="480" fill="url(#ob)"/>

@@ -117,7 +117,7 @@ export function ProjectCard({ project, active, onOpen, onRename, onFavorite, onD
             </form>
           ) : (
             <>
-              <h3 className="min-w-0 flex-1 truncate text-sm font-medium">{name}</h3>
+              <h2 className="min-w-0 flex-1 truncate text-sm font-medium">{name}</h2>
               {active ? <Badge variant="brand">Open</Badge> : null}
               <Button
                 variant="ghost"

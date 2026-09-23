@@ -31,7 +31,14 @@ export function landingPage(ctx: MockupContext, width: number, height: number): 
     .map((line, i) => text(pad, heroTop + i * size * 1.08, line, { size, fill: surface.text, font: "h" }))
     .join("");
   const afterTitle = heroTop + (headline.length - 1) * size * 1.08 + 70;
-  const sub = wrap(ctx, `${brand.name} helps teams move from idea to launch with one consistent system.`, width * 0.4, 22, "b", 3);
+  const sub = wrap(
+    ctx,
+    `${brand.name} helps teams move from idea to launch with one consistent system.`,
+    width * 0.4,
+    22,
+    "b",
+    3,
+  );
   const subText = sub
     .map((line, i) => text(pad, afterTitle + i * 34, line, { size: 22, fill: surface.muted }))
     .join("");
@@ -68,7 +75,7 @@ export function landingPage(ctx: MockupContext, width: number, height: number): 
     <rect x="${width - pad - ctaW}" y="34" width="${ctaW}" height="48" rx="${Math.min(r, 24)}" fill="${surface.primary}"/>
     ${text(width - pad - ctaW / 2, 65, cta, { size: 19, fill: onPrimary, font: "bb", anchor: "middle" })}
     <rect y="112" width="${width}" height="1" fill="${surface.border}"/>
-    ${text(pad, 190, `NEW  ·  ${brand.name.toUpperCase()} 2.0`, { size: 15, fill: surface.primary, font: "bb", spacing: 3 })}
+    ${text(pad, 190, `NEW  ·  ${brand.name.toUpperCase()} 2.0`, { size: 15, fill: surface.primaryText, font: "bb", spacing: 3 })}
     ${title}
     ${subText}
     <rect x="${pad}" y="${btnY}" width="${ctaW + 20}" height="60" rx="${Math.min(r, 30)}" fill="${surface.primary}"/>
@@ -88,6 +95,11 @@ export const laptopLanding: MockupTemplate = {
     const width = 1900;
     const height = 1300;
     const x = (width - (SW + 52)) / 2;
-    return mockupDoc(ctx, width, height, `${studio(ctx, width, height)}${laptop(x, 150, SW, SH, landingPage(ctx, SW, SH))}`);
+    return mockupDoc(
+      ctx,
+      width,
+      height,
+      `${studio(ctx, width, height)}${laptop(x, 150, SW, SH, landingPage(ctx, SW, SH))}`,
+    );
   },
 };

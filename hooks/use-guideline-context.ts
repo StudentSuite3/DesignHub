@@ -24,7 +24,10 @@ export function useGuidelineBase(): GuidelineBase {
   useEffect(() => {
     setDate(new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }));
   }, []);
-  return useMemo(() => ({ ...draw, voice, tokens, logo, clearSpace, date }), [draw, voice, tokens, logo, clearSpace, date]);
+  return useMemo(
+    () => ({ ...draw, voice, tokens, logo, clearSpace, date }),
+    [draw, voice, tokens, logo, clearSpace, date],
+  );
 }
 
 export function withContents(base: GuidelineBase, pages: GuidelinePage[]): GuidelineContext {

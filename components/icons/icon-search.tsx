@@ -28,7 +28,7 @@ export function IconSearch() {
         onKeyDown={(event) => {
           if (event.key === "Escape") setQuery("");
         }}
-        placeholder="Search 200,000+ icons — try “arrow”, “cloud”, “github”"
+        placeholder="Search 200,000+ icons - try “arrow”, “cloud”, “github”"
         aria-label="Search icons"
         className="h-10 pr-10 pl-9 [&::-webkit-search-cancel-button]:hidden"
       />

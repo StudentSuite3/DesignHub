@@ -1,6 +1,6 @@
 {
   "name": "designhub",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Stop opening 15 design websites. Open one.",
   "license": "MIT",
@@ -16,7 +16,7 @@
   },
   "packageManager": "pnpm@11.17.0",
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22"
   },
   "dependencies": {
     "@iconify/utils": "^3.1.7",

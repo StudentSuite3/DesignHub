@@ -35,7 +35,7 @@ export function Hero() {
             Everything a designer needs. <span className="text-muted-foreground">Open source.</span>
           </h1>
           <p className="max-w-xl text-base text-muted-foreground md:text-lg">
-            {siteConfig.tagline} Typography, color, icons and design tokens — no login, no backend, works offline.
+            {siteConfig.tagline} Typography, color, icons and design tokens - no login, no backend, works offline.
           </p>
         </FadeIn>
         <FadeIn delay={0.06} className="flex w-full flex-col items-center gap-4">

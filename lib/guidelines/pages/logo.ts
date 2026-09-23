@@ -1,4 +1,15 @@
-import { BAD, card, caption, checkIcon, CONTENT_TOP, CONTENT_WIDTH, GOOD, guidelinePage, MARGIN, paragraph } from "@/lib/guidelines/kit";
+import {
+  BAD,
+  card,
+  caption,
+  checkIcon,
+  CONTENT_TOP,
+  CONTENT_WIDTH,
+  GOOD,
+  guidelinePage,
+  MARGIN,
+  paragraph,
+} from "@/lib/guidelines/kit";
 import type { GuidelineContext, GuidelinePage } from "@/lib/guidelines/types";
 import { composeLogoWithGuides, logoAspect, nestLogo, type Rect } from "@/lib/logo/compose";
 import { monochromeSvg } from "@/lib/logo/recolor";
@@ -167,7 +178,11 @@ export const minimumSizePage: GuidelinePage = {
     return guidelinePage(
       ctx,
       number,
-      { section: "Logo", title: "Minimum size", lead: "Below these sizes detail fills in and the name stops being readable." },
+      {
+        section: "Logo",
+        title: "Minimum size",
+        lead: "Below these sizes detail fills in and the name stops being readable.",
+      },
       body,
     );
   },
@@ -204,7 +219,11 @@ export const incorrectUsagePage: GuidelinePage = {
       {
         label: "Don't change the colors",
         draw: (cx, cy, id) =>
-          place(monochromeSvg(svg, "#84cc16"), { x: cx - mw / 2, y: cy - markSize / 2, width: mw, height: markSize }, id),
+          place(
+            monochromeSvg(svg, "#84cc16"),
+            { x: cx - mw / 2, y: cy - markSize / 2, width: mw, height: markSize },
+            id,
+          ),
       },
       {
         label: "Don't add effects",

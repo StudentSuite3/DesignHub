@@ -39,6 +39,6 @@ Each group can be switched off in the Export Engine settings. You can also set a
 
 ## Other outputs
 
-- **All formats (.zip)** — every file above in one archive.
-- **Preview PNG** — a 2× snapshot of the live preview (html-to-image).
-- **Style guide PDF** — a cover page with the preview, then colors, shades, the type scale, spacing and radii (pdf-lib).
+- **All formats (.zip)** - every file above in one archive.
+- **Preview PNG** - a 2× snapshot of the live preview (html-to-image).
+- **Style guide PDF** - a cover page with the preview, then colors, shades, the type scale, spacing and radii (pdf-lib).

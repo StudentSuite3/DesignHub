@@ -2,11 +2,11 @@
 
 DesignHub grows one studio at a time. Every studio follows the same principles: open source, local first, no login, no backend, offline first, keyboard first and production ready.
 
-Have an idea, or want to help build something here? Open an issue or discussion — see [CONTRIBUTING.md](CONTRIBUTING.md).
+Have an idea, or want to help build something here? Open an issue or discussion - see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
-## V1 — Foundations ✅ _(released 1.0.0)_
+## V1 - Foundations ✅ _(released 1.0.0)_
 
 ### Typography
 
@@ -39,7 +39,7 @@ Have an idea, or want to help build something here? Open an issue or discussion 
 
 ---
 
-## V2 — Surfaces, effects, SVG & accessibility ✅ _(released in 1.0.0)_
+## V2 - Surfaces, effects, SVG & accessibility ✅ _(released in 1.0.0)_
 
 ### Background Studio
 
@@ -69,25 +69,62 @@ Have an idea, or want to help build something here? Open an issue or discussion 
 
 ---
 
-## V3 — Brand 🔭 _(pending)_
+## V3 - Brand platform ✅ _(released in 1.0.0)_
 
 ### Brand Studio
 
-- Logo lockups, clear space and minimum size rules
-- A complete brand guideline document built from your tokens
+- One brand hub: name, logo, colors with roles, fonts, radius, spacing and shadow
+- Synchronized brand tokens with no duplicated state, and a live light and dark preview
 
-### Mockups
+### Logo Studio
 
-- Drop your palette, type and icons into device, print and packaging mockups
+- SVG editor, construction grid, clear space and safe area
+- Monochrome, inverted, horizontal, stacked, wordmark and app icon variants, minimum size and background tests
+- SVG, PNG, PDF and a logo pack ZIP
 
-### Social Studio
+### Mockup Studio
 
-- Open Graph images, social banners and post templates generated from your brand tokens
+- Business card, letterhead, envelope, stickers and poster
+- Landing page on a laptop, desktop dashboard and mobile app screens
+- High-resolution PNG and PDF, in light and dark
 
-### Brand DNA
+### Social Media Studio
 
-- One portable file that describes your whole identity (tokens, fonts, icons, rules)
-- Import it into any DesignHub studio, or share it with your team
+- GitHub, LinkedIn, X, Instagram (square and story), Open Graph, Product Hunt and YouTube templates
+- Platform presets and safe areas, PNG export and a social asset ZIP
+
+### Brand Guidelines
+
+- An automatic brand book from cover to design token appendix, exported as PDF
+
+### Brand Projects
+
+- Local projects with autosave, favorites, duplicate, and JSON import and export
+
+### Brand DNA (architecture)
+
+- Image upload, extraction UI, loading states and editable results
+- A provider interface with an on-device provider and a mock AI provider
+
+---
+
+## Future 🔭
+
+### Plugin Marketplace
+
+- Community studios, generators and export formats installed from a registry, sandboxed and local first
+
+### Desktop App
+
+- A native wrapper with file system access, system fonts and offline installers
+
+### AI Brand DNA
+
+- A model-backed Brand DNA provider behind the existing interface, opt-in and bring-your-own-key
+
+### Team Collaboration
+
+- Share brand projects, comment on guideline pages and sync changes, without giving up local-first storage
 
 ---
 

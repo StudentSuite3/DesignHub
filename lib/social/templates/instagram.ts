@@ -52,11 +52,7 @@ export const instagramStory: SocialTemplate = {
       ${text(W / 2, 700, ctx.brand.name.toUpperCase(), { size: 36, fill: on, font: "bb", anchor: "middle", spacing: 10, opacity: 0.85 })}
       ${title.markup}
       ${text(W / 2, title.bottom + 110, content.subtitle, { size: 40, fill: on, anchor: "middle", opacity: 0.85 })}
-      ${
-        cta
-          ? pill(ctx, W / 2 - ctaWidth / 2, ctaY, cta, 40, { fill: on, text: surface.primary }).markup
-          : ""
-      }
+      ${cta ? pill(ctx, W / 2 - ctaWidth / 2, ctaY, cta, 40, { fill: on, text: surface.primary }).markup : ""}
       ${text(W / 2, 1540, content.handle, { size: 34, fill: on, font: "bb", anchor: "middle", opacity: 0.9 })}`;
     return mockupDoc(ctx, W, H, body);
   },

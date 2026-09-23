@@ -26,7 +26,7 @@ export const businessCard: MockupTemplate = {
       ${text(48, 246, content.role, { size: 19, fill: surface.muted })}
       ${text(48, 300, content.email, { size: 18, fill: surface.text })}
       ${text(48, 328, content.phone, { size: 18, fill: surface.text })}
-      ${text(W - 48, 328, content.website, { size: 18, fill: surface.primary, font: "bb", anchor: "end" })}`;
+      ${text(W - 48, 328, content.website, { size: 18, fill: surface.primaryText, font: "bb", anchor: "end" })}`;
 
     const width = 1600;
     const height = 1000;

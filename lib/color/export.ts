@@ -53,7 +53,7 @@ ${variableLines(palette, input.format, input.includeShades)}
 }
 
 function tailwind(input: ColorExportInput, palette: NamedColor[]): string {
-  return `/* Tailwind CSS v4 — use as bg-${palette[0]?.name ?? "brand"}-500, text-${palette[0]?.name ?? "brand"}, … */
+  return `/* Tailwind CSS v4 - use as bg-${palette[0]?.name ?? "brand"}-500, text-${palette[0]?.name ?? "brand"}, … */
 @import "tailwindcss";
 
 @theme {

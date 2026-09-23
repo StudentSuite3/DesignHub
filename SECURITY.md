@@ -1,15 +1,17 @@
 # Security Policy
 
-DesignHub runs entirely in the browser. It has no backend, no accounts and no database of user data. User work is stored locally in the browser's IndexedDB. The app talks only to Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`) and the Iconify API (`api.iconify.design`).
+DesignHub runs entirely in the browser. It has no backend, no accounts and no database of user data. User work is stored locally in the browser's IndexedDB. The app talks only to Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`) and the Iconify API (`api.iconify.design`, with `api.simplesvg.com` and `api.unisvg.com` as fallbacks). No API keys or secrets are used.
 
-Even so, we take security seriously. Relevant issues include cross-site scripting through imported fonts, icons or pasted color values; unsafe handling of downloaded files; and supply-chain problems in our dependencies.
+Even so, we take security seriously. Relevant issues include cross-site scripting through uploaded SVG logos, imported project JSON, fonts, icons or pasted color values; unsafe handling of downloaded files; and supply-chain problems in our dependencies.
+
+Uploaded SVG is sanitized (scripts, `foreignObject`, event handlers and `javascript:` URLs removed) and only ever rendered through `<img>`, never injected into the page. Imported project files are validated and their logos sanitized again.
 
 ## Supported versions
 
-| Version                           | Supported         |
-| --------------------------------- | ----------------- |
-| 1.0.x (latest, all eight studios) | ✅ Security fixes |
-| < 1.0                             | ❌ Not supported  |
+| Version        | Supported         |
+| -------------- | ----------------- |
+| 1.0.x (latest) | ✅ Security fixes |
+| < 1.0          | ❌ Not supported  |
 
 Only the latest release on the `main` branch receives security updates. Please upgrade before reporting.
 

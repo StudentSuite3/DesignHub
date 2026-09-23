@@ -91,7 +91,7 @@ export function FontInspector() {
             {[
               ["Glyphs", result.glyphs],
               ["Units/em", result.unitsPerEm],
-              ["Axes", result.axes.length || "—"],
+              ["Axes", result.axes.length || "-"],
             ].map(([label, value]) => (
               <div key={label} className="rounded-md bg-muted px-2 py-1.5">
                 <dt className="text-subtle-foreground">{label}</dt>

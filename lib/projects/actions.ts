@@ -6,7 +6,14 @@ import {
   whenSnapshotStoresHydrated,
   type BrandSnapshot,
 } from "@/lib/projects/snapshot";
-import { deleteProject, getProject, listProjects, newProjectId, saveProject, updateProject } from "@/lib/projects/repository";
+import {
+  deleteProject,
+  getProject,
+  listProjects,
+  newProjectId,
+  saveProject,
+  updateProject,
+} from "@/lib/projects/repository";
 import { parseProjectsFile } from "@/lib/projects/transfer";
 import { projectName, type BrandProject } from "@/lib/projects/types";
 import { useBrandStore } from "@/store/brand-store";

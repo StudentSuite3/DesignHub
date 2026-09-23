@@ -33,7 +33,11 @@ export function extractPalette(pixels: Uint8ClampedArray, count = 5): WeightedCo
     .slice(0, 256)
     .map((bucket) => {
       const hex = `#${[bucket.r, bucket.g, bucket.b]
-        .map((sum) => Math.round(sum / bucket.n).toString(16).padStart(2, "0"))
+        .map((sum) =>
+          Math.round(sum / bucket.n)
+            .toString(16)
+            .padStart(2, "0"),
+        )
         .join("")}`;
       return { color: fromHex(hex), weight: bucket.n / total };
     });
@@ -45,7 +49,9 @@ export function extractPalette(pixels: Uint8ClampedArray, count = 5): WeightedCo
     else if (picked.length < count) picked.push({ ...candidate });
   }
   // A logo on white is mostly white; make sure the colorful part is represented.
-  const vivid = ranked.find((item) => item.color.c > 0.08 && !picked.some((p) => colorDistance(p.color, item.color) < 0.12));
+  const vivid = ranked.find(
+    (item) => item.color.c > 0.08 && !picked.some((p) => colorDistance(p.color, item.color) < 0.12),
+  );
   if (vivid && !picked.some((item) => item.color.c > 0.08)) picked[picked.length - 1] = vivid;
   return picked.sort((a, b) => b.weight - a.weight);
 }

@@ -30,12 +30,18 @@ export function BrandDnaWorkspace() {
   const inputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
-  useEffect(() => () => {
-    abortRef.current?.abort();
-  }, []);
-  useEffect(() => () => {
-    if (image) URL.revokeObjectURL(image.url);
-  }, [image]);
+  useEffect(
+    () => () => {
+      abortRef.current?.abort();
+    },
+    [],
+  );
+  useEffect(
+    () => () => {
+      if (image) URL.revokeObjectURL(image.url);
+    },
+    [image],
+  );
 
   async function analyze(target: DnaImage, providerKey = providerId) {
     abortRef.current?.abort();

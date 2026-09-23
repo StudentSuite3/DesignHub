@@ -4,7 +4,7 @@ import { createRandom, range } from "@/lib/background/random";
 import { wrapSvg } from "@/lib/background/svg";
 import type { BackgroundDefinition } from "@/types/background";
 
-/** Stacked, layered waves — the classic landing-page footer, but seeded. */
+/** Stacked, layered waves - the classic landing-page footer, but seeded. */
 export const waves: BackgroundDefinition = {
   kind: "waves",
   label: "Waves",
