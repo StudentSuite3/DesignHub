@@ -1,28 +1,36 @@
 import type { ReactNode } from "react";
 
+import { GlobalShortcuts } from "@/components/layout/global-shortcuts";
+import { MainNav } from "@/components/layout/main-nav";
+import { MobileNav } from "@/components/layout/mobile-nav";
+import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SkipLink } from "@/components/layout/skip-link";
 
 type AppShellProps = {
-  sidebar?: ReactNode;
-  headerLeading?: ReactNode;
+  /** Show the persistent studio sidebar on large screens. */
+  withSidebar?: boolean;
   headerActions?: ReactNode;
   children: ReactNode;
 };
 
 /**
- * Two-row shell: sticky header on top, optional sidebar + scrollable main below.
- * On small screens the sidebar collapses and the main column takes the full width.
+ * Two-row shell: sticky header on top, optional sidebar + main column below.
+ * Below `lg` the sidebar moves into a sheet opened from the header.
  */
-export function AppShell({ sidebar, headerLeading, headerActions, children }: AppShellProps) {
+export function AppShell({ withSidebar = false, headerActions, children }: AppShellProps) {
   return (
     <div className="flex min-h-dvh flex-col">
       <SkipLink />
-      <SiteHeader leading={headerLeading}>{headerActions}</SiteHeader>
+      <GlobalShortcuts />
+      <SiteHeader leading={<MobileNav />}>
+        {withSidebar ? null : <MainNav className="mr-2" />}
+        {headerActions}
+      </SiteHeader>
       <div className="flex flex-1">
-        {sidebar ? (
+        {withSidebar ? (
           <aside className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-60 shrink-0 border-r lg:block">
-            {sidebar}
+            <SidebarNav />
           </aside>
         ) : null}
         <main id="main" tabIndex={-1} className="min-w-0 flex-1 outline-none">
