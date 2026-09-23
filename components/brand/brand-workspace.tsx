@@ -1,6 +1,7 @@
 "use client";
 
 import { BrandLinksPanel } from "@/components/brand/brand-links-panel";
+import { BrandSettingsPanel } from "@/components/brand/brand-settings-panel";
 import { BrandTokensPanel } from "@/components/brand/brand-tokens-panel";
 import { TokenPreview } from "@/components/export/token-preview";
 import { StudioLayout } from "@/components/layout/studio-layout";
@@ -11,7 +12,12 @@ export function BrandWorkspace() {
   return (
     <StudioLayout
       id="brand"
-      controls={<BrandLinksPanel />}
+      controls={
+        <>
+          <BrandSettingsPanel />
+          <BrandLinksPanel />
+        </>
+      }
       preview={<TokenPreview tokens={tokens} />}
       output={<BrandTokensPanel />}
     />
