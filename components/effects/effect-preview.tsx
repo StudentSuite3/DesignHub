@@ -1,0 +1,53 @@
+"use client";
+
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { EffectBackdrop } from "@/components/effects/effect-backdrop";
+import { effectStylesheet } from "@/lib/effects/css";
+import { useEffectsStore } from "@/store/effects-store";
+import type { EffectBackdrop as Backdrop, EffectCss } from "@/types/effects";
+
+export const PREVIEW_SELECTOR = ".dh-effect-preview";
+
+const backdrops: { value: Backdrop; label: string }[] = [
+  { value: "gradient", label: "Gradient" },
+  { value: "photo", label: "Photo" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+];
+
+export function EffectPreview({ effect }: { effect: EffectCss | null }) {
+  const backdrop = useEffectsStore((state) => state.backdrop);
+  const setBackdrop = useEffectsStore((state) => state.setBackdrop);
+  const dark = backdrop !== "light";
+
+  return (
+    <>
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="text-sm font-medium">Preview</h2>
+        <ToggleGroup
+          type="single"
+          value={backdrop}
+          onValueChange={(value) => value && setBackdrop(value as Backdrop)}
+          aria-label="Preview backdrop"
+        >
+          {backdrops.map((item) => (
+            <ToggleGroupItem key={item.value} value={item.value}>
+              {item.label}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+      </div>
+      {/* The stylesheet is generated from numeric controls and color pickers, never from free text. */}
+      {effect ? <style>{effectStylesheet(effect, PREVIEW_SELECTOR)}</style> : null}
+      <EffectBackdrop backdrop={backdrop}>
+        <article
+          className={`dh-effect-preview flex w-full max-w-sm flex-col gap-3 p-8 ${dark ? "text-white" : "text-slate-800"}`}
+        >
+          <p className="text-xs font-semibold tracking-[0.16em] uppercase opacity-80">Effects Lab</p>
+          <h3 className="font-display text-2xl font-semibold">Depth without the fuss.</h3>
+          <p className="text-sm opacity-80">Tweak the controls; copy production-ready CSS or Tailwind utilities.</p>
+        </article>
+      </EffectBackdrop>
+    </>
+  );
+}

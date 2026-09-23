@@ -81,3 +81,11 @@ export function BackgroundPreview() {
     </svg>
   );
 }
+
+export function EffectsPreview() {
+  return (
+    <div className="relative flex h-full items-center justify-center overflow-hidden rounded-md bg-[linear-gradient(135deg,#6366f1,#ec4899_55%,#f59e0b)]">
+      <div className="h-20 w-44 rounded-xl border border-white/30 bg-white/15 shadow-[0_8px_32px_rgb(0_0_0/0.25)] backdrop-blur-md" />
+    </div>
+  );
+}

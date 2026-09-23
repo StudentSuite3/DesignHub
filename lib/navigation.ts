@@ -1,6 +1,6 @@
-import { Braces, Palette, Shapes, Type, Wallpaper, type LucideIcon } from "lucide-react";
+import { Braces, Palette, Shapes, Sparkles, Type, Wallpaper, type LucideIcon } from "lucide-react";
 
-export type StudioId = "typography" | "colors" | "icons" | "backgrounds" | "export";
+export type StudioId = "typography" | "colors" | "icons" | "backgrounds" | "effects" | "export";
 
 export type StudioNavItem = {
   id: StudioId;
@@ -44,6 +44,14 @@ export const studios: readonly StudioNavItem[] = [
     description: "Procedural waves, blobs, mesh gradients, aurora, noise and patterns. Export SVG, PNG or CSS.",
     icon: Wallpaper,
     shortcut: "b",
+  },
+  {
+    id: "effects",
+    title: "Effects Lab",
+    href: "/effects",
+    description: "Glass, neumorphism, layered shadows, glows, gradient borders and grain — as CSS and Tailwind.",
+    icon: Sparkles,
+    shortcut: "f",
   },
   {
     id: "export",

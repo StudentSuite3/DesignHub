@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import {
   BackgroundPreview,
   ColorPreview,
+  EffectsPreview,
   ExportPreview,
   IconPreview,
   TypographyPreview,
@@ -16,6 +17,7 @@ const previews: Record<StudioId, ReactNode> = {
   colors: <ColorPreview />,
   icons: <IconPreview />,
   backgrounds: <BackgroundPreview />,
+  effects: <EffectsPreview />,
   export: <ExportPreview />,
 };
 
@@ -24,6 +26,7 @@ const highlights: Record<StudioId, string[]> = {
   colors: ["OKLCH", "Harmonies", "Shades 50–950", "WCAG"],
   icons: ["Iconify", "Restyle", "SVG · React · PNG", "Favicons"],
   backgrounds: ["8 generators", "Seeded", "SVG · PNG · CSS", "Palette aware"],
+  effects: ["Glass", "Neumorphism", "Shadows", "CSS · Tailwind"],
   export: ["CSS", "SCSS", "Tailwind", "JSON tokens"],
 };
 
