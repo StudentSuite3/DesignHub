@@ -7,6 +7,7 @@ import {
   Megaphone,
   Presentation,
   Braces,
+  Dna,
   Palette,
   PenTool,
   Shapes,
@@ -18,6 +19,7 @@ import {
 
 export const studioIds = [
   "brand",
+  "brand-dna",
   "logo",
   "mockups",
   "social",
@@ -58,6 +60,15 @@ export const studios: readonly StudioNavItem[] = [
     description: "The hub of your identity: name, logo, colors, type, radius, spacing and shadows, synced everywhere.",
     icon: BadgeCheck,
     shortcut: "r",
+    group: "Brand",
+  },
+  {
+    id: "brand-dna",
+    title: "Brand DNA",
+    href: "/brand-dna",
+    description: "Extract a palette, mood and type pairing from any image and apply it to your brand. Runs on your device.",
+    icon: Dna,
+    shortcut: "d",
     group: "Brand",
   },
   {
