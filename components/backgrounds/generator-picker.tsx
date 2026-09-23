@@ -23,7 +23,7 @@ export function GeneratorPicker() {
           onClick={() => setKind(generator.kind, generator)}
           title={generator.description}
           className={cn(
-            "flex h-9 items-center rounded-md border px-2.5 text-left text-sm text-muted-foreground transition-colors duration-150 hover:border-border-strong hover:text-foreground",
+            "flex h-9 min-w-0 items-center truncate rounded-md border px-2.5 text-left text-sm text-muted-foreground transition-colors duration-150 hover:border-border-strong hover:text-foreground",
             generator.kind === kind && "border-brand/60 bg-surface-raised text-foreground",
           )}
         >
