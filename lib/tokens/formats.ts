@@ -8,12 +8,13 @@ import type { ExportFormat } from "@/types/export";
 import type { Oklch } from "@/types/color";
 import type { DesignTokens } from "@/types/tokens";
 
-type Flat = { group: string; name: string; value: string }[];
+export type FlatToken = { group: string; name: string; value: string };
+type Flat = FlatToken[];
 
 const px = (value: number) => (value >= 9999 ? "9999px" : value === 0 ? "0" : `${value / 16}rem`);
 
 /** One flat list drives every text format, so they can never disagree. */
-function flatten(tokens: DesignTokens): Flat {
+export function flatten(tokens: DesignTokens): Flat {
   const color = (value: Oklch) => formatColor(value, tokens.meta.colorFormat);
   const list: Flat = [];
 
@@ -52,7 +53,7 @@ const header = (tokens: DesignTokens, comment: (text: string) => string) =>
 /** CSS custom property names can't contain a bare "." (spacing-0.5), so escape it. */
 const cssIdent = (name: string) => name.replace(/\./g, "\\.");
 
-function variable(tokens: DesignTokens, name: string): string {
+export function variable(tokens: DesignTokens, name: string): string {
   return `--${tokens.meta.prefix ? `${tokens.meta.prefix}-` : ""}${cssIdent(name)}`;
 }
 

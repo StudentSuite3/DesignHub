@@ -7,9 +7,10 @@ import {
 } from "@/lib/guidelines/pages/foundations";
 import { coverPage, introductionPage, voicePage } from "@/lib/guidelines/pages/intro";
 import { clearSpacePage, incorrectUsagePage, logoUsagePage, minimumSizePage } from "@/lib/guidelines/pages/logo";
+import { colorTokensPage, scaleTokensPage } from "@/lib/guidelines/pages/tokens";
 import type { GuidelinePage } from "@/lib/guidelines/types";
 
-/** Pages in book order. Logo, color, type and token pages register here as they are implemented. */
+/** Pages in book order. */
 export const guidelinePages: GuidelinePage[] = [
   coverPage,
   introductionPage,
@@ -23,6 +24,8 @@ export const guidelinePages: GuidelinePage[] = [
   componentsPage,
   accessibilityPage,
   voicePage,
+  colorTokensPage,
+  scaleTokensPage,
 ];
 
 export function getGuidelinePage(id: string): GuidelinePage | undefined {
