@@ -7,18 +7,31 @@ type KeyValueRecord = {
   updatedAt: number;
 };
 
+export type CachedIconRecord = {
+  id: string;
+  body: string;
+  width: number;
+  height: number;
+  left?: number;
+  top?: number;
+  cachedAt: number;
+};
+
 class DesignHubDatabase extends Dexie {
   kv!: EntityTable<KeyValueRecord, "key">;
+  icons!: EntityTable<CachedIconRecord, "id">;
 
   constructor() {
     super("designhub");
     this.version(1).stores({ kv: "key, updatedAt" });
+    // v2: offline cache for Iconify glyphs the user has already seen.
+    this.version(2).stores({ kv: "key, updatedAt", icons: "id, cachedAt" });
   }
 }
 
 let database: DesignHubDatabase | null = null;
 
-function getDatabase(): DesignHubDatabase | null {
+export function getDatabase(): DesignHubDatabase | null {
   if (typeof indexedDB === "undefined") return null;
   database ??= new DesignHubDatabase();
   return database;
@@ -50,5 +63,6 @@ export const indexedDbStorage: StateStorage = {
 /** Removes every locally stored DesignHub record. */
 export async function clearLocalData(): Promise<void> {
   const db = getDatabase();
-  if (db) await db.kv.clear();
+  if (!db) return;
+  await Promise.all([db.kv.clear(), db.icons.clear()]);
 }
