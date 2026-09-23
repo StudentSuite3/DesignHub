@@ -4,6 +4,8 @@ import { Braces, Combine, LayoutGrid, Ruler } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { FontBrowser } from "@/components/typography/font-browser";
+import { FontInspector } from "@/components/typography/font-inspector";
+import { OpenTypeControls } from "@/components/typography/opentype-controls";
 import { PairingStudio } from "@/components/typography/pairing-studio";
 import { SpecimenControls } from "@/components/typography/specimen-controls";
 import { TypeScaleStudio } from "@/components/typography/type-scale-studio";
@@ -47,6 +49,10 @@ export function TypographyWorkspace() {
             <SpecimenControls />
             <VariablePlayground />
           </div>
+        </div>
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <OpenTypeControls />
+          <FontInspector />
         </div>
         <section aria-label="Google Fonts" className="flex flex-col gap-4">
           <h2 className="text-lg font-medium">Google Fonts</h2>

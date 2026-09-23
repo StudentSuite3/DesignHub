@@ -3,6 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { indexedDbStorage } from "@/lib/db";
 import { defaultFontFilters, type FontFilters } from "@/lib/typography/filter";
+import { toggleFeature as applyFeatureToggle } from "@/lib/typography/opentype-features";
 
 import type { OpenTypeSettings, SpecimenSettings, TextRhythm, TypeScaleSettings } from "@/types/typography";
 
@@ -99,7 +100,7 @@ export const useTypographyStore = create<TypographyState>()(
       setAxis: (tag, value) =>
         set((state) => ({ specimen: { ...state.specimen, axes: { ...state.specimen.axes, [tag]: value } } })),
       updateScale: (patch) => set((state) => ({ scale: { ...state.scale, ...patch } })),
-      toggleFeature: (tag) => set((state) => ({ openType: { ...state.openType, [tag]: !state.openType[tag] } })),
+      toggleFeature: (tag) => set((state) => ({ openType: applyFeatureToggle(state.openType, tag) })),
       resetSpecimen: () => set({ specimen: defaultSpecimen, openType: defaultOpenType }),
       rhythm: defaultRhythm,
       updateRhythm: (patch) => set((state) => ({ rhythm: { ...state.rhythm, ...patch } })),
