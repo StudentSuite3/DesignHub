@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 
+import { TokenOutput } from "@/components/export/token-output";
 import { TokenPreview } from "@/components/export/token-preview";
 import { TokenSettingsPanel } from "@/components/export/token-settings";
 import { TokenSources } from "@/components/export/token-sources";
@@ -21,6 +22,7 @@ export function ExportEngine() {
         </section>
         <TokenSettingsPanel />
       </div>
+      <TokenOutput tokens={tokens} previewRef={previewRef} />
     </div>
   );
 }
