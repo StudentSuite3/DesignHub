@@ -1,7 +1,9 @@
+import { githubBanner } from "@/lib/social/templates/github-banner";
+import { linkedinCover } from "@/lib/social/templates/linkedin-cover";
 import type { SocialPlatform, SocialTemplate } from "@/lib/social/types";
 
 /** Templates register here as they are implemented. */
-export const socialTemplates: SocialTemplate[] = [];
+export const socialTemplates: SocialTemplate[] = [githubBanner, linkedinCover];
 
 export const socialPlatforms: SocialPlatform[] = [
   "GitHub",
