@@ -4,6 +4,7 @@ import { Braces, Combine, LayoutGrid, Ruler } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { FontBrowser } from "@/components/typography/font-browser";
+import { PairingStudio } from "@/components/typography/pairing-studio";
 import { SpecimenControls } from "@/components/typography/specimen-controls";
 import { SpecimenPreview } from "@/components/typography/specimen-preview";
 import { VariablePlayground } from "@/components/typography/variable-playground";
@@ -52,7 +53,7 @@ export function TypographyWorkspace() {
         </section>
       </TabsContent>
       <TabsContent value="pair">
-        <p className="text-sm text-muted-foreground">Font pairing</p>
+        <PairingStudio fonts={fonts} />
       </TabsContent>
       <TabsContent value="scale">
         <p className="text-sm text-muted-foreground">Type scale</p>

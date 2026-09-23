@@ -13,6 +13,9 @@ export function isTypingTarget(target: EventTarget | null): boolean {
   return !["checkbox", "radio", "range", "button", "submit", "color"].includes(type);
 }
 
+const INTERACTIVE =
+  "button, a[href], summary, [role=button], [role=checkbox], [role=switch], [role=tab], [role=radio], [role=option], [role=slider], [role=combobox], [role=menuitem]";
+
 export type HotkeyHandler = (event: KeyboardEvent) => void;
 
 type HotkeyOptions = {
@@ -40,6 +43,8 @@ export function useHotkey(combo: string, handler: HotkeyHandler, options: Hotkey
 
     function onKeyDown(event: KeyboardEvent) {
       if (!allowInInputs && isTypingTarget(event.target)) return;
+      // Space must keep activating focused buttons, links and toggles.
+      if (key === " " && event.target instanceof HTMLElement && event.target.closest(INTERACTIVE)) return;
       const mod = event.metaKey || event.ctrlKey;
       if (needsMod !== mod) return;
       if (needsAlt !== event.altKey) return;

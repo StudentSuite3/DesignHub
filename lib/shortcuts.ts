@@ -15,4 +15,5 @@ export const shortcuts: ShortcutDefinition[] = [
   { keys: ["G", "I"], description: "Go to Icon Studio", scope: "Global" },
   { keys: ["G", "E"], description: "Go to Export Engine", scope: "Global" },
   { keys: ["F"], description: "Focus font search", scope: "Typography" },
+  { keys: ["Space"], description: "Random font pair (Pairing tab)", scope: "Typography" },
 ];

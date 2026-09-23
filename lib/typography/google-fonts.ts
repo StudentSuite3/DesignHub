@@ -17,10 +17,20 @@ function sortAxisTags(a: string, b: string): number {
   return a < b ? -1 : a > b ? 1 : 0;
 }
 
+/** Closest weight the family can actually serve (requesting a missing one is a 400). */
+export function nearestWeight(font: FontFamily, weight: number): number {
+  const axis = font.axes?.find((item) => item.tag === "wght");
+  if (axis) return Math.min(axis.max, Math.max(axis.min, weight));
+  return font.weights.reduce(
+    (best, candidate) => (Math.abs(candidate - weight) < Math.abs(best - weight) ? candidate : best),
+    font.weights[0] ?? 400,
+  );
+}
+
 function familySpec(font: FontFamily, options: CssUrlOptions): string {
   const name = font.family.replace(/ /g, "+");
 
-  if (options.weight !== undefined) return `${name}:wght@${options.weight}`;
+  if (options.weight !== undefined) return `${name}:wght@${nearestWeight(font, options.weight)}`;
 
   if (font.axes?.length) {
     const axes = [...font.axes].sort((a, b) => sortAxisTags(a.tag, b.tag));
