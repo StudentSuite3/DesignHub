@@ -73,8 +73,8 @@ export function buildIconSvg(icon: IconData, style: IconStyle, options: { unique
   let body = `${backgroundShape(style, canvas)}<g transform="${transform}">${rendered.body}</g>`;
   if (options.uniqueIds) body = replaceIDs(body);
 
+  // iconToHTML adds xmlns itself; passing it again produces a duplicate attribute (invalid XML).
   return iconToHTML(body, {
-    xmlns: "http://www.w3.org/2000/svg",
     width: String(style.size),
     height: String(style.size),
     viewBox: `0 0 ${canvas} ${canvas}`,

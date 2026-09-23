@@ -2,12 +2,11 @@
 
 import { Download, Heart } from "lucide-react";
 
-import { IconImage } from "@/components/icons/icon-image";
+import { IconGlyph } from "@/components/icons/icon-image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/ui/copy-button";
 import { useIcon } from "@/hooks/use-icon-data";
-import { useForegroundHex } from "@/hooks/use-theme-color";
 import { downloadText } from "@/lib/download";
 import { splitIconId } from "@/lib/icons/iconify";
 import { buildIconSvg } from "@/lib/icons/svg";
@@ -20,15 +19,13 @@ export function IconPreview() {
   const favorite = useIconStore((state) => state.favorites.includes(state.selected));
   const toggleFavorite = useIconStore((state) => state.toggleFavorite);
   const icon = useIcon(selected);
-  const foreground = useForegroundHex();
   const { prefix, name } = splitIconId(selected);
-  const previewStyle = { ...style, color: style.color === "currentColor" ? foreground : style.color };
 
   return (
     <div className="flex flex-col gap-4">
       <div className="bg-checker flex aspect-square items-center justify-center rounded-lg border">
         {icon ? (
-          <IconImage icon={icon} style={previewStyle} alt={`${name} icon preview`} className="size-1/2" />
+          <IconGlyph icon={icon} style={style} alt={`${name} icon preview`} className="size-1/2 text-foreground" />
         ) : (
           <span className="size-24 animate-pulse rounded-xl bg-muted" aria-hidden />
         )}

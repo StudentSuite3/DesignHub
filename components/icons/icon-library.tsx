@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { CollectionPicker } from "@/components/icons/collection-picker";
-import { IconGrid } from "@/components/icons/icon-grid";
+import { IconGrid, IconsError } from "@/components/icons/icon-grid";
 import { IconSearch } from "@/components/icons/icon-search";
 import { Button } from "@/components/ui/button";
 import { useIconResults } from "@/hooks/use-icon-results";
@@ -52,9 +52,7 @@ export function IconLibrary() {
         ) : null}
       </div>
       {results.error ? (
-        <p className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
-          Couldn’t reach Iconify. Check your connection — icons you’ve opened before still work offline.
-        </p>
+        <IconsError onRetry={results.retry} />
       ) : (
         <IconGrid ids={shown} emptyMessage="No icons match. Try a broader term or another set." />
       )}

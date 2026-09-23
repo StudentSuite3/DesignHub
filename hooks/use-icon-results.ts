@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { featuredIcons, fetchCollectionIcons, searchIcons } from "@/lib/icons/iconify";
@@ -12,12 +12,14 @@ export type IconResults = {
   loading: boolean;
   error: boolean;
   mode: "featured" | "search" | "collection";
+  retry: () => void;
 };
 
 /** Resolves what the grid should show: search results, a collection, or featured icons. */
 export function useIconResults(query: string, prefix: string | null): IconResults {
   const debounced = useDebouncedValue(query.trim(), 300);
-  const [state, setState] = useState<Omit<IconResults, "mode">>({
+  const [attempt, setAttempt] = useState(0);
+  const [state, setState] = useState<Omit<IconResults, "mode" | "retry">>({
     ids: featuredIcons,
     total: featuredIcons.length,
     loading: false,
@@ -44,7 +46,8 @@ export function useIconResults(query: string, prefix: string | null): IconResult
         setState({ ids: [], total: 0, loading: false, error: true });
       });
     return () => controller.abort();
-  }, [mode, debounced, prefix]);
+  }, [mode, debounced, prefix, attempt]);
 
-  return { ...state, mode };
+  const retry = useCallback(() => setAttempt((value) => value + 1), []);
+  return { ...state, mode, retry };
 }
