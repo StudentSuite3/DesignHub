@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { A11yColorsPanel } from "@/components/accessibility/a11y-colors-panel";
+import { VisionFilters } from "@/components/accessibility/vision-filters";
+import { VisionPanel } from "@/components/accessibility/vision-panel";
+import { VisionPreview } from "@/components/accessibility/vision-preview";
 import { ContrastResults } from "@/components/accessibility/contrast-results";
 import { A11yTypePanel } from "@/components/accessibility/a11y-type-panel";
-import { A11yPreview } from "@/components/accessibility/a11y-preview";
 import { A11yReportPanel } from "@/components/accessibility/a11y-report-panel";
 import { StudioLayout } from "@/components/layout/studio-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,6 +15,7 @@ import { useGoogleFonts } from "@/hooks/use-google-font";
 import { useFontMeta } from "@/hooks/use-font-catalog";
 import { contrastSection } from "@/lib/a11y/contrast";
 import { buildReport } from "@/lib/a11y/report";
+import { visionSection } from "@/lib/a11y/vision";
 import { useA11yStore } from "@/store/a11y-store";
 import type { A11yTab } from "@/types/a11y";
 
@@ -31,9 +34,14 @@ export function A11yWorkspace() {
   const targets = useA11yStore((state) => state.targets);
   const targetGap = useA11yStore((state) => state.targetGap);
   useGoogleFonts([useFontMeta(typography.family)]);
+  const [compare, setCompare] = useState(false);
 
   const report = useMemo(
-    () => buildReport({ colors, typography, targets, targetGap }, { contrast: contrastSection(colors) }),
+    () =>
+      buildReport(
+        { colors, typography, targets, targetGap },
+        { contrast: contrastSection(colors), vision: visionSection(colors) },
+      ),
     [colors, typography, targets, targetGap],
   );
 
@@ -53,14 +61,21 @@ export function A11yWorkspace() {
             <A11yColorsPanel />
             <ContrastResults />
           </TabsContent>
-          <TabsContent value="vision" className="flex flex-col gap-4" />
+          <TabsContent value="vision" className="flex flex-col gap-4">
+            <VisionPanel compare={compare} onCompareChange={setCompare} />
+          </TabsContent>
           <TabsContent value="readability" className="flex flex-col gap-4">
             <A11yTypePanel />
           </TabsContent>
           <TabsContent value="targets" className="flex flex-col gap-4" />
         </Tabs>
       }
-      preview={<A11yPreview />}
+      preview={
+        <>
+          <VisionFilters />
+          <VisionPreview compare={compare} />
+        </>
+      }
       output={<A11yReportPanel report={report} />}
     />
   );
