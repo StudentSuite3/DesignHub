@@ -6,6 +6,7 @@ import { MobileNav } from "@/components/layout/mobile-nav";
 import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SkipLink } from "@/components/layout/skip-link";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 type AppShellProps = {
   /** Show the persistent studio sidebar on large screens. */
@@ -26,6 +27,7 @@ export function AppShell({ withSidebar = false, headerActions, children }: AppSh
       <SiteHeader leading={<MobileNav />}>
         {withSidebar ? null : <MainNav className="mr-2" />}
         {headerActions}
+        <ThemeToggle />
       </SiteHeader>
       <div className="flex flex-1">
         {withSidebar ? (

@@ -44,7 +44,10 @@ export function useHotkey(combo: string, handler: HotkeyHandler, options: Hotkey
       if (needsMod !== mod) return;
       if (needsAlt !== event.altKey) return;
       if (needsShift && !event.shiftKey) return;
-      if (event.key.toLowerCase() !== key) return;
+      // Option on macOS rewrites `event.key` (⌥T → "†"), so fall back to the physical key code.
+      const matches =
+        event.key.toLowerCase() === key || (/^[a-z]$/.test(key) && event.code === `Key${key.toUpperCase()}`);
+      if (!matches) return;
       event.preventDefault();
       handlerRef.current(event);
     }
