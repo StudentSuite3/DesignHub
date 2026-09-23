@@ -108,8 +108,9 @@ function shortColor(value: string): string {
 function referencedIds(root: SvgNode): Set<string> {
   const ids = new Set<string>();
   walk(root, (node) => {
-    for (const value of Object.values(node.attributes)) {
-      for (const match of value.matchAll(/url\(\s*['"]?#([^'")\s]+)|^#(.+)$/g)) ids.add(match[1] ?? match[2] ?? "");
+    for (const [name, value] of Object.entries(node.attributes)) {
+      for (const match of value.matchAll(/url\(\s*['"]?#([^'")\s]+)/g)) ids.add(match[1] ?? "");
+      if ((name === "href" || name === "xlink:href") && value.startsWith("#")) ids.add(value.slice(1));
     }
   });
   return ids;

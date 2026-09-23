@@ -3,6 +3,7 @@
 import { ElementInspector } from "@/components/svg/element-inspector";
 import { ElementTree } from "@/components/svg/element-tree";
 import { OptimizePanel } from "@/components/svg/optimize-panel";
+import { SpritePanel } from "@/components/svg/sprite-panel";
 import { SvgDocumentPanel } from "@/components/svg/svg-document-panel";
 import { ViewBoxEditor } from "@/components/svg/viewbox-editor";
 import { Panel } from "@/components/ui/panel";
@@ -20,6 +21,7 @@ export function SvgControls({ root }: { root: SvgNode | null }) {
         <TabsTrigger value="optimize" disabled={!root}>
           Optimize
         </TabsTrigger>
+        <TabsTrigger value="sprite">Sprite</TabsTrigger>
       </TabsList>
       <TabsContent value="document" className="flex flex-col gap-4">
         <SvgDocumentPanel />
@@ -34,6 +36,9 @@ export function SvgControls({ root }: { root: SvgNode | null }) {
         ) : null}
       </TabsContent>
       <TabsContent value="optimize">{root ? <OptimizePanel /> : null}</TabsContent>
+      <TabsContent value="sprite">
+        <SpritePanel />
+      </TabsContent>
     </Tabs>
   );
 }

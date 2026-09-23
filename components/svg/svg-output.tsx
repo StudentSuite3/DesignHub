@@ -9,6 +9,7 @@ import { useOptimizedTree } from "@/hooks/use-optimized-tree";
 import { componentNameFromFile, reactComponent, toJsx, withCurrentColor } from "@/lib/svg/jsx";
 import { reactNativeComponent } from "@/lib/svg/react-native";
 import { minify, prettyPrint } from "@/lib/svg/serialize";
+import { buildSprite, spriteUsage } from "@/lib/svg/sprite";
 import { useSvgStore } from "@/store/svg-store";
 import type { ExportFormat } from "@/types/export";
 import type { SvgNode } from "@/types/svg";
@@ -16,6 +17,7 @@ import type { SvgNode } from "@/types/svg";
 export function SvgOutput({ root }: { root: SvgNode | null }) {
   const name = useSvgStore((state) => state.name);
   const currentColor = useSvgStore((state) => state.currentColor);
+  const sprite = useSvgStore((state) => state.sprite);
   const setCurrentColor = useSvgStore((state) => state.setCurrentColor);
   const optimized = useOptimizedSvg();
   const tree = useOptimizedTree();
@@ -54,8 +56,26 @@ export function SvgOutput({ root }: { root: SvgNode | null }) {
         language: "tsx",
         code: native.code,
       },
+      ...(sprite.length
+        ? [
+            {
+              id: "sprite",
+              label: "Sprite",
+              filename: "sprite.svg",
+              language: "svg" as const,
+              code: buildSprite(sprite),
+            },
+            {
+              id: "usage",
+              label: "Sprite usage",
+              filename: "usage.html",
+              language: "html" as const,
+              code: spriteUsage(sprite),
+            },
+          ]
+        : []),
     ];
-  }, [root, optimized, tree, native, currentColor, base, name]);
+  }, [root, optimized, tree, native, currentColor, base, name, sprite]);
 
   if (!root) return <p className="text-sm text-muted-foreground">Fix the SVG to see the generated code.</p>;
   return (

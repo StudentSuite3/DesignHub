@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { indexedDbStorage } from "@/lib/db";
 import { defaultOptimizeOptions, type SvgOptimizeOptions } from "@/lib/svg/optimize";
 import { sampleSvg } from "@/lib/svg/sample";
+import { symbolId, type SpriteItem } from "@/lib/svg/sprite";
 import type { NodePath } from "@/lib/svg/tree";
 
 type SvgState = {
@@ -14,6 +15,11 @@ type SvgState = {
   loadSample: () => void;
   selected: NodePath | null;
   select: (path: NodePath | null) => void;
+  sprite: SpriteItem[];
+  addToSprite: (name: string, source: string) => void;
+  renameSprite: (index: number, id: string) => void;
+  removeFromSprite: (index: number) => void;
+  clearSprite: () => void;
   currentColor: boolean;
   setCurrentColor: (value: boolean) => void;
   options: SvgOptimizeOptions;
@@ -30,6 +36,21 @@ export const useSvgStore = create<SvgState>()(
       select: (selected) => set({ selected }),
       setSource: (source) => set({ source }),
       loadSample: () => set({ name: "badge.svg", source: sampleSvg, selected: null }),
+      sprite: [],
+      addToSprite: (name, source) =>
+        set((state) => {
+          const base = symbolId(name);
+          const taken = new Set(state.sprite.map((item) => item.id));
+          let id = base;
+          for (let n = 2; taken.has(id); n += 1) id = `${base}-${n}`;
+          return { sprite: [...state.sprite, { id, source }] };
+        }),
+      renameSprite: (index, id) =>
+        set((state) => ({
+          sprite: state.sprite.map((item, i) => (i === index ? { ...item, id: symbolId(id) } : item)),
+        })),
+      removeFromSprite: (index) => set((state) => ({ sprite: state.sprite.filter((_, i) => i !== index) })),
+      clearSprite: () => set({ sprite: [] }),
       currentColor: false,
       setCurrentColor: (currentColor) => set({ currentColor }),
       options: defaultOptimizeOptions,
@@ -39,7 +60,13 @@ export const useSvgStore = create<SvgState>()(
       name: "designhub:svg",
       version: 1,
       storage: createJSONStorage(() => indexedDbStorage),
-      partialize: ({ name, source, options, currentColor }) => ({ name, source, options, currentColor }),
+      partialize: ({ name, source, options, currentColor, sprite }) => ({
+        name,
+        source,
+        options,
+        currentColor,
+        sprite,
+      }),
     },
   ),
 );
