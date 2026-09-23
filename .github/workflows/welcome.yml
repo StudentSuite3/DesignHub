@@ -1,0 +1,63 @@
+name: Welcome
+
+# Greets people the first time they open an issue or pull request.
+# pull_request_target is used so the token can comment on PRs from forks;
+# no code from the PR is checked out or run.
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const isPr = Boolean(context.payload.pull_request);
+            const item = context.payload.pull_request ?? context.payload.issue;
+            const author = item.user.login;
+            if (item.user.type === "Bot") return;
+
+            // First time = no other issue or PR by this person in the repository.
+            // The issues API lists pull requests too.
+            const { data } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              creator: author,
+              state: "all",
+              per_page: 2,
+            });
+            if (data.some((other) => other.number !== item.number)) return;
+
+            const repoUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}`;
+            const intro = [
+              `Hi @${author}, welcome to **DesignHub** and thanks for your first ${isPr ? "pull request" : "issue"}! 🎉`,
+              "",
+              "DesignHub is an open-source, local-first design and brand toolkit that runs entirely in the browser: set up a brand once and get logo variants, mockups, social media assets, a brand guidelines PDF and design tokens, plus typography, color, icon, background, effects, SVG and accessibility tools. No login, no backend, no API keys.",
+              "",
+            ];
+            const next = isPr
+              ? [
+                  "A maintainer will review this soon. Meanwhile, please check that `pnpm typecheck && pnpm lint && pnpm format:check && pnpm build` pass and that the PR template checklist is filled in.",
+                ]
+              : ["A maintainer will take a look soon. Screenshots and steps to reproduce help a lot."];
+            const outro = [
+              "",
+              `If you like the project, a ⭐ on [the repository](${repoUrl}) helps other people find it.`,
+              "",
+              `Feel free to contribute more! Issues labeled [\`good first issue\`](${repoUrl}/labels/good%20first%20issue) and [\`help wanted\`](${repoUrl}/labels/help%20wanted) come with step-by-step instructions, and [CONTRIBUTING.md](${repoUrl}/blob/main/CONTRIBUTING.md) has the setup and style guide. Questions are always welcome in the comments.`,
+            ];
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: item.number,
+              body: [...intro, ...next, ...outro].join("\n"),
+            });

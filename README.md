@@ -252,7 +252,7 @@ DesignHub builds to fully static pages, so you can deploy it to any static or No
 
 ### Continuous integration
 
-GitHub Actions run on every push and pull request with Node 22 and pnpm: `ci.yml` (install, typecheck, lint, format check, build), `lint.yml` and `typecheck.yml`. Publishing a GitHub Release runs `release.yml`, which builds the app and attaches the build as an artifact.
+GitHub Actions run on every push and pull request with Node 22 and pnpm: `ci.yml` (install, typecheck, lint, format check, build), `lint.yml` and `typecheck.yml`. Publishing a GitHub Release runs `release.yml`, which builds the app and attaches the build as an artifact. `welcome.yml` greets first-time contributors on their first issue or pull request.
 
 ## Keyboard shortcuts
 

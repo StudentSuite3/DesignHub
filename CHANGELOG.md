@@ -170,5 +170,6 @@ Released 2026-09-23. The first public release: a complete, local-first design an
 - Architecture and design-token notes in `docs/`.
 - Issue forms, a pull request template, CODEOWNERS, Dependabot and funding placeholders.
 - CI, lint, typecheck and release workflows on Node 22 with pnpm; releases attach a build artifact.
+- A welcome workflow that greets first-time contributors, introduces the project and points to good first issues.
 - `.env.example` documenting the one optional variable and every external service (none need a key).
 - README, ROADMAP and CONTRIBUTING cover every studio, including the brand platform.
