@@ -4,31 +4,25 @@ import { useMemo } from "react";
 
 import { SvgPreviewCanvas } from "@/components/canvas/svg-preview-canvas";
 import { StudioLayout } from "@/components/layout/studio-layout";
-import { OptimizePanel } from "@/components/svg/optimize-panel";
-import { SvgDocumentPanel } from "@/components/svg/svg-document-panel";
+import { SvgControls } from "@/components/svg/svg-controls";
 import { SvgDropzone } from "@/components/svg/svg-dropzone";
 import { SvgOutput } from "@/components/svg/svg-output";
-import { ViewBoxEditor } from "@/components/svg/viewbox-editor";
 import { useParsedSvg } from "@/hooks/use-parsed-svg";
 import { minify } from "@/lib/svg/serialize";
+import { withHighlight } from "@/lib/svg/tree";
 import { useSvgStore } from "@/store/svg-store";
 
 export function SvgWorkspace() {
   const parsed = useParsedSvg();
   const setDocument = useSvgStore((state) => state.setDocument);
   const root = parsed.ok ? parsed.root : null;
-  const previewSvg = useMemo(() => (root ? minify(root) : ""), [root]);
+  const selected = useSvgStore((state) => state.selected);
+  const previewSvg = useMemo(() => (root ? minify(withHighlight(root, selected)) : ""), [root, selected]);
 
   return (
     <StudioLayout
       id="svg"
-      controls={
-        <>
-          <SvgDocumentPanel />
-          {root ? <ViewBoxEditor root={root} /> : null}
-          {root ? <OptimizePanel /> : null}
-        </>
-      }
+      controls={<SvgControls root={root} />}
       preview={
         <SvgDropzone onLoad={setDocument}>
           {root ? (

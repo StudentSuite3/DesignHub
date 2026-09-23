@@ -15,6 +15,8 @@ type CodeBlockProps = {
 };
 
 export function CodeBlock({ code, filename, className, maxHeight = "28rem" }: CodeBlockProps) {
+  // Minified output is one very long line; wrap it instead of forcing a horizontal scroll.
+  const singleLine = !code.trimEnd().includes("\n");
   return (
     <figure className={cn("flex min-w-0 flex-col overflow-hidden rounded-lg border bg-surface", className)}>
       <figcaption className="flex h-10 items-center justify-between gap-2 border-b px-3">
@@ -37,7 +39,10 @@ export function CodeBlock({ code, filename, className, maxHeight = "28rem" }: Co
       <pre
         tabIndex={0}
         aria-label={filename ? `${filename} contents` : "Code"}
-        className="overflow-auto p-4 font-mono text-[12.5px] leading-relaxed scrollbar-thin"
+        className={cn(
+          "overflow-auto p-4 font-mono text-[12.5px] leading-relaxed scrollbar-thin",
+          singleLine && "break-all whitespace-pre-wrap",
+        )}
         style={{ maxHeight }}
       >
         <code>{code}</code>
