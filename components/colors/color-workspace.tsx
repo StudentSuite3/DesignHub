@@ -10,6 +10,7 @@ import { GradientStudio } from "@/components/colors/gradient-studio";
 import { ContrastChecker } from "@/components/colors/contrast-checker";
 import { ContrastMatrix } from "@/components/colors/contrast-matrix";
 import { VisionPreview } from "@/components/colors/vision-preview";
+import { ColorExport } from "@/components/colors/color-export";
 import { FormatSwitcher } from "@/components/colors/format-switcher";
 import { PaletteStrip } from "@/components/colors/palette-strip";
 import { PaletteToolbar } from "@/components/colors/palette-toolbar";
@@ -69,7 +70,7 @@ export function ColorWorkspace() {
         <VisionPreview />
       </TabsContent>
       <TabsContent value="export">
-        <p className="text-sm text-muted-foreground">Export</p>
+        <ColorExport />
       </TabsContent>
     </Tabs>
   );
