@@ -89,3 +89,20 @@ export function EffectsPreview() {
     </div>
   );
 }
+
+export function SvgPreview() {
+  return (
+    <pre className="h-full overflow-hidden rounded-md border bg-surface p-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+      <code>
+        <span className="text-subtle-foreground">&lt;svg viewBox=&quot;0 0 24 24&quot;&gt;</span>
+        {"\n  "}
+        <span className="text-brand">&lt;path</span> d=&quot;M4 12l5 5L20 6&quot;{" "}
+        <span className="text-brand">/&gt;</span>
+        {"\n"}
+        <span className="text-subtle-foreground">&lt;/svg&gt;</span>
+        {"\n\n"}
+        <span className="text-success">−62% · optimized</span>
+      </code>
+    </pre>
+  );
+}

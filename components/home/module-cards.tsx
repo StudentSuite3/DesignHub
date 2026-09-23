@@ -8,6 +8,7 @@ import {
   EffectsPreview,
   ExportPreview,
   IconPreview,
+  SvgPreview,
   TypographyPreview,
 } from "@/components/home/module-previews";
 import { studios, type StudioId } from "@/lib/navigation";
@@ -18,6 +19,7 @@ const previews: Record<StudioId, ReactNode> = {
   icons: <IconPreview />,
   backgrounds: <BackgroundPreview />,
   effects: <EffectsPreview />,
+  svg: <SvgPreview />,
   export: <ExportPreview />,
 };
 
@@ -27,6 +29,7 @@ const highlights: Record<StudioId, string[]> = {
   icons: ["Iconify", "Restyle", "SVG · React · PNG", "Favicons"],
   backgrounds: ["8 generators", "Seeded", "SVG · PNG · CSS", "Palette aware"],
   effects: ["Glass", "Neumorphism", "Shadows", "CSS · Tailwind"],
+  svg: ["Optimize", "Inspect", "JSX · React Native", "Sprites"],
   export: ["CSS", "SCSS", "Tailwind", "JSON tokens"],
 };
 

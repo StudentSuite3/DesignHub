@@ -1,6 +1,6 @@
-import { Braces, Palette, Shapes, Sparkles, Type, Wallpaper, type LucideIcon } from "lucide-react";
+import { Braces, Palette, PenTool, Shapes, Sparkles, Type, Wallpaper, type LucideIcon } from "lucide-react";
 
-export type StudioId = "typography" | "colors" | "icons" | "backgrounds" | "effects" | "export";
+export type StudioId = "typography" | "colors" | "icons" | "backgrounds" | "effects" | "svg" | "export";
 
 export type StudioNavItem = {
   id: StudioId;
@@ -52,6 +52,14 @@ export const studios: readonly StudioNavItem[] = [
     description: "Glass, neumorphism, layered shadows, glows, gradient borders and grain — as CSS and Tailwind.",
     icon: Sparkles,
     shortcut: "f",
+  },
+  {
+    id: "svg",
+    title: "SVG Playground",
+    href: "/svg",
+    description: "Inspect, edit and optimize SVG. Convert to JSX, React, React Native or a sprite sheet.",
+    icon: PenTool,
+    shortcut: "s",
   },
   {
     id: "export",
