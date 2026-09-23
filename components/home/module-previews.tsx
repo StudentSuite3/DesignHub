@@ -1,0 +1,72 @@
+import { Bookmark, Camera, Heart, Layers, Mail, Search, Star, Zap } from "lucide-react";
+
+/* Static, decorative previews for the homepage module cards. */
+
+export function TypographyPreview() {
+  return (
+    <div className="flex h-full items-end justify-between gap-4">
+      <span className="font-display text-7xl leading-none font-medium tracking-tight">Aa</span>
+      <ul className="flex flex-col items-end gap-1 text-right text-xs text-muted-foreground">
+        <li className="text-foreground">Space Grotesk</li>
+        <li>Inter</li>
+        <li>Fraunces</li>
+        <li>JetBrains Mono</li>
+      </ul>
+    </div>
+  );
+}
+
+const ramp = ["#eef2ff", "#c7d2fe", "#a5b4fc", "#818cf8", "#6366f1", "#4f46e5", "#4338ca", "#3730a3", "#312e81"];
+const palette = ["#0f172a", "#6366f1", "#f472b6", "#fbbf24", "#34d399"];
+
+export function ColorPreview() {
+  return (
+    <div className="flex h-full flex-col justify-end gap-2">
+      <div className="flex h-12 overflow-hidden rounded-md">
+        {palette.map((color) => (
+          <span key={color} className="flex-1" style={{ background: color }} />
+        ))}
+      </div>
+      <div className="flex h-4 overflow-hidden rounded-sm">
+        {ramp.map((color) => (
+          <span key={color} className="flex-1" style={{ background: color }} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const previewIcons = [Search, Heart, Star, Zap, Mail, Camera, Layers, Bookmark];
+
+export function IconPreview() {
+  return (
+    <div className="grid h-full grid-cols-8 content-end gap-2">
+      {previewIcons.map((Icon, index) => (
+        <span
+          key={index}
+          className="flex aspect-square items-center justify-center rounded-md border bg-surface text-muted-foreground"
+        >
+          <Icon className="size-4" strokeWidth={1.5} />
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export function ExportPreview() {
+  return (
+    <pre className="h-full overflow-hidden rounded-md border bg-surface p-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+      <code>
+        <span className="text-subtle-foreground">:root {"{"}</span>
+        {"\n  "}
+        <span className="text-brand">--color-primary</span>: oklch(0.62 0.19 275);
+        {"\n  "}
+        <span className="text-brand">--font-heading</span>: &quot;Space Grotesk&quot;;
+        {"\n  "}
+        <span className="text-brand">--text-xl</span>: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+        {"\n"}
+        <span className="text-subtle-foreground">{"}"}</span>
+      </code>
+    </pre>
+  );
+}
