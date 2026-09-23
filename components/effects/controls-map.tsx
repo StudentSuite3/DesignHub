@@ -1,6 +1,9 @@
 import type { ComponentType } from "react";
 
+import { GlassControls } from "@/components/effects/glass-controls";
 import type { EffectKind } from "@/types/effects";
 
 /** Control panels per effect; each effect adds its own entry. */
-export const effectControls: Partial<Record<EffectKind, ComponentType>> = {};
+export const effectControls: Partial<Record<EffectKind, ComponentType>> = {
+  glass: GlassControls,
+};
