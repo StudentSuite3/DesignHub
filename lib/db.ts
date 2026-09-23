@@ -1,6 +1,8 @@
 import Dexie, { type EntityTable } from "dexie";
 import type { StateStorage } from "zustand/middleware";
 
+import type { BrandProject } from "@/lib/projects/types";
+
 type KeyValueRecord = {
   key: string;
   value: string;
@@ -20,12 +22,15 @@ export type CachedIconRecord = {
 class DesignHubDatabase extends Dexie {
   kv!: EntityTable<KeyValueRecord, "key">;
   icons!: EntityTable<CachedIconRecord, "id">;
+  projects!: EntityTable<BrandProject, "id">;
 
   constructor() {
     super("designhub");
     this.version(1).stores({ kv: "key, updatedAt" });
     // v2: offline cache for Iconify glyphs the user has already seen.
     this.version(2).stores({ kv: "key, updatedAt", icons: "id, cachedAt" });
+    // v3: local brand projects, each a full snapshot of the brand-defining stores.
+    this.version(3).stores({ kv: "key, updatedAt", icons: "id, cachedAt", projects: "id, updatedAt, lastOpenedAt" });
     // An older tab must let go, or this tab's upgrade would block forever.
     this.on("versionchange", () => {
       this.close();
@@ -37,6 +42,11 @@ class DesignHubDatabase extends Dexie {
 let database: DesignHubDatabase | null = null;
 /** Set once IndexedDB has failed (private mode, blocked upgrade…); the app then runs memory-only. */
 let unavailable = false;
+
+/** False once IndexedDB has failed; features then keep data in memory for the session. */
+export function databaseAvailable(): boolean {
+  return !unavailable && typeof indexedDB !== "undefined";
+}
 
 export function getDatabase(): DesignHubDatabase | null {
   if (unavailable || typeof indexedDB === "undefined") return null;
@@ -94,5 +104,5 @@ export const indexedDbStorage: StateStorage = {
 
 /** Removes every locally stored DesignHub record. */
 export async function clearLocalData(): Promise<void> {
-  await safeDb((db) => Promise.all([db.kv.clear(), db.icons.clear()]), undefined);
+  await safeDb((db) => Promise.all([db.kv.clear(), db.icons.clear(), db.projects.clear()]), undefined);
 }
