@@ -5,6 +5,7 @@ import { RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SliderField } from "@/components/ui/field";
 import { Panel } from "@/components/ui/panel";
+import { WeightPicker } from "@/components/typography/weight-picker";
 import { useTypographyStore } from "@/store/typography-store";
 
 export function SpecimenControls() {
@@ -21,6 +22,7 @@ export function SpecimenControls() {
         </Button>
       }
     >
+      <WeightPicker />
       <SliderField
         label="Size"
         value={specimen.size}

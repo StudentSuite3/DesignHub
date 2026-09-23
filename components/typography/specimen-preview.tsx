@@ -2,6 +2,8 @@
 
 import type { CSSProperties } from "react";
 
+import { useFontMeta } from "@/hooks/use-font-catalog";
+import { useGoogleFont } from "@/hooks/use-google-font";
 import { fontStack, fontVariationSettings, openTypeFeatureSettings } from "@/lib/typography/css";
 import { cn } from "@/lib/utils";
 import { useTypographyStore } from "@/store/typography-store";
@@ -12,9 +14,11 @@ export function SpecimenPreview({ className }: { className?: string }) {
   const specimen = useTypographyStore((state) => state.specimen);
   const openType = useTypographyStore((state) => state.openType);
   const updateSpecimen = useTypographyStore((state) => state.updateSpecimen);
+  const meta = useFontMeta(activeFont);
+  useGoogleFont(meta);
 
   const style: CSSProperties = {
-    fontFamily: fontStack(activeFont),
+    fontFamily: fontStack(activeFont, meta?.category),
     fontSize: `${specimen.size}px`,
     fontWeight: specimen.weight,
     fontStyle: specimen.italic ? "italic" : "normal",
