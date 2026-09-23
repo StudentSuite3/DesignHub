@@ -16,7 +16,7 @@ import { useGuidelinesStore } from "@/store/guidelines-store";
 import type { BrandMode } from "@/types/brand";
 
 export function GuidelinesWorkspace() {
-  const { ctx } = useGuidelineContext();
+  const { ctx, pages } = useGuidelineContext();
   const selected = useGuidelinesStore((state) => state.selected);
   const mode = useGuidelinesStore((state) => state.mode);
   const setMode = useGuidelinesStore((state) => state.setMode);
@@ -58,7 +58,7 @@ export function GuidelinesWorkspace() {
           </div>
         )
       }
-      output={<GuidelineExportPanel ctx={ctx} page={page} svg={svg} />}
+      output={<GuidelineExportPanel ctx={ctx} pages={pages} page={page} svg={svg} />}
     />
   );
 }
