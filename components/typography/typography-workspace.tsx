@@ -8,6 +8,7 @@ import { FontInspector } from "@/components/typography/font-inspector";
 import { OpenTypeControls } from "@/components/typography/opentype-controls";
 import { PairingStudio } from "@/components/typography/pairing-studio";
 import { SpecimenControls } from "@/components/typography/specimen-controls";
+import { TypographyExport } from "@/components/typography/typography-export";
 import { TypeScaleStudio } from "@/components/typography/type-scale-studio";
 import { SpecimenPreview } from "@/components/typography/specimen-preview";
 import { VariablePlayground } from "@/components/typography/variable-playground";
@@ -66,7 +67,7 @@ export function TypographyWorkspace() {
         <TypeScaleStudio fonts={fonts} />
       </TabsContent>
       <TabsContent value="export">
-        <p className="text-sm text-muted-foreground">Export</p>
+        <TypographyExport fonts={fonts} />
       </TabsContent>
     </Tabs>
   );

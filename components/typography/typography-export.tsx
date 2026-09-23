@@ -1,0 +1,38 @@
+"use client";
+
+import { useMemo } from "react";
+
+import { ExportPanel } from "@/components/export/export-panel";
+import { typographyExports } from "@/lib/typography/export";
+import { useTypographyStore } from "@/store/typography-store";
+import type { FontFamily } from "@/types/typography";
+
+export function TypographyExport({ fonts }: { fonts: FontFamily[] }) {
+  const headingFont = useTypographyStore((state) => state.headingFont);
+  const bodyFont = useTypographyStore((state) => state.bodyFont);
+  const scale = useTypographyStore((state) => state.scale);
+  const rhythm = useTypographyStore((state) => state.rhythm);
+  const openType = useTypographyStore((state) => state.openType);
+
+  const formats = useMemo(() => {
+    const heading = fonts.find((font) => font.family === headingFont);
+    const body = fonts.find((font) => font.family === bodyFont);
+    if (!heading || !body) return [];
+    return typographyExports({ heading, body, scale, rhythm, openType });
+  }, [fonts, headingFont, bodyFont, scale, rhythm, openType]);
+
+  if (formats.length === 0) {
+    return <p className="text-sm text-muted-foreground">Loading font metadata…</p>;
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="max-w-2xl text-sm text-muted-foreground">
+        Exports use your pairing (<strong className="font-medium text-foreground">{headingFont}</strong> +{" "}
+        <strong className="font-medium text-foreground">{bodyFont}</strong>), fluid type scale, rhythm and enabled
+        OpenType features.
+      </p>
+      <ExportPanel formats={formats} label="Typography export format" />
+    </div>
+  );
+}
